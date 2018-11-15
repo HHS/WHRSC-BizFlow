@@ -664,18 +664,21 @@ BEGIN
 		INSERT INTO DSS_NEW_HIRE_VACANCY_REQUEST					
 			(NEW_HIRE_NUMBER				
 			,NH_REQUEST_NUMBER				
-			,NH_VACANCY_NUMBER)				
+			,NH_VACANCY_NUMBER
+			,CERTIFICATE_NUMBER)				
 		SELECT					
 			X.NEW_HIRE_NUMBER				
 			, X.NH_REQUEST_NUMBER				
-			, X.NH_VACANCY_NUMBER				
+			, X.NH_VACANCY_NUMBER
+			, X.CERTIFICATE_NUMBER
 		FROM INTG_DATA_DTL IDX					
 			, XMLTABLE(XMLNAMESPACES(DEFAULT 'http://www.ibm.com/xmlns/prod/cognos/dataSet/201006'), '/dataSet/dataTable/row[../id/text() = "List1"]'				
 				PASSING IDX.FIELD_DATA			
 				COLUMNS			
 					NEW_HIRE_NUMBER			VARCHAR2(22)	Path 'New__Hire__Number'
-					,NH_REQUEST_NUMBER		VARCHAR2(202)	Path 'New__Hire__Request__Number'					
-					,NH_VACANCY_NUMBER		NUMBER(10)		Path 'New__Hire__Vacancy__Number'									
+					,NH_REQUEST_NUMBER		VARCHAR2(202) 	Path 'New__Hire__Request__Number'					
+					,NH_VACANCY_NUMBER		NUMBER(10)		Path 'New__Hire__Vacancy__Number'
+					,CERTIFICATE_NUMBER     VARCHAR2(102)   PATH 'Certificate__Number'
 					) X							
 		WHERE IDX.ID = I_ID;					
 							
@@ -705,7 +708,6 @@ EXCEPTION
 		--DBMS_OUTPUT.PUT_LINE('Error message = ' || V_ERRMSG);					
 END;
 /
-
 
 
 --------------------------------------------------------

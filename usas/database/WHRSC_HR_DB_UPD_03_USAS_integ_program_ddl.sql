@@ -121,3 +121,93 @@ EXCEPTION
 		--DBMS_OUTPUT.PUT_LINE('Error message = ' || V_ERRMSG);					
 END;
 /
+
+
+
+--------------------------------------------------------
+--  DDL for Procedure SP_UPDATE_NEW_HIRE_VACNCY_REQ
+--------------------------------------------------------
+/**
+ * Parses WHRSC New Hire Vacancy Request XML data and 
+ * stores it into DSS_NEW_HIRE_VACANCY_REQUEST table.
+ *
+ * @param I_ID - Record ID
+ */
+ CREATE OR REPLACE PROCEDURE SP_UPDATE_NEW_HIRE_VACNCY_REQ							
+(							
+	I_ID                IN      NUMBER						
+)							
+IS							
+	V_REC_CNT                   NUMBER(10);						
+	V_XMLDOC                    XMLTYPE;						
+	V_XMLVALUE                  XMLTYPE;						
+	V_ERRCODE                   NUMBER(10);						
+	V_ERRMSG                    VARCHAR2(512);						
+	E_INVALID_REC_ID            EXCEPTION;						
+	PRAGMA EXCEPTION_INIT(E_INVALID_REC_ID, -20920);						
+	E_INVALID_DATA     EXCEPTION;						
+	PRAGMA EXCEPTION_INIT(E_INVALID_DATA, -20921);						
+BEGIN							
+	--DBMS_OUTPUT.PUT_LINE('SP_UPDATE_NEW_HIRE_VACNCY_REQ - BEGIN ============================');						
+	--DBMS_OUTPUT.PUT_LINE('PARAMETERS ----------------');						
+	--DBMS_OUTPUT.PUT_LINE('    I_ID IS NULL?  = ' || (CASE WHEN I_ID IS NULL THEN 'YES' ELSE 'NO' END));						
+	--DBMS_OUTPUT.PUT_LINE('    I_ID           = ' || TO_CHAR(I_ID));						
+	--DBMS_OUTPUT.PUT_LINE(' ----------------');						
+							
+	--DBMS_OUTPUT.PUT_LINE('Starting xml data retrieval and table update ----------');						
+							
+	IF I_ID IS NULL THEN						
+		RAISE_APPLICATION_ERROR(-20920, 'SP_UPDATE_NEW_HIRE_VACNCY_REQ: Input Record ID is invalid.  I_ID = '	|| TO_CHAR(I_ID) );				
+	END IF;						
+							
+	BEGIN						
+							
+		--DBMS_OUTPUT.PUT_LINE('    DSS_NEW_HIRE_VACANCY_REQUEST table');					
+		INSERT INTO DSS_NEW_HIRE_VACANCY_REQUEST					
+			(NEW_HIRE_NUMBER				
+			,NH_REQUEST_NUMBER				
+			,NH_VACANCY_NUMBER
+			,CERTIFICATE_NUMBER)				
+		SELECT					
+			X.NEW_HIRE_NUMBER				
+			, X.NH_REQUEST_NUMBER				
+			, X.NH_VACANCY_NUMBER
+			, X.CERTIFICATE_NUMBER
+		FROM INTG_DATA_DTL IDX					
+			, XMLTABLE(XMLNAMESPACES(DEFAULT 'http://www.ibm.com/xmlns/prod/cognos/dataSet/201006'), '/dataSet/dataTable/row[../id/text() = "List1"]'				
+				PASSING IDX.FIELD_DATA			
+				COLUMNS			
+					NEW_HIRE_NUMBER			VARCHAR2(22)	Path 'New__Hire__Number'
+					,NH_REQUEST_NUMBER		VARCHAR2(202) 	Path 'New__Hire__Request__Number'					
+					,NH_VACANCY_NUMBER		NUMBER(10)		Path 'New__Hire__Vacancy__Number'
+					,CERTIFICATE_NUMBER     VARCHAR2(102)   PATH 'Certificate__Number'
+					) X							
+		WHERE IDX.ID = I_ID;					
+							
+	EXCEPTION						
+		WHEN OTHERS THEN					
+			RAISE_APPLICATION_ERROR(-20921, 'SP_UPDATE_NEW_HIRE_VACNCY_REQ: Invalid NEW HIRE VACNCY REQUEST  data.  I_ID = ' || TO_CHAR(I_ID) );				
+	END;						
+							
+	--DBMS_OUTPUT.PUT_LINE('SP_UPDATE_NEW_HIRE_VACNCY_REQ - END ==========================');						
+							
+							
+EXCEPTION							
+	WHEN E_INVALID_REC_ID THEN						
+		SP_ERROR_LOG();					
+		--DBMS_OUTPUT.PUT_LINE('ERROR occurred while executing SP_UPDATE_NEW_HIRE_VACNCY_REQ -------------------');					
+		--DBMS_OUTPUT.PUT_LINE('ERROR message = ' || 'Record ID is not valid');					
+	WHEN E_INVALID_DATA THEN						
+		SP_ERROR_LOG();					
+		--DBMS_OUTPUT.PUT_LINE('ERROR occurred while executing SP_UPDATE_NEW_HIRE_VACNCY_REQ -------------------');					
+		--DBMS_OUTPUT.PUT_LINE('ERROR message = ' || 'Invalid data');					
+	WHEN OTHERS THEN						
+		SP_ERROR_LOG();					
+		V_ERRCODE := SQLCODE;					
+		V_ERRMSG := SQLERRM;					
+		--DBMS_OUTPUT.PUT_LINE('ERROR occurred while executing SP_UPDATE_NEW_HIRE_VACNCY_REQ -------------------');					
+		--DBMS_OUTPUT.PUT_LINE('Error code    = ' || V_ERRCODE);					
+		--DBMS_OUTPUT.PUT_LINE('Error message = ' || V_ERRMSG);					
+END;
+/
+
