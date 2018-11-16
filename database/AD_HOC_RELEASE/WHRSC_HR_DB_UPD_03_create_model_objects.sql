@@ -33,3 +33,55 @@ ALTER TABLE "HHS_WHRSC_HR"."CHR_PROCESSED_JOBS_NEW" MODIFY ("JOB_ID" NOT NULL EN
  
 --Drop CHR_PROCESSED_JOBS_OLD table  
 DROP TABLE CHR_PROCESSED_JOBS_OLD;
+
+ALTER TABLE HHS_WHRSC_HR.PERSON_INFO RENAME COLUMN BADGE_ID TO HHSID;
+
+
+--------------------------------------------------------
+--DDL for INDUCTION_AUDIT table
+--------------------------------------------------------
+
+CREATE TABLE INDUCTION_AUDIT
+(
+    INDUCTION_ID NUMBER(10,0),
+    TRANSACTION_ID	NUMBER(10,0), 
+    REQUISITION_NUMBER VARCHAR2(30),
+    LAST_NAME VARCHAR2(30),
+    FIRST_NAME VARCHAR2(30),
+    IDENTIFICATION_TYPE VARCHAR2(30),
+    DATE_SENT_TO_INDUCTION TIMESTAMP,
+    HHSID VARCHAR2(10),  
+    RESULT_CODE VARCHAR2(30),
+    RESULT_MESSAGE VARCHAR2(2000),
+    FAILURE_DETAIL_MESSAGE VARCHAR2(2000)
+);
+
+
+
+--------------------------------------------------------
+--  DDL for SEQLUENCE INDUCTION_AUDIT_SEQ
+--------------------------------------------------------
+
+CREATE SEQUENCE INDUCTION_AUDIT_SEQ
+               INCREMENT BY 1
+               START WITH 1
+               NOMAXVALUE
+               NOCYCLE
+               NOCACHE;
+
+
+
+--------------------------------------------------------
+--  DDL for TRIGER INDUCTION_AUDIT_TRG
+--------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER INDUCTION_AUDIT_TRG
+BEFORE INSERT ON INDUCTION_AUDIT
+FOR EACH ROW
+BEGIN
+               SELECT INDUCTION_AUDIT_SEQ.NEXTVAL
+               INTO :NEW.INDUCTION_ID
+               FROM DUAL;
+END;
+
+/

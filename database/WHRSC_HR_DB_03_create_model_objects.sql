@@ -43,6 +43,9 @@ DROP SEQUENCE DOC_NUM_SEQ;
 DROP TABLE RDR_ATTACH;
 DROP TABLE RECRUITMENT_ACTION_STATUS;
 DROP TABLE RECRUITMENT_ACTION_HISTORY;
+DROP TABLE INDUCTION_AUDIT;
+DROP SEQUENCE INDUCTION_AUDIT_SEQ;
+
 */
 --------------------------------------------------------
 --  DDL for Table ANNOUNCEMENT
@@ -853,7 +856,7 @@ CREATE TABLE ORIENTATION
 	(REPL_ID									NUMBER(10),
 	 TRANSACTION_ID						NUMBER(10),
 	 EMPLOYEE_ID							VARCHAR2(20),
-	 BADGE_ID								VARCHAR2(10),
+	 HHSID								VARCHAR2(10),
 	 FIRST_NAME								VARCHAR2(30),
 	 MI										VARCHAR2(10),
 	 LAST_NAME								VARCHAR2(30),
@@ -1202,6 +1205,55 @@ BEGIN
 	SELECT RECRUITMENT_ACTION_HISTORY_SEQ.NEXTVAL
 	INTO :NEW.HISTORYID
 	FROM DUAL;
+END;
+
+/
+
+--------------------------------------------------------
+--DDL for INDUCTION_AUDIT table
+--------------------------------------------------------
+
+CREATE TABLE INDUCTION_AUDIT
+(
+    INDUCTION_ID NUMBER(10,0),
+    TRANSACTION_ID	NUMBER(10,0), 
+    REQUISITION_NUMBER VARCHAR2(30),
+    LAST_NAME VARCHAR2(30),
+    FIRST_NAME VARCHAR2(30),
+    IDENTIFICATION_TYPE VARCHAR2(30),
+    DATE_SENT_TO_INDUCTION TIMESTAMP,
+    HHSID VARCHAR2(10),  
+    RESULT_CODE VARCHAR2(30),
+    RESULT_MESSAGE VARCHAR2(2000),
+    FAILURE_DETAIL_MESSAGE VARCHAR2(2000)
+);
+
+
+
+--------------------------------------------------------
+--  DDL for SEQLUENCE INDUCTION_AUDIT_SEQ
+--------------------------------------------------------
+
+CREATE SEQUENCE INDUCTION_AUDIT_SEQ
+               INCREMENT BY 1
+               START WITH 1
+               NOMAXVALUE
+               NOCYCLE
+               NOCACHE;
+
+
+
+--------------------------------------------------------
+--  DDL for TRIGER INDUCTION_AUDIT_TRG
+--------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER INDUCTION_AUDIT_TRG
+BEFORE INSERT ON INDUCTION_AUDIT
+FOR EACH ROW
+BEGIN
+               SELECT INDUCTION_AUDIT_SEQ.NEXTVAL
+               INTO :NEW.INDUCTION_ID
+               FROM DUAL;
 END;
 
 /
