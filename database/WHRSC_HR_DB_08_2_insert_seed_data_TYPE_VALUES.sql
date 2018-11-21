@@ -986,9 +986,7 @@ Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('salutationList','Mrs',null,';ALL;',null,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('salutationList','Prof',null,';ALL;',null,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('oPDivList','ACF',null,';ALL;',null,null);
-Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('oPDivList','AoA',null,';ALL;',null,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('oPDivList','AHRQ',null,';ALL;',null,null);
-Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('oPDivList','ATSDR',null,';ALL;',null,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('oPDivList','CDC',null,';ALL;',null,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('oPDivList','CMS',null,';ALL;',null,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('oPDivList','FDA',null,';ALL;',null,null);
