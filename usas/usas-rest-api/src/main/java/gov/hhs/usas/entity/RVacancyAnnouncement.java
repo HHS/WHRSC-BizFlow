@@ -7,14 +7,11 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlTransient;
 
-import org.hibernate.annotations.Immutable;
-import org.springframework.data.annotation.Transient;
+import gov.hhs.usas.Util;
 
 
 @Entity(name="VW_R_VAC_ANN_RESULT")
-@Immutable
 public class RVacancyAnnouncement
 {
 	
@@ -23,14 +20,10 @@ public class RVacancyAnnouncement
 	private String reqVacID;
 	@Column(name = "REQUEST_NUMBER")
 	private String requestNumber;
-	@Transient
 	private transient int vacancyPositionCount;
-	@Transient
 	private transient int vacancyCertificateCount;
 	@Column(name = "NUMBER_OF_POSITIONS_ADVERTISED")
 	private String numberOfPositionsAdvertised;
-	@XmlTransient
-	private transient List<String> areaOfConsiderationList;
 	@Column(name = "AREA_OF_CONSIDERATION")
 	private String areaOfConsideration;
 	@Column(name = "INTERDISCIPLINARY_POSITION")
@@ -49,11 +42,8 @@ public class RVacancyAnnouncement
 	private String dateAnnouncementClosed;
 	@Column(name = "DATE_ANNOUNCEMENT_CANCELLED")
 	private String dateAnnouncementCancelled;
-	@Transient
 	private transient List<RVacancyPosition> positionList;
-	@Transient
 	private transient RApplicantRating applicants;
-	@Transient
 	private transient List<RCertificate> certificateList;
 
 
@@ -63,7 +53,6 @@ public class RVacancyAnnouncement
 		this.vacancyPositionCount = 0;
 		this.vacancyCertificateCount = 0;
 		this.numberOfPositionsAdvertised = "";
-		this.areaOfConsiderationList = new ArrayList<String>();
 		this.areaOfConsideration = "";
 		this.interdisciplinaryPosition = "";
 		this.vacancyIdentificationNumber = "";
@@ -78,8 +67,7 @@ public class RVacancyAnnouncement
 		this.certificateList = new ArrayList<RCertificate>();
 	}
 
-	public RVacancyAnnouncement(int vacancyPositionCount, int vacancyCertificateCount, String numberOfPositionsAdvertised,
-			List<String> areaOfConsiderationList, String areaOfConsideration, String interdisciplinaryPosition,
+	public RVacancyAnnouncement(int vacancyPositionCount, int vacancyCertificateCount, String numberOfPositionsAdvertised, String areaOfConsideration, String interdisciplinaryPosition,
 			String vacancyIdentificationNumber, String vacancyAnnouncementNumber, String announcementType,
 			String dateAnnouncementPosted, String dateAnnouncementOpened, String dateAnnouncementClosed,
 			String dateAnnouncementCancelled, List<RVacancyPosition> positionList, RApplicantRating applicants,
@@ -87,7 +75,6 @@ public class RVacancyAnnouncement
 		this.vacancyPositionCount = vacancyPositionCount;
 		this.vacancyCertificateCount = vacancyCertificateCount;
 		this.numberOfPositionsAdvertised = numberOfPositionsAdvertised;
-		this.areaOfConsiderationList = areaOfConsiderationList;
 		this.areaOfConsideration = areaOfConsideration;
 		this.interdisciplinaryPosition = interdisciplinaryPosition;
 		this.vacancyIdentificationNumber = vacancyIdentificationNumber;
@@ -103,7 +90,7 @@ public class RVacancyAnnouncement
 	}
 
 	public String getRequestNumber() {
-		return requestNumber;
+		return Util.checkForNull(requestNumber);
 	}
 
 	public void setRequestNumber(String requestNumber) {
@@ -142,35 +129,17 @@ public class RVacancyAnnouncement
 
 	public String getAreaOfConsideration()
 	{
-		StringBuffer areaOfConsiderationStr = new StringBuffer();
-		for (int i = 0; i < this.areaOfConsiderationList.size(); i++) {
-			if (i > 0) {
-				areaOfConsiderationStr.append(";" + (String)this.areaOfConsiderationList.get(i));
-			} else {
-				areaOfConsiderationStr.append((String)this.areaOfConsiderationList.get(i));
-			}
-		}
-		this.areaOfConsideration = areaOfConsiderationStr.toString();
-		return this.areaOfConsideration;
+		return Util.checkForNull(areaOfConsideration);
 	}
 
-	public void setAreaOfConsideration(List<String> areaOfConsideration)
+	public void setAreaOfConsideration(String areaOfConsideration)
 	{
-		this.areaOfConsiderationList = areaOfConsideration;
-		this.areaOfConsideration = getAreaOfConsideration();
-	}
-
-	public void addAreaOfConsideration(String areaOfConsideration)
-	{
-		if ((!this.areaOfConsiderationList.contains(areaOfConsideration)) && (areaOfConsideration.trim().length() > 0)) {
-			this.areaOfConsiderationList.add(areaOfConsideration);
-		}
-		this.areaOfConsideration = getAreaOfConsideration();
+		this.areaOfConsideration = areaOfConsideration;
 	}
 
 	public String getInterdisciplinaryPosition()
 	{
-		return this.interdisciplinaryPosition;
+		return Util.checkForNull(interdisciplinaryPosition);
 	}
 
 	public void setInterdisciplinaryPosition(String interdisciplinaryPosition)
@@ -180,7 +149,7 @@ public class RVacancyAnnouncement
 
 	public String getVacancyIdentificationNumber()
 	{
-		return this.vacancyIdentificationNumber;
+		return Util.checkForNull(vacancyIdentificationNumber);
 	}
 
 	public void setVacancyIdentificationNumber(String vacancyIdentificationNumber)
@@ -190,7 +159,7 @@ public class RVacancyAnnouncement
 
 	public String getVacancyAnnouncementNumber()
 	{
-		return this.vacancyAnnouncementNumber;
+		return Util.checkForNull(vacancyAnnouncementNumber);
 	}
 
 	public void setVacancyAnnouncementNumber(String vacancyAnnouncementNumber)
@@ -200,7 +169,7 @@ public class RVacancyAnnouncement
 
 	public String getAnnouncementType()
 	{
-		return this.announcementType;
+		return Util.checkForNull(announcementType);
 	}
 
 	public void setAnnouncementType(String announcementType)
@@ -210,9 +179,7 @@ public class RVacancyAnnouncement
 
 	public String getDateAnnouncementPosted()
 	{
-		if(this.dateAnnouncementPosted == null)
-			return "";
-		return this.dateAnnouncementPosted;
+		return Util.checkForNull(dateAnnouncementPosted);
 	}
 
 	public void setDateAnnouncementPosted(String dateAnnouncementPosted)
@@ -222,9 +189,7 @@ public class RVacancyAnnouncement
 
 	public String getDateAnnouncementOpened()
 	{
-		if(this.dateAnnouncementOpened == null)
-			return "";
-		return this.dateAnnouncementOpened;
+		return Util.checkForNull(dateAnnouncementOpened);
 	}
 
 	public void setDateAnnouncementOpened(String dateAnnouncementOpened)
@@ -234,9 +199,7 @@ public class RVacancyAnnouncement
 
 	public String getDateAnnouncementClosed()
 	{
-		if(this.dateAnnouncementClosed == null)
-			return "";
-		return this.dateAnnouncementClosed;
+		return Util.checkForNull(dateAnnouncementClosed);
 	}
 
 	public void setDateAnnouncementClosed(String dateAnnouncementClosed)
@@ -246,9 +209,7 @@ public class RVacancyAnnouncement
 
 	public String getDateAnnouncementCancelled()
 	{
-		if(this.dateAnnouncementCancelled == null)
-			return "";
-		return this.dateAnnouncementCancelled;
+		return Util.checkForNull(dateAnnouncementCancelled);
 	}
 
 	public void setDateAnnouncementCancelled(String dateAnnouncementCancelled)
@@ -265,15 +226,6 @@ public class RVacancyAnnouncement
 	{
 		this.positionList = positionList;
 		this.setVacancyPositionCount(this.positionList.size());
-	}
-
-	public void addPosition(RVacancyPosition newPosition)
-	{
-		if (!this.positionList.contains(newPosition))
-		{
-			this.positionList.add(newPosition);
-			this.vacancyPositionCount += 1;
-		}
 	}
 
 	public RApplicantRating getApplicants()
@@ -295,15 +247,6 @@ public class RVacancyAnnouncement
 	{
 		this.certificateList = certificate;
 		this.setVacancyCertificateCount(this.certificateList.size());
-	}
-
-	public void addCertificate(RCertificate newCertificate)
-	{
-		if (!this.certificateList.contains(newCertificate))
-		{
-			this.certificateList.add(newCertificate);
-			this.vacancyCertificateCount += 1;
-		}
 	}
 
 	@Override

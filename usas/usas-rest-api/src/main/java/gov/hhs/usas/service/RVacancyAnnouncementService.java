@@ -92,9 +92,11 @@ public class RVacancyAnnouncementService {
 
 			vacancyAnnouncementDTO.setPositionList(this.positionService.getPositionDTOByVacancyAndRequestNumber(vacancyNumber, requestNumber));
 
+			//vacancyAnnouncementDTO.setApplicants(this.applicantRatingService.getApplicantRatingDTOByVacancyAndRequestNumber(vacancyNumber, requestNumber));
 			vacancyAnnouncementDTO.setApplicants(this.applicantRatingService.getApplicantRatingDTOByVacancyAndRequestNumber(vacancyNumber, requestNumber));
 
-			vacancyAnnouncementDTO.setCertificateList(this.certificateService.getCertificateDTOByRequestNumber(requestNumber));
+			//vacancyAnnouncementDTO.setCertificateList(this.certificateService.getCertificateDTOByRequestNumber(requestNumber));
+			vacancyAnnouncementDTO.setCertificateList(this.certificateService.getCertificateDTOByRequestVacancyAndAnnouncementNumber(requestNumber, vacancyNumber, announcementNumber));
 
 			vacancyAnnouncementDTOList.add(vacancyAnnouncementDTO);
 		}

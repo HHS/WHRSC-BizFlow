@@ -7,17 +7,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Immutable;
-import org.springframework.data.annotation.Transient;
+import gov.hhs.usas.Util;
 
 @Entity(name="VW_R_POS_RESULT")
-@Immutable
 public class RPositions
 {
 	@Id
 	@Column(name = "REQUEST_NUMBER")
 	private String requestNumber;
-	@Transient
 	private transient int positionCount;
 	@Column(name = "CLEARANCE_LEVEL_REQUIRED")
 	private String clearanceLevelRequiredForPosition;
@@ -38,7 +35,7 @@ public class RPositions
 	}
 
 	public String getRequestNumber() {
-		return requestNumber;
+		return Util.checkForNull(requestNumber);
 	}
 
 	public void setRequestNumber(String requestNumber) {
@@ -47,7 +44,7 @@ public class RPositions
 
 	public int getPositionCount()
 	{
-		return this.positionCount;
+		return positionCount;
 	}
 
 	public void setPositionCount(int positionCount)
@@ -57,7 +54,7 @@ public class RPositions
 
 	public String getClearanceLevelRequiredForPosition()
 	{
-		return this.clearanceLevelRequiredForPosition;
+		return Util.checkForNull(clearanceLevelRequiredForPosition);
 	}
 
 	public void setClearanceLevelRequiredForPosition(String clearanceLevelRequiredForPosition)
@@ -75,14 +72,6 @@ public class RPositions
 		this.positionList = positionList;
 	}
 
-	public void addPosition(RRequestPosition newPosition)
-	{
-		if (!this.positionList.contains(newPosition))
-		{
-			this.positionList.add(newPosition);
-			this.positionCount += 1;
-		}
-	}
 
 	@Override
 	public String toString()

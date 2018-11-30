@@ -7,11 +7,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Immutable;
-import org.springframework.data.annotation.Transient;
+import gov.hhs.usas.Util;
 
-@Entity(name="VW_A_CERT_RESULT_TWO")
-@Immutable
+@Entity(name="VW_A_CERT_RESULT")
 public class ACertificate {
 	
 	@Id
@@ -35,7 +33,6 @@ public class ACertificate {
 	private String grade;
 	@Column(name = "FULL_PERFORMANCE_LEVEL")
 	private String fullPerformanceLevel;
-	@Transient
 	private transient List<ADutyStation> dutyStationList;
 	@Column(name = "DATE_CERTIFICATE_SENT_TO_SO")
 	private String dateCertificateSentToSO;
@@ -67,17 +64,13 @@ public class ACertificate {
 		this.dateOfficialOfferSent = "";
 	}
 
-
-
-
-
-	public ACertificate(String reqVacID, String requestNumber, String vacancyIdentificationNumber,
-			String certificateNumber, String certificateType, String positionTitle, String payPlan, String series,
-			String grade, String fullPerformanceLevel, List<ADutyStation> dutyStationList,
-			String dateCertificateSentToSO, String dateHiringDecisionReceivedInHR, String dateOfTentativeJobOffer,
-			String dateOfOfficialJobOffer, String dateOfficialOfferSent) {
+	public ACertificate(String reqVacCertID, String requestNumber, String vacancyIdentificationNumber,
+			String certificateNumber, String certificateType, String positionTitle,
+			String payPlan, String series, String grade, String fullPerformanceLevel,
+			List<ADutyStation> dutyStationList, String dateCertificateSentToSO, String dateHiringDecisionReceivedInHR,
+			String dateOfTentativeJobOffer, String dateOfOfficialJobOffer, String dateOfficialOfferSent) {
 		super();
-		this.reqVacCertID = reqVacID;
+		this.reqVacCertID = reqVacCertID;
 		this.requestNumber = requestNumber;
 		this.vacancyIdentificationNumber = vacancyIdentificationNumber;
 		this.certificateNumber = certificateNumber;
@@ -98,57 +91,30 @@ public class ACertificate {
 
 
 
-
-	public String getReqVacCertID() {
-		return reqVacCertID;
+	public String getReqVacCertID() {		
+		return Util.checkForNull(reqVacCertID);
 	}
-
-
-
-
-
 	public void setReqVacCertID(String reqVacCertID) {
 		this.reqVacCertID = reqVacCertID;
 	}
 
-
-
-
-
 	public String getRequestNumber() {
-		return requestNumber;
+		return Util.checkForNull(requestNumber);
 	}
-
-
-
-
 
 	public void setRequestNumber(String requestNumber) {
 		this.requestNumber = requestNumber;
 	}
 
-
-
-
-
 	public String getVacancyIdentificationNumber() {
-		return vacancyIdentificationNumber;
+		return Util.checkForNull(vacancyIdentificationNumber);
 	}
-
-
-
-
-
 	public void setVacancyIdentificationNumber(String vacancyIdentificationNumber) {
 		this.vacancyIdentificationNumber = vacancyIdentificationNumber;
 	}
 
-
-
-
-
 	public String getCertificateNumber() {
-		return certificateNumber;
+		return Util.checkForNull(certificateNumber);
 	}
 
 	public void setCertificateNumber(String certificateNumber) {
@@ -156,7 +122,7 @@ public class ACertificate {
 	}
 
 	public String getCertificateType() {
-		return certificateType;
+		return Util.checkForNull(certificateType);
 	}
 
 	public void setCertificateType(String certificateType) {
@@ -164,7 +130,7 @@ public class ACertificate {
 	}
 
 	public String getPositionTitle() {
-		return positionTitle;
+		return Util.checkForNull(positionTitle);
 	}
 
 	public void setPositionTitle(String positionTitle) {
@@ -172,7 +138,7 @@ public class ACertificate {
 	}
 
 	public String getPayPlan() {
-		return payPlan;
+		return Util.checkForNull(payPlan);
 	}
 
 	public void setPayPlan(String payPlan) {
@@ -180,7 +146,7 @@ public class ACertificate {
 	}
 
 	public String getSeries() {
-		return series;
+		return Util.checkForNull(series);
 	}
 
 	public void setSeries(String series) {
@@ -188,7 +154,7 @@ public class ACertificate {
 	}
 
 	public String getGrade() {
-		return grade;
+		return Util.checkForNull(grade);
 	}
 
 	public void setGrade(String grade) {
@@ -196,7 +162,7 @@ public class ACertificate {
 	}
 
 	public String getFullPerformanceLevel() {
-		return fullPerformanceLevel;
+		return Util.checkForNull(fullPerformanceLevel);
 	}
 
 	public void setFullPerformanceLevel(String fullPerformanceLevel) {
@@ -212,7 +178,7 @@ public class ACertificate {
 	}
 
 	public String getDateCertificateSentToSO() {
-		return dateCertificateSentToSO;
+		return Util.checkForNull(dateCertificateSentToSO);
 	}
 
 	public void setDateCertificateSentToSO(String dateCertificateSentToSO) {
@@ -220,7 +186,7 @@ public class ACertificate {
 	}
 
 	public String getDateHiringDecisionReceivedInHR() {
-		return dateHiringDecisionReceivedInHR;
+		return Util.checkForNull(dateHiringDecisionReceivedInHR);
 	}
 
 	public void setDateHiringDecisionReceivedInHR(String dateHiringDecisionReceivedInHR) {
@@ -228,7 +194,7 @@ public class ACertificate {
 	}
 
 	public String getDateOfTentativeJobOffer() {
-		return dateOfTentativeJobOffer;
+		return Util.checkForNull(dateOfTentativeJobOffer);
 	}
 
 	public void setDateOfTentativeJobOffer(String dateOfTentativeJobOffer) {
@@ -236,7 +202,7 @@ public class ACertificate {
 	}
 
 	public String getDateOfOfficialJobOffer() {
-		return dateOfOfficialJobOffer;
+		return Util.checkForNull(dateOfOfficialJobOffer);
 	}
 
 	public void setDateOfOfficialJobOffer(String dateOfOfficialJobOffer) {
@@ -244,7 +210,7 @@ public class ACertificate {
 	}
 
 	public String getDateOfficialOfferSent() {
-		return dateOfficialOfferSent;
+		return Util.checkForNull(dateOfficialOfferSent);
 	}
 
 	public void setDateOfficialOfferSent(String dateOfficialOfferSent) {

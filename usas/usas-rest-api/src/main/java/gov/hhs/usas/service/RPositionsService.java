@@ -17,21 +17,21 @@ public class RPositionsService {
 	@Autowired
 	RRequestPositionService positionService;
 
-	public RPositions getPositionsByVacancyAndRequestNumber(String vacancyNumberParam, String requestNumberParam) {
+/*	public RPositions getPositionsByVacancyAndRequestNumber(String vacancyNumberParam, String requestNumberParam) {
 
 		RPositions positions = this.positionsDAO.findByVacancyAndRequestNumbers(vacancyNumberParam, requestNumberParam);
 		positions.setPositionList(this.positionService.getRequestPositionByRequestNumber(requestNumberParam));		
 
 		return positions;
-	}
+	}*/
 
-	public RPositions getPositionsByRequestNumber(String requestNumberParam) {
+/*	public RPositions getPositionsByRequestNumber(String requestNumberParam) {
 
 		RPositions positions = this.positionsDAO.findByRequestNumbers(requestNumberParam);
 		positions.setPositionList(this.positionService.getRequestPositionByRequestNumber(requestNumberParam));		
 
 		return positions;
-	}
+	}*/
 
 	public RPositionsDTO getPositionsDTOByRequestNumber(String requestNumberParam) {
 
@@ -49,7 +49,7 @@ public class RPositionsService {
 	}
 
 
-	public RPositionsDTO getPositionsDTOByVacancyAndRequestNumber(List<String> vacancyNumberParamList, String requestNumberParam) {
+/*	public RPositionsDTO getPositionsDTOByVacancyAndRequestNumber(List<String> vacancyNumberParamList, String requestNumberParam) {
 
 		RPositions positions = this.positionsDAO.findByRequestNumbers(requestNumberParam);//find Clearance Level Required field only
 
@@ -58,6 +58,6 @@ public class RPositionsService {
 				this.positionService.getRequestPositionDTOByRequestNumber(requestNumberParam));
 
 		return positionsDTO;
-	}
+	}*/
 
 }

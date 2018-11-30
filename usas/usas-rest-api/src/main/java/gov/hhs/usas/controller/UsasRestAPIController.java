@@ -23,7 +23,7 @@ import gov.hhs.usas.service.USAStaffingRecruitmentService;
  */
 @RestController
 @Controller
-@RequestMapping("/usas")
+@RequestMapping("/reportXML")
 public class UsasRestAPIController {
 
 	private static final Log LOG = LogFactory.getLog(UsasRestAPIController.class);
@@ -51,7 +51,7 @@ public class UsasRestAPIController {
 	 * @param requestNumber - Job Request Number
 	 * @return USAStaffingRecruitmentDTO - EWITS2.0 (BizFlow) consumable XML format
 	 */
-	@GetMapping(path = "/reportXML/recruitment/{requestNumber}", produces = MediaType.APPLICATION_XML_VALUE)
+	@GetMapping(path = "/recruitment/{requestNumber}", produces = MediaType.APPLICATION_XML_VALUE)
 	public USAStaffingRecruitmentDTO getRecruitmentData(@PathVariable String requestNumber) {
 		LOG.info("USA Staffing Recruitment Form Data Request received for Request Number ["+requestNumber+"].");
 		USAStaffingRecruitmentDTO recruitmentResponse = this.recruitmentService.getRecruitmentDataXMLByRequestNumber(requestNumber);
@@ -65,7 +65,7 @@ public class UsasRestAPIController {
 	 * @param requestNumber - Job Request Number
 	 * @return USAStaffingAppointmentDTO - EWITS2.0 (BizFlow) consumable XML format
 	 */
-	@GetMapping(path = "/reportXML/appointment/{requestNumber}", produces = MediaType.APPLICATION_XML_VALUE)
+	@GetMapping(path = "/appointment/{requestNumber}", produces = MediaType.APPLICATION_XML_VALUE)
 	public USAStaffingAppointmentDTO getAppointmentData(@PathVariable String requestNumber) {
 		LOG.info("USA Staffing Appointment Form Data Request received for Request Number ["+requestNumber+"].");
 		USAStaffingAppointmentDTO appointmentResponse = this.appointmentService.getAppointmentDataXMLByRequestNumber(requestNumber);

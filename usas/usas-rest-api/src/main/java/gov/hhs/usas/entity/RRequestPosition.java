@@ -4,11 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Immutable;
-import org.springframework.data.annotation.Transient;
+import gov.hhs.usas.Util;
 
 @Entity(name="VW_R_REQ_POS_RESULT")
-@Immutable
 public class RRequestPosition {
 
 	@Id
@@ -20,36 +18,31 @@ public class RRequestPosition {
 	private String dutyLocations;
 	@Column(name = "DESCRIPTION")
 	private String description;
-	@Transient
 	private transient String payPlan;
-	@Transient
 	private transient String series;
-	@Transient
 	private transient String grades;
 
 	public String getRequestNumber() {
-		return requestNumber;
+		return Util.checkForNull(requestNumber);
 	}
 	public void setRequestNumber(String requestNumber) {
 		this.requestNumber = requestNumber;
 	}
 	public String getTitle() {
-		return title;
+		return Util.checkForNull(title);
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
 	public String getDutyLocations() {
-		String dutyLocationStr = this.dutyLocations.replace(";", "; ");
-		//return this.dutyLocations;
+		String dutyLocationStr = Util.checkForNull(this.dutyLocations).replace(";", "; ");
 		return dutyLocationStr;
-		//return dutyLocations;
 	}
 	public void setDutyLocations(String dutyLocations) {
 		this.dutyLocations = dutyLocations;
 	}
 	public String getDescription() {
-		return description;
+		return Util.checkForNull(description);
 	}
 	public void setDescription(String description) {
 		this.description = description;

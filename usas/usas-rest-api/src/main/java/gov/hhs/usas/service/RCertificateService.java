@@ -37,7 +37,31 @@ public class RCertificateService {
 		}
 
 		for(RCertificate certificate : certificateList){
-			RCertificateDTO certificateDTO = new RCertificateDTO(certificate.getRecVacID(), certificate.getAnnouncementNumber(), certificate.getCertificateType(), certificate.getCertificateNumber(),
+			RCertificateDTO certificateDTO = new RCertificateDTO(certificate.getRecVacCertID(), certificate.getAnnouncementNumber(), certificate.getCertificateType(), certificate.getCertificateNumber(),
+					certificate.getPositionTitle(), certificate.getSeries(), certificate.getGrade(), certificate.getDutyLocation(), certificate.getDateCertificateIssued(),
+					certificate.getDateCertificateSentToSO(), certificate.getSelectionMade(), certificate.getActionTaken(),
+					certificate.getDateHiringDecisionRecievedInHR(), certificate.getDateFinalApplcantStatusesSet(), certificate.getDateAuditCompleted());
+
+			certificateDTOList.add(certificateDTO);			
+		}
+
+		return certificateDTOList;
+	}
+	
+	public List<RCertificateDTO> getCertificateDTOByRequestVacancyAndAnnouncementNumber(String requestNumber, String vacancyNumber, String announcementNumber) {
+
+		LOG.info("Query Vacancy Certificate data for Request Number ["+requestNumber +"], Vacancy Number ["+vacancyNumber+"], Announcement Number ["+announcementNumber+"]");		
+
+		List<RCertificateDTO> certificateDTOList = new ArrayList<RCertificateDTO>();
+		List<RCertificate> certificateList = this.certificateDao.findByRequestVacancyAndAnnouncementNumber(requestNumber, vacancyNumber, announcementNumber);
+
+		if(certificateList != null){
+			LOG.info("Vacancy Certificate data retrieved for Request Number ["+requestNumber +"], Vacancy Number ["+vacancyNumber+"], Announcement Number ["+announcementNumber+"]");		
+			LOG.info("Vacancy Certificate Count = "+certificateList.size());
+		}
+
+		for(RCertificate certificate : certificateList){
+			RCertificateDTO certificateDTO = new RCertificateDTO(certificate.getRecVacCertID(), certificate.getAnnouncementNumber(), certificate.getCertificateType(), certificate.getCertificateNumber(),
 					certificate.getPositionTitle(), certificate.getSeries(), certificate.getGrade(), certificate.getDutyLocation(), certificate.getDateCertificateIssued(),
 					certificate.getDateCertificateSentToSO(), certificate.getSelectionMade(), certificate.getActionTaken(),
 					certificate.getDateHiringDecisionRecievedInHR(), certificate.getDateFinalApplcantStatusesSet(), certificate.getDateAuditCompleted());

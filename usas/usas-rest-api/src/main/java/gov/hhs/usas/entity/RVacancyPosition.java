@@ -1,17 +1,14 @@
 package gov.hhs.usas.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Immutable;
-import org.springframework.data.annotation.Transient;
+import gov.hhs.usas.Util;
 
 @Entity(name="VW_R_VAC_POS_RESULT")
-@Immutable
 public class RVacancyPosition
 {	
 	@Id
@@ -23,36 +20,24 @@ public class RVacancyPosition
 	private String vacancyNumber;
 	@Column(name = "POSITION_TITLE")
 	private String title;
-	@Transient
-	private transient List<String> payPlanList;
 	@Column(name = "PAY_PLAN")
 	private String payPlan;
-	@Transient
-	private transient List<String> seriesList;
 	@Column(name = "SERIES")
 	private String series;
-	@Transient
-	private transient List<Integer> gradeList;//Type Integer to enable sorting
 	@Column(name = "GRADE")
 	private String grades;
 	@Column(name = "FULL_PERFORMANCE_LEVEL")
 	private String fullPerformanceLevel;
-	@Transient
-	private transient List<String> dutyLocationList;
 	@Column(name = "DUTY_LOCATION")
 	private String dutyLocations;
 
 	public RVacancyPosition()
 	{
 		this.title = "";
-		this.payPlanList = new ArrayList<String>();
 		this.payPlan = "";
-		this.seriesList = new ArrayList<String>();
 		this.series = "";
-		this.gradeList = new ArrayList<Integer>();
 		this.grades = "";
 		this.fullPerformanceLevel = "";
-		this.dutyLocationList = new ArrayList<String>();
 		this.dutyLocations = "";
 	}
 
@@ -61,21 +46,17 @@ public class RVacancyPosition
 			List<Integer> gradeList, String grades, String fullPerformanceLevel, List<String> dutyLocationList,
 			String dutyLocations) {
 		this.title = title;
-		this.payPlanList = payPlanList;
 		this.payPlan = payPlan;
-		this.seriesList = seriesList;
 		this.series = series;
-		this.gradeList = gradeList;
 		this.grades = grades;
 		this.fullPerformanceLevel = fullPerformanceLevel;
-		this.dutyLocationList = dutyLocationList;
 		this.dutyLocations = dutyLocations;
 	}
 
 
 
 	public String getReqVacID() {
-		return reqVacID;
+		return Util.checkForNull(reqVacID);
 	}
 
 
@@ -85,7 +66,7 @@ public class RVacancyPosition
 
 
 	public String getRequestNumber() {
-		return requestNumber;
+		return Util.checkForNull(requestNumber);
 	}
 
 
@@ -95,7 +76,7 @@ public class RVacancyPosition
 
 
 	public String getVacancyNumber() {
-		return vacancyNumber;
+		return Util.checkForNull(vacancyNumber);
 	}
 
 
@@ -106,7 +87,7 @@ public class RVacancyPosition
 
 	public String getTitle()
 	{
-		return this.title;
+		return Util.checkForNull(title);
 	}
 
 	public void setTitle(String title)
@@ -116,7 +97,7 @@ public class RVacancyPosition
 
 	public String getPayPlan()
 	{
-		return this.payPlan;
+		return Util.checkForNull(payPlan);
 	}
 
 	public void setPayPlan(String payPlan)
@@ -126,7 +107,7 @@ public class RVacancyPosition
 
 	public String getSeries()
 	{
-		return this.series;
+		return Util.checkForNull(series);
 	}
 
 	public void setSeries(String series)
@@ -136,7 +117,7 @@ public class RVacancyPosition
 
 	public String getGrades()
 	{
-		return this.grades;
+		return Util.checkForNull(grades);
 	}
 
 	public void setGrades(String grades)
@@ -146,8 +127,7 @@ public class RVacancyPosition
 
 	public String getDutyLocations()
 	{
-		String dutyLocationStr = this.dutyLocations.replace(";", "; ");
-		//return this.dutyLocations;
+		String dutyLocationStr = Util.checkForNull(this.dutyLocations).replace(";", "; ");
 		return dutyLocationStr;
 	}
 
@@ -159,7 +139,7 @@ public class RVacancyPosition
 
 	public String getFullPerformanceLevel()
 	{
-		return this.fullPerformanceLevel;
+		return Util.checkForNull(fullPerformanceLevel);
 	}
 
 	public void setFullPerformanceLevel(String fullPerformanceLevel)
@@ -167,14 +147,9 @@ public class RVacancyPosition
 		this.fullPerformanceLevel = fullPerformanceLevel;
 	}
 
-	public List<String> getDutyLocationList()
-	{
-		return this.dutyLocationList;
-	}
-
 	public String getDutyLocation()
 	{
-		return this.dutyLocations;
+		return Util.checkForNull(dutyLocations);
 	}
 
 	public void setDutyLocation(String dutyLocation)

@@ -4,10 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Immutable;
+import gov.hhs.usas.Util;
 
 @Entity(name="VW_R_APPLICANTS_RESULT")
-@Immutable
 public class RApplicantRating
 {
 	@Id
@@ -44,7 +43,7 @@ public class RApplicantRating
 	}
 
 	public String getRecVacID() {
-		return recVacID;
+		return Util.checkForNull(recVacID);
 	}
 
 	public void setRecVacID(String recVacID) {
@@ -52,7 +51,7 @@ public class RApplicantRating
 	}
 
 	public String getRequestNumber() {
-		return requestNumber;
+		return Util.checkForNull(requestNumber);
 	}
 
 	public void setRequestNumber(String requestNumber) {
@@ -61,7 +60,7 @@ public class RApplicantRating
 
 	public String getVacancyIdentificationNumber()
 	{
-		return this.vacancyIdentificationNumber;
+		return Util.checkForNull(vacancyIdentificationNumber);
 	}
 
 	public void setVacancyIdentificationNumber(String vacancyIdentificationNumber)
@@ -69,9 +68,8 @@ public class RApplicantRating
 		this.vacancyIdentificationNumber = vacancyIdentificationNumber;
 	}
 
-	public String getAnnouncementNumber()
-	{
-		return this.announcementNumber;
+	public String getAnnouncementNumber(){
+		return Util.checkForNull(announcementNumber);
 	}
 
 	public void setAnnouncementNumber(String announcementNumber)
@@ -81,7 +79,7 @@ public class RApplicantRating
 
 	public String getTotalNumberOfApplicants()
 	{
-		return this.totalNumberOfApplicants;
+		return Util.checkForNull(totalNumberOfApplicants);
 	}
 
 	public void setTotalNumberOfApplicants(String totalNumberOfApplicants)
@@ -91,7 +89,7 @@ public class RApplicantRating
 
 	public String getTotalNumberOfEligibleApplicants()
 	{
-		return this.totalNumberOfEligibleApplicants;
+		return Util.checkForNull(totalNumberOfEligibleApplicants);
 	}
 
 	public void setTotalNumberOfEligibleApplicants(String totalNumberOfEligibleApplicants)
@@ -101,7 +99,7 @@ public class RApplicantRating
 
 	public String getTotalNumberOfUniqueReferredApplicants()
 	{
-		return this.totalNumberOfUniqueReferredApplicants;
+		return Util.checkForNull(totalNumberOfUniqueReferredApplicants);
 	}
 
 	public void setTotalNumberOfUniqueReferredApplicants(String totalNumberOfUniqueReferredApplicants)
@@ -111,7 +109,7 @@ public class RApplicantRating
 
 	public String getDateApplicantsNotifiedEligibilityStatus()
 	{
-		return this.dateApplicantsNotifiedEligibilityStatus;
+		return Util.checkForNull(dateApplicantsNotifiedEligibilityStatus);
 	}
 
 	public void setDateApplicantsNotifiedEligibilityStatus(String dateApplicantsNotifiedEligibilityStatus)
@@ -121,7 +119,7 @@ public class RApplicantRating
 
 	public String getDateApplicantsNotifiedReferralStatus()
 	{
-		return this.dateApplicantsNotifiedReferralStatus;
+		return Util.checkForNull(dateApplicantsNotifiedReferralStatus);
 	}
 
 	public void setDateApplicantsNotifiedReferralStatus(String dateApplicantsNotifiedReferralStatus)

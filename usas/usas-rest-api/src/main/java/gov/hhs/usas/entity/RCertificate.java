@@ -1,23 +1,20 @@
 package gov.hhs.usas.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Immutable;
-import org.springframework.data.annotation.Transient;
+import gov.hhs.usas.Util;
 
 @Entity(name="VW_R_CERT_RESULT")
-@Immutable
 public class RCertificate
 {
 	
 	@Id
-	@Column(name = "REQ_VAC")
-	private String recVacID; 
+	@Column(name = "REQ_VAC_CERT")
+	private String recVacCertID; 
 	@Column(name = "REQUEST_NUMBER")
 	private String requestNumber;
 	@Column(name = "VACANCY_NUMBER")
@@ -30,14 +27,8 @@ public class RCertificate
 	private String certificateNumber;
 	@Column(name="POSITION_TITLE")
 	private String positionTitle;
-	@Transient
-	private transient List<String> seriesList;
 	@Column(name="SERIES")
 	private String series;
-	@Transient
-	private transient List<String> gradeList;
-	@Transient
-	private transient List<String> dutyLocationList;
 	@Column(name="GRADE")
 	private String grade;
 	@Column(name="DUTY_LOCATION")
@@ -63,10 +54,7 @@ public class RCertificate
 		this.certificateType = "";
 		this.certificateNumber = "";
 		this.positionTitle = "";
-		this.seriesList = new ArrayList<String>();
 		this.series = "";
-		this.gradeList = new ArrayList<String>();
-		this.dutyLocationList = new ArrayList<String>();
 		this.dateCertificateIssued = "";
 		this.dateCertificateSentToSO = "";
 		this.selectionMade = "";
@@ -85,10 +73,7 @@ public class RCertificate
 		this.certificateType = certificateType;
 		this.certificateNumber = certificateNumber;
 		this.positionTitle = positionTitle;
-		this.seriesList = seriesList;
 		this.series = series;
-		this.gradeList = gradeList;
-		this.dutyLocationList = dutyLocationList;
 		this.grade = grade;
 		this.dutyLocation = dutyLocation;
 		this.dateCertificateIssued = dateCertificateIssued;
@@ -100,16 +85,16 @@ public class RCertificate
 		this.dateAuditCompleted = dateAuditCompleted;
 	}
 
-	public String getRecVacID() {
-		return recVacID;
+	public String getRecVacCertID() {
+		return Util.checkForNull(recVacCertID);
 	}
 
-	public void setRecVacID(String recVacID) {
-		this.recVacID = recVacID;
+	public void setRecVacCertID(String recVacCertID) {
+		this.recVacCertID = recVacCertID;
 	}
 
 	public String getRequestNumber() {
-		return requestNumber;
+		return Util.checkForNull(requestNumber);
 	}
 
 	public void setRequestNumber(String requestNumber) {
@@ -117,7 +102,7 @@ public class RCertificate
 	}
 
 	public String getVacancyNumber() {
-		return vacancyNumber;
+		return Util.checkForNull(vacancyNumber);
 	}
 
 	public void setVacancyNumber(String vacancyNumber) {
@@ -125,7 +110,7 @@ public class RCertificate
 	}
 
 	public String getGrade() {
-		return grade;
+		return Util.checkForNull(grade);
 	}
 
 	public void setGrade(String grade) {
@@ -138,7 +123,7 @@ public class RCertificate
 
 	public String getAnnouncementNumber()
 	{
-		return this.announcementNumber;
+		return Util.checkForNull(announcementNumber);
 	}
 
 	public void setAnnouncementNumber(String announcementNumber)
@@ -148,7 +133,7 @@ public class RCertificate
 
 	public String getCertificateType()
 	{
-		return this.certificateType;
+		return Util.checkForNull(certificateType);
 	}
 
 	public void setCertificateType(String certificateType)
@@ -158,7 +143,7 @@ public class RCertificate
 
 	public String getCertificateNumber()
 	{
-		return this.certificateNumber;
+		return Util.checkForNull(certificateNumber);
 	}
 
 	public void setCertificateNumber(String certificateNumber)
@@ -168,7 +153,7 @@ public class RCertificate
 
 	public String getPositionTitle()
 	{
-		return this.positionTitle;
+		return Util.checkForNull(positionTitle);
 	}
 
 	public void setPositionTitle(String positionTitle)
@@ -179,99 +164,22 @@ public class RCertificate
 
 	public String getSeries()
 	{
-		if(this.seriesList.size() > 0){
-			StringBuffer seriesStr = new StringBuffer();
-			for (int i = 0; i < this.seriesList.size(); i++) {
-				if (i > 0) {
-					seriesStr.append("," + (String)this.seriesList.get(i));
-				} else {
-					seriesStr.append((String)this.seriesList.get(i));
-				}
-			}
-			this.series = seriesStr.toString();
-		}
-		return this.series;
+		return Util.checkForNull(series);
 	}
-
-	public void setSeries(List<String> series)
-	{
-		this.seriesList = series;
-		this.series = getSeries();
-	}
-
-	public void addSeries(String series)
-	{
-		if ((!this.seriesList.contains(series)) && (series.trim().length() > 0)) {
-			this.seriesList.add(series);
-		}
-		this.series = getSeries();
-	}
-
-
-	public String getGrades()
-	{
-		if(this.gradeList.size() > 0){
-			StringBuffer gradesStr = new StringBuffer();
-			for (int i = 0; i < this.gradeList.size(); i++) {
-				if (i > 0) {
-					gradesStr.append("," + (String)this.gradeList.get(i));
-				} else {
-					gradesStr.append((String)this.gradeList.get(i));
-				}
-			}
-			this.grade = gradesStr.toString();
-		}
-		return this.grade;
-	}
-
-	public void setGrades(List<String> grades)
-	{
-		this.gradeList = grades;
-		this.grade = getGrades();
-	}
-
-	public void addGrade(String grade)
-	{
-		if ((!this.gradeList.contains(grade)) && (grade.trim().length() > 0)) {
-			this.gradeList.add(grade);
-		}
-		this.grade = getGrades();
-	}
-
 
 	public String getDutyLocation()
 	{
-		if(this.dutyLocationList.size() > 0){
-			StringBuffer dutyLocationStr = new StringBuffer();
-			for (int i = 0; i < this.dutyLocationList.size(); i++) {
-				if (i > 0) {
-					dutyLocationStr.append(";" + (String)this.dutyLocationList.get(i));
-				} else {
-					dutyLocationStr.append((String)this.dutyLocationList.get(i));
-				}
-			}
-			this.dutyLocation = dutyLocationStr.toString();
-		}
-		return this.dutyLocation;
+		return Util.checkForNull(dutyLocation);
 	}
 
-	public void setDutyLocation(List<String> dutyLocation)
+	public void setDutyLocation(String dutyLocation)
 	{
-		this.dutyLocationList = dutyLocation;
-		this.dutyLocation = getDutyLocation();
-	}
-
-	public void addDutyLocation(String dutyLocation)
-	{
-		if ((!this.dutyLocationList.contains(dutyLocation)) && (dutyLocation.trim().length() > 0)) {
-			this.dutyLocationList.add(dutyLocation);
-		}
-		this.dutyLocation = getDutyLocation();
+		this.dutyLocation = dutyLocation;
 	}
 
 	public String getDateCertificateIssued()
 	{
-		return this.dateCertificateIssued;
+		return Util.checkForNull(dateCertificateIssued);
 	}
 
 	public void setDateCertificateIssued(String dateCertificateIssued)
@@ -281,7 +189,7 @@ public class RCertificate
 
 	public String getDateCertificateSentToSO()
 	{
-		return this.dateCertificateSentToSO;
+		return Util.checkForNull(dateCertificateSentToSO);
 	}
 
 	public void setDateCertificateSentToSO(String dateCertificateSentToSO)
@@ -291,7 +199,7 @@ public class RCertificate
 
 	public String getSelectionMade()
 	{
-		return this.selectionMade;
+		return Util.checkForNull(selectionMade);
 	}
 
 	public void setSelectionMade(String selectionMade)
@@ -301,7 +209,7 @@ public class RCertificate
 
 	public String getActionTaken()
 	{
-		return this.actionTaken;
+		return Util.checkForNull(actionTaken);
 	}
 
 	public void setActionTaken(String actionTaken)
@@ -311,7 +219,7 @@ public class RCertificate
 
 	public String getDateHiringDecisionRecievedInHR()
 	{
-		return this.dateHiringDecisionRecievedInHR;
+		return Util.checkForNull(dateHiringDecisionRecievedInHR);
 	}
 
 	public void setDateHiringDecisionRecievedInHR(String dateHiringDecisionRecievedInHR)
@@ -321,7 +229,7 @@ public class RCertificate
 
 	public String getDateFinalApplcantStatusesSet()
 	{
-		return this.dateFinalApplcantStatusesSet;
+		return Util.checkForNull(dateFinalApplcantStatusesSet);
 	}
 
 	public void setDateFinalApplcantStatusesSet(String dateFinalApplcantStatusesSet)
@@ -331,7 +239,7 @@ public class RCertificate
 
 	public String getDateAuditCompleted()
 	{
-		return this.dateAuditCompleted;
+		return Util.checkForNull(dateAuditCompleted);
 	}
 
 	public void setDateAuditCompleted(String dateAuditCompleted)
@@ -344,7 +252,7 @@ public class RCertificate
 	{
 		return "RCertificate [announcementNumber: " + getAnnouncementNumber() + "| certificateType: " + getCertificateType() 
 		+ "| certificateNumber: " + getCertificateNumber() + "| positionTitle: " + getPositionTitle() + "| series: " + getSeries() 
-		+ "| gradeList: " + getGrades() + "| dutyLocationList: " + getDutyLocation() + "| dateCertificateIssued: " + getDateCertificateIssued() 
+		+ "| gradeList: " + getGrade() + "| dutyLocationList: " + getDutyLocation() + "| dateCertificateIssued: " + getDateCertificateIssued() 
 		+ "| dateCertificateSentToSO: " + getDateCertificateSentToSO() + "| selectionMade: " + getSelectionMade() + "| actionTaken: " + getActionTaken()
 		+ "| dateHiringDecisionRecievedInHR: " + getDateHiringDecisionRecievedInHR() + "| dateFinalApplcantStatusesSet: " + getDateFinalApplcantStatusesSet() 
 		+ "| dateAuditCompleted: " + getDateAuditCompleted() + "]";

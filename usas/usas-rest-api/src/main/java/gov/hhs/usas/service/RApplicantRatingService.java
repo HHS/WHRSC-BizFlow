@@ -46,5 +46,24 @@ public class RApplicantRatingService {
 		return applicantRatingDTO;
 		
     }
+	
+public RApplicantRatingDTO getApplicantRatingDTOByRequestVacancyAndAnnouncementNumber(String requestNumber, String vacancyNumber, String announcementNumber) {
+		
+		LOG.info("Query Vacancy Applicant Rating data for Request Number ["+requestNumber +"], Vacancy Number ["+vacancyNumber+"], Announcement Number ["+announcementNumber+"]");		
+		
+		RApplicantRating applicantRating =  this.applicantRatingDao.findByRequestVacancyAndAnnouncementNumber(requestNumber, vacancyNumber, announcementNumber);
+		if(applicantRating != null){
+			LOG.info("Vacancy Applicant Rating data retrieved for Request Number ["+requestNumber +"], Vacancy Number ["+vacancyNumber+"], Announcement Number ["+announcementNumber+"]");
+			LOG.info("Vacancy Total Applicant Count = "+applicantRating.getTotalNumberOfApplicants());
+		}		
+		
+		RApplicantRatingDTO applicantRatingDTO = new RApplicantRatingDTO(applicantRating.getRecVacID(), applicantRating.getRequestNumber(), applicantRating.getVacancyIdentificationNumber(),
+				applicantRating.getAnnouncementNumber(), applicantRating.getTotalNumberOfApplicants(), applicantRating.getTotalNumberOfEligibleApplicants(),
+				applicantRating.getTotalNumberOfUniqueReferredApplicants(), applicantRating.getDateApplicantsNotifiedEligibilityStatus(),
+				applicantRating.getDateApplicantsNotifiedReferralStatus());
+		
+		return applicantRatingDTO;
+		
+    }
 }
 

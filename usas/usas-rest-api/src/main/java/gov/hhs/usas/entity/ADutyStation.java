@@ -4,10 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Immutable;
+import gov.hhs.usas.Util;
 
 @Entity(name="VW_A_DUTY_LOC_RESULT")
-@Immutable
 public class ADutyStation {
 	
 	@Id
@@ -45,7 +44,7 @@ public class ADutyStation {
 	}
 
 	public String getReqVacCertDLID() {
-		return reqVacCertDLID;
+		return Util.checkForNull(reqVacCertDLID);
 	}
 
 	public void setReqVacCertDLID(String reqVacCertDLID) {
@@ -53,7 +52,7 @@ public class ADutyStation {
 	}
 
 	public String getRequestNumber() {
-		return requestNumber;
+		return Util.checkForNull(requestNumber);
 	}
 
 	public void setRequestNumber(String requestNumber) {
@@ -61,7 +60,7 @@ public class ADutyStation {
 	}
 
 	public String getVacancyIdentificationNumber() {
-		return vacancyIdentificationNumber;
+		return Util.checkForNull(vacancyIdentificationNumber);
 	}
 
 	public void setVacancyIdentificationNumber(String vacancyIdentificationNumber) {
@@ -69,7 +68,7 @@ public class ADutyStation {
 	}
 
 	public String getCertificateNumber() {
-		return certificateNumber;
+		return Util.checkForNull(certificateNumber);
 	}
 
 	public void setCertificateNumber(String certificateNumber) {
@@ -77,13 +76,13 @@ public class ADutyStation {
 	}
 
 	public String getDutyStationName() {
-		return dutyStationName;
+		return Util.checkForNull(dutyStationName);
 	}
 	public void setDutyStationName(String dutyStationName) {
 		this.dutyStationName = dutyStationName;
 	}
 	public String getDutyStationCode() {
-		return dutyStationCode;
+		return Util.checkForNull(dutyStationCode);
 	}
 	public void setDutyStationCode(String dutyStationCode) {
 		this.dutyStationCode = dutyStationCode;

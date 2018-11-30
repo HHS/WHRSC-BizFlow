@@ -4,11 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Immutable;
-import org.springframework.data.annotation.Transient;
+import gov.hhs.usas.Util;
 
 @Entity(name="VW_A_VAC_ANN_RESULT")
-@Immutable
 public class AVacancyAnnouncement {
 	
 	@Id
@@ -34,7 +32,6 @@ public class AVacancyAnnouncement {
 	private String typeOfSelection;			
 	@Column(name = "EOD")
 	private String eod;
-	@Transient
 	private transient ACertificate certificate;
 	
 	public AVacancyAnnouncement() {
@@ -74,7 +71,7 @@ public class AVacancyAnnouncement {
 
 
 	public String getReqVacID() {
-		return reqVacID;
+		return Util.checkForNull(reqVacID);
 	}
 
 	public void setReqVacID(String reqVacID) {
@@ -82,7 +79,7 @@ public class AVacancyAnnouncement {
 	}
 
 	public String getRequestNumber() {
-		return requestNumber;
+		return Util.checkForNull(requestNumber);
 	}
 
 	public void setRequestNumber(String requestNumber) {
@@ -90,7 +87,7 @@ public class AVacancyAnnouncement {
 	}
 
 	public String getVacancyIdentificationNumber() {
-		return vacancyIdentificationNumber;
+		return Util.checkForNull(vacancyIdentificationNumber);
 	}
 
 	public void setVacancyIdentificationNumber(String vacancyIdentificationNumber) {
@@ -98,7 +95,7 @@ public class AVacancyAnnouncement {
 	}
 
 	public String getVacancyAnnouncementNumber() {
-		return vacancyAnnouncementNumber;
+		return Util.checkForNull(vacancyAnnouncementNumber);
 	}
 
 	public void setVacancyAnnouncementNumber(String vacancyAnnouncementNumber) {
@@ -106,7 +103,7 @@ public class AVacancyAnnouncement {
 	}
 
 	public String getSupervisoryStatus() {
-		return supervisoryStatus;
+		return Util.checkForNull(supervisoryStatus);
 	}
 
 	public void setSupervisoryStatus(String supervisoryStatus) {
@@ -114,7 +111,7 @@ public class AVacancyAnnouncement {
 	}
 
 	public String getOf306AssignedInOnboardingManager() {
-		return of306AssignedInOnboardingManager;
+		return Util.checkForNull(of306AssignedInOnboardingManager);
 	}
 
 	public void setOf306AssignedInOnboardingManager(String of306AssignedInOnboardingManager) {
@@ -122,7 +119,7 @@ public class AVacancyAnnouncement {
 	}
 
 	public String getRelationshipToRecruitmentAction() {
-		return relationshipToRecruitmentAction;
+		return Util.checkForNull(relationshipToRecruitmentAction);
 	}
 
 	public void setRelationshipToRecruitmentAction(String relationshipToRecruitmentAction) {
@@ -130,7 +127,7 @@ public class AVacancyAnnouncement {
 	}
 
 	public String getJobCode() {
-		return jobCode;
+		return Util.checkForNull(jobCode);
 	}
 
 	public void setJobCode(String jobCode) {
@@ -138,7 +135,7 @@ public class AVacancyAnnouncement {
 	}
 
 	public String getClearanceLevelRequiredForPosition() {
-		return clearanceLevelRequiredForPosition;
+		return Util.checkForNull(clearanceLevelRequiredForPosition);
 	}
 
 	public void setClearanceLevelRequiredForPosition(String clearanceLevelRequiredForPosition) {
@@ -146,7 +143,7 @@ public class AVacancyAnnouncement {
 	}
 
 	public String getTypeOfSelection() {
-		return typeOfSelection;
+		return Util.checkForNull(typeOfSelection);
 	}
 
 	public void setTypeOfSelection(String typeOfSelection) {
@@ -154,7 +151,7 @@ public class AVacancyAnnouncement {
 	}
 
 	public String getEod() {
-		return eod;
+		return Util.checkForNull(eod);
 	}
 
 	public void setEod(String eod) {

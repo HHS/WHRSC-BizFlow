@@ -16,9 +16,9 @@ public class RRequestPositionService {
 	@Autowired
 	RRequestPositionDAO requestPositionDao;
 	
-	public List<RRequestPosition> getRequestPositionByRequestNumber(String requestNumber) {
+/*	public List<RRequestPosition> getRequestPositionByRequestNumber(String requestNumber) {
         return this.requestPositionDao.findByRequestNumbers(requestNumber);
-    }
+    }*/
 	
 	public List<RRequestPositionDTO> getRequestPositionDTOByRequestNumber(String requestNumber) {
 		List<RRequestPositionDTO> requestPositionDTOList = new ArrayList<RRequestPositionDTO>();
