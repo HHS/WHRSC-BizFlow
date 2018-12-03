@@ -38,6 +38,7 @@
 		<include name="listmanager_managelist/**" />
 		<include name="listmanager_searchlist/**" />
 		<include name="listmanager_candidateinfo/**" />
+		<include name="listmanager_manageeditlists/**" />
 		<include name="get_security/**" />
 
 
@@ -63,6 +64,7 @@
 		<include name="listmanager_managelist/doc/morphyc.xml" />
 		<include name="listmanager_searchlist/doc/morphyc.xml" />
 		<include name="listmanager_candidateinfo/doc/morphyc.xml" />
+		<include name="listmanager_manageeditlists/doc/morphyc.xml" />
 		<include name="get_security/doc/morphyc.xml" />
 	</patternset>
 
