@@ -211,3 +211,79 @@ EXCEPTION
 END;
 /
 
+
+
+--------------------------------------------------------
+--  DDL for Procedure SP_UPDATE_VACANCY_ELIGIBILITIS
+--------------------------------------------------------
+CREATE OR REPLACE PROCEDURE SP_UPDATE_VACANCY_ELIGIBILITIS							
+(							
+	I_ID                IN      NUMBER						
+)							
+IS							
+	V_REC_CNT                   NUMBER(10);						
+	V_XMLDOC                    XMLTYPE;						
+	V_XMLVALUE                  XMLTYPE;						
+	V_ERRCODE                   NUMBER(10);						
+	V_ERRMSG                    VARCHAR2(512);						
+	E_INVALID_REC_ID            EXCEPTION;						
+	PRAGMA EXCEPTION_INIT(E_INVALID_REC_ID, -20920);						
+	E_INVALID_DATA     EXCEPTION;						
+	PRAGMA EXCEPTION_INIT(E_INVALID_DATA, -20921);						
+BEGIN							
+	--DBMS_OUTPUT.PUT_LINE('SP_UPDATE_VACANCY_ELIGIBILITIS - BEGIN ============================');						
+	--DBMS_OUTPUT.PUT_LINE('PARAMETERS ----------------');						
+	--DBMS_OUTPUT.PUT_LINE('    I_ID IS NULL?  = ' || (CASE WHEN I_ID IS NULL THEN 'YES' ELSE 'NO' END));						
+	--DBMS_OUTPUT.PUT_LINE('    I_ID           = ' || TO_CHAR(I_ID));						
+	--DBMS_OUTPUT.PUT_LINE(' ----------------');						
+							
+	--DBMS_OUTPUT.PUT_LINE('Starting xml data retrieval and table update ----------');						
+							
+	IF I_ID IS NULL THEN						
+		RAISE_APPLICATION_ERROR(-20920, 'SP_UPDATE_VACANCY_ELIGIBILITIS: Input Record ID is invalid.  I_ID = '	|| TO_CHAR(I_ID) );				
+	END IF;						
+							
+	BEGIN						
+							
+		--DBMS_OUTPUT.PUT_LINE('    DSS_VACANCY_ELIGIBILITIES table');					
+		INSERT INTO DSS_VACANCY_ELIGIBILITIES					
+			(	VACANCY_IDENTIFICATION_NUMBER			
+				, VACANCY_ELIGIBILITY)						
+		SELECT					
+				X.VACANCY_IDENTIFICATION_NUMBER			
+				, X.VACANCY_ELIGIBILITY							
+		FROM INTG_DATA_DTL IDX					
+			, XMLTABLE(XMLNAMESPACES(DEFAULT 'http://www.ibm.com/xmlns/prod/cognos/dataSet/201006'), '/dataSet/dataTable/row[../id/text() = "List1"]'				
+				PASSING IDX.FIELD_DATA			
+				COLUMNS			
+					VACANCY_IDENTIFICATION_NUMBER	NUMBER(10)		Path 'Vacancy__Identification__Number'
+					,VACANCY_ELIGIBILITY			VARCHAR2(202)	Path 'Vacancy__Eligibility'					
+					) X							
+		WHERE IDX.ID = I_ID;					
+							
+	EXCEPTION						
+		WHEN OTHERS THEN					
+			RAISE_APPLICATION_ERROR(-20921, 'SP_UPDATE_VACANCY_ELIGIBILITIS: Invalid VACANCY ELIGIBILITIES data.  I_ID = ' || TO_CHAR(I_ID) );				
+	END;						
+							
+	--DBMS_OUTPUT.PUT_LINE('SP_UPDATE_VACANCY_ELIGIBILITIS - END ==========================');						
+							
+							
+EXCEPTION							
+	WHEN E_INVALID_REC_ID THEN						
+		SP_ERROR_LOG();					
+		--DBMS_OUTPUT.PUT_LINE('ERROR occurred while executing SP_UPDATE_VACANCY_ELIGIBILITIS -------------------');					
+		--DBMS_OUTPUT.PUT_LINE('ERROR message = ' || 'Record ID is not valid');					
+	WHEN E_INVALID_DATA THEN						
+		SP_ERROR_LOG();					
+		--DBMS_OUTPUT.PUT_LINE('ERROR occurred while executing SP_UPDATE_VACANCY_ELIGIBILITIS -------------------');					
+		--DBMS_OUTPUT.PUT_LINE('ERROR message = ' || 'Invalid data');					
+	WHEN OTHERS THEN						
+		SP_ERROR_LOG();					
+		V_ERRCODE := SQLCODE;					
+		V_ERRMSG := SQLERRM;					
+		--DBMS_OUTPUT.PUT_LINE('ERROR occurred while executing SP_UPDATE_VACANCY_ELIGIBILITIS -------------------');					
+		--DBMS_OUTPUT.PUT_LINE('Error code    = ' || V_ERRCODE);					
+		--DBMS_OUTPUT.PUT_LINE('Error message = ' || V_ERRMSG);					
+END;
+/
