@@ -2677,9 +2677,8 @@ create or replace PROCEDURE SP_UPDATE_RECRUITMENT_PROCESS
 	END;
 
 	/
---------------------------------------------------------
+
 --  DDL for Procedure SP_UPDATE_APPOINTMENT_PROCESS
---------------------------------------------------------
 
 create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
 	(
@@ -3052,7 +3051,8 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
             ,X.BOARD_CRTFCN
     	    ,X.CAPHR_EFFECTIVE_DATE
             ,X.CAPHR_PROCESSED_DATE
-
+            ,X.HHSID
+            
          	 FROM TBL_FORM_DTL FD  
 						, XMLTABLE('/DOCUMENT'
 							PASSING FD.FIELD_DATA
@@ -3069,6 +3069,7 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
                 ,BOARD_CRTFCN        VARCHAR2(50)    PATH 'APPOINTMENT/BOARD_CRTFCN'
                 ,CAPHR_EFFECTIVE_DATE   DATE PATH 'FINALPROCESSING/CAPHR_EFFECTIVE_DATE'
                 ,CAPHR_PROCESSED_DATE   DATE PATH 'FINALPROCESSING/CAPHR_PROCESSED_DATE'
+                ,HHSID            VARCHAR2(10)     PATH 'APPOINTMENT/HHSID'
 						) X
 					WHERE X.TRANSACTION_ID = I_TRANSACTIONID
 				) SRC ON (SRC.TRANSACTION_ID = TRG.TRANSACTION_ID)
@@ -3084,6 +3085,7 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
           ,TRG.BOARD_CRTFCN = SRC.BOARD_CRTFCN
           ,TRG.CAPHR_EFFECTIVE_DATE = SRC.CAPHR_EFFECTIVE_DATE
           ,TRG.CAPHR_PROCESSED_DATE = SRC.CAPHR_PROCESSED_DATE
+          ,TRG.HHSID = SRC.HHSID
           WHEN NOT MATCHED THEN INSERT
           (
             TRG.TRANSACTION_ID
@@ -3098,6 +3100,7 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
             ,TRG.BOARD_CRTFCN
             ,TRG.CAPHR_EFFECTIVE_DATE
             ,TRG.CAPHR_PROCESSED_DATE
+            ,TRG.HHSID
           )
           VALUES
           (
@@ -3113,6 +3116,7 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
             ,SRC.BOARD_CRTFCN
             ,SRC.CAPHR_EFFECTIVE_DATE
             ,SRC.CAPHR_PROCESSED_DATE
+            ,SRC.HHSID
           )
           ;
 
