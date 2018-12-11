@@ -3049,8 +3049,8 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
             ,X.FILER278
             ,X.FILER450
             ,X.BOARD_CRTFCN
-    	    ,X.CAPHR_EFFECTIVE_DATE
-            ,X.CAPHR_PROCESSED_DATE
+    	    --,X.CAPHR_EFFECTIVE_DATE
+            --,X.CAPHR_PROCESSED_DATE
             ,X.HHSID
             
          	 FROM TBL_FORM_DTL FD  
@@ -3067,8 +3067,8 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
                 ,FILER278           VARCHAR2(3)     PATH 'APPOINTMENT/FILER278'
                 ,FILER450            VARCHAR2(3)     PATH 'APPOINTMENT/FILER450'
                 ,BOARD_CRTFCN        VARCHAR2(50)    PATH 'APPOINTMENT/BOARD_CRTFCN'
-                ,CAPHR_EFFECTIVE_DATE   DATE PATH 'FINALPROCESSING/CAPHR_EFFECTIVE_DATE'
-                ,CAPHR_PROCESSED_DATE   DATE PATH 'FINALPROCESSING/CAPHR_PROCESSED_DATE'
+                --,CAPHR_EFFECTIVE_DATE   DATE PATH 'FINALPROCESSING/CAPHR_EFFECTIVE_DATE'
+                --,CAPHR_PROCESSED_DATE   DATE PATH 'FINALPROCESSING/CAPHR_PROCESSED_DATE'
                 ,HHSID            VARCHAR2(10)     PATH 'APPOINTMENT/HHSID'
 						) X
 					WHERE X.TRANSACTION_ID = I_TRANSACTIONID
@@ -3083,8 +3083,8 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
           ,TRG.FILER278 = SRC.FILER278
           ,TRG.FILER450 = SRC.FILER450
           ,TRG.BOARD_CRTFCN = SRC.BOARD_CRTFCN
-          ,TRG.CAPHR_EFFECTIVE_DATE = SRC.CAPHR_EFFECTIVE_DATE
-          ,TRG.CAPHR_PROCESSED_DATE = SRC.CAPHR_PROCESSED_DATE
+          --,TRG.CAPHR_EFFECTIVE_DATE = SRC.CAPHR_EFFECTIVE_DATE
+          --,TRG.CAPHR_PROCESSED_DATE = SRC.CAPHR_PROCESSED_DATE
           ,TRG.HHSID = SRC.HHSID
           WHEN NOT MATCHED THEN INSERT
           (
@@ -3098,8 +3098,8 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
             ,TRG.FILER278
             ,TRG.FILER450
             ,TRG.BOARD_CRTFCN
-            ,TRG.CAPHR_EFFECTIVE_DATE
-            ,TRG.CAPHR_PROCESSED_DATE
+            --,TRG.CAPHR_EFFECTIVE_DATE
+            --,TRG.CAPHR_PROCESSED_DATE
             ,TRG.HHSID
           )
           VALUES
@@ -3114,8 +3114,8 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
             ,SRC.FILER278
             ,SRC.FILER450
             ,SRC.BOARD_CRTFCN
-            ,SRC.CAPHR_EFFECTIVE_DATE
-            ,SRC.CAPHR_PROCESSED_DATE
+            --,SRC.CAPHR_EFFECTIVE_DATE
+            --,SRC.CAPHR_PROCESSED_DATE
             ,SRC.HHSID
           )
           ;
@@ -3757,13 +3757,61 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
           ;
 
 
-			EXCEPTION
-				WHEN OTHERS THEN
- 					RAISE_APPLICATION_ERROR(-20905, ' UPDATE ORIENTATION TABLE: Invalid data.  I_TRANSACTIONID = '
-						|| TO_CHAR(I_TRANSACTIONID));
-			END;
+        EXCEPTION
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20905, ' UPDATE ORIENTATION TABLE: Invalid data.  I_TRANSACTIONID = '
+                    || TO_CHAR(I_TRANSACTIONID));
+        END;
 
-      BEGIN  
+        
+        BEGIN
+				--------------------------------
+				-- SPA_PROCESSING table
+				--------------------------------
+
+				MERGE INTO SPA_PROCESSING TRG
+				USING
+				(
+					SELECT
+            X.TRANSACTION_ID
+            ,X.EFFECTIVE_DATE	
+
+         	 FROM TBL_FORM_DTL FD  
+						, XMLTABLE('/DOCUMENT'
+							PASSING FD.FIELD_DATA
+							COLUMNS
+								TRANSACTION_ID					NUMBER(10)  PATH 'MAIN/TRANSACTION_ID'
+                ,EFFECTIVE_DATE					DATE PATH 'FINALPROCESSING/CAPHR_EFFECTIVE_DATE'
+        
+						) X
+					WHERE X.TRANSACTION_ID = I_TRANSACTIONID
+				) SRC ON (SRC.TRANSACTION_ID = TRG.TRANSACTION_ID)
+				WHEN MATCHED THEN UPDATE SET
+            TRG.EFFECTIVE_DATE = SRC.EFFECTIVE_DATE
+          WHEN NOT MATCHED THEN INSERT
+          (
+            TRG.TRANSACTION_ID
+            ,TRG.DATE_SENT_TO_SPA
+            ,TRG.EFFECTIVE_DATE
+          )
+          VALUES
+          (
+            SRC.TRANSACTION_ID
+            ,SYSDATE
+            ,SRC.EFFECTIVE_DATE
+          )
+          ;
+
+
+        EXCEPTION
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20905, ' UPDATE SPA_PROCESSING TABLE: Invalid data.  I_TRANSACTIONID = '
+                    || TO_CHAR(I_TRANSACTIONID));
+        END;
+
+
+
+        BEGIN  
       	--------------------------------
 				-- MAIN and SPA_PROCESSING table
 				--------------------------------
@@ -3788,26 +3836,32 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
             MERGE INTO SPA_PROCESSING TRG
             USING
             (
-            SELECT X.TRANSACTION_ID 
+            SELECT 
+            X.TRANSACTION_ID
+            --,X.CAPHR_EFFECTIVE_DATE
             FROM TBL_FORM_DTL FD  
 						, XMLTABLE('/DOCUMENT'
 							PASSING FD.FIELD_DATA
 							COLUMNS
 								TRANSACTION_ID					NUMBER(10)  PATH 'MAIN/TRANSACTION_ID'
+                                --,CAPHR_EFFECTIVE_DATE   DATE PATH 'FINALPROCESSING/CAPHR_EFFECTIVE_DATE'
                ) X
             WHERE X.TRANSACTION_ID = I_TRANSACTIONID
             ) SRC ON (SRC.TRANSACTION_ID = TRG.TRANSACTION_ID)         
             WHEN MATCHED THEN UPDATE SET
             TRG.DATE_SENT_TO_SPA = SYSDATE 
+            --,TRG.EFFECTIVE_DATE = SRC.CAPHR_EFFECTIVE_DATE
             WHEN NOT MATCHED THEN INSERT
             (
               TRG.TRANSACTION_ID
              ,TRG.DATE_SENT_TO_SPA
+             --,TRG.EFFECTIVE_DATE
             )
             VALUES
             (
               SRC.TRANSACTION_ID
-             ,SYSDATE        
+             ,SYSDATE
+             --,SRC.CAPHR_EFFECTIVE_DATE
             )
             ;
 
@@ -3849,6 +3903,7 @@ create or replace PROCEDURE SP_UPDATE_APPOINTMENT_PROCESS
 	END;
 
 	/
+
 --------------------------------------------------------
 --  DDL for Procedure SP_UPDATE_FORM_DATA
 --------------------------------------------------------
