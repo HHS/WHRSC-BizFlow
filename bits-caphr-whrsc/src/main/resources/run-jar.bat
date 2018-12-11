@@ -15,7 +15,8 @@ echo ============================
 :: the Java Development Kit and dependency library location.
 ::-----------------------------------------------------------
 ::set JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_76.jdk/Contents/Home
-set "JAVA_HOME=C:\Program Files\Java\jdk1.7.0_80"
+::set "JAVA_HOME=C:\Program Files\Java\jdk1.7.0_80"
+set JAVA_HOME=/usr/lib/jvm/jre-1.7.0-openjdk.x86_64
 set LIB_DIR=%BASEDIR%\lib
 set CONF_DIR=%BASEDIR%\conf
 set EXECJAR=%BASEDIR%\whrsc-interface-0.0.1-SNAPSHOT.jar

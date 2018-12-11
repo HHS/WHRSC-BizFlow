@@ -48,11 +48,15 @@ public class EmailService {
 		this.today = new Date();		
 	}
 
-	public void sendEmail(String interfaceName, String jobName, String exitStatus) {
+	public void sendCapHREmail(String interfaceName, String jobName, String exitStatus, String exitDescription) {
 
 		this.emailSubject = properties.getEmailSubjectTemplate().replace("DATE_TODAY", dateFormat.format(today)).replace("INTERFACE_NAME", interfaceName).replace("JOB_NAME", jobName).replace("STATUS", exitStatus);
 
-		this.emailMessage = properties.getEmailMessageTemplate().replace("JOB_NAME", jobName).replace("STATUS", exitStatus);
+		String message = exitStatus;
+		if(exitDescription != null && exitDescription.length()>0)
+			message = exitStatus + " with the following message: " + exitDescription;
+		
+		this.emailMessage = properties.getEmailMessageTemplate().replace("JOB_NAME", jobName).replace("STATUS", message);
 
 		this.mail = new SimpleMailMessage();
 		this.mail.setSubject(emailSubject);
@@ -71,11 +75,15 @@ public class EmailService {
 
 	}
 
-	public void sendEmail(String interfaceName, String jobName, String exitStatus,  int recordCount) {
+	public void sendBitsEmail(String interfaceName, String jobName, String exitStatus, String exitDescription, int recordCount) {
 
 		this.emailSubject = properties.getEmailSubjectTemplate().replace("DATE_TODAY", dateFormat.format(today)).replace("INTERFACE_NAME", interfaceName).replace("JOB_NAME", jobName).replace("STATUS", exitStatus);
 
-		this.emailMessage = properties.getEmailBitsMessageTemplate().replace("JOB_NAME", jobName).replace("STATUS", exitStatus).replace("RECORD_COUNT", String.valueOf(recordCount));
+		String message = exitStatus;
+		if(exitDescription != null && exitDescription.length()>0)
+			message = exitStatus + " with the following message: " + exitDescription;
+		
+		this.emailMessage = properties.getEmailBitsMessageTemplate().replace("JOB_NAME", jobName).replace("STATUS", message).replace("RECORD_COUNT", String.valueOf(recordCount));
 
 		this.mail = new SimpleMailMessage();
 		this.mail.setSubject(emailSubject);

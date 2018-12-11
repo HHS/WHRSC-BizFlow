@@ -50,12 +50,9 @@ public class CapHRJobListener  extends JobExecutionListenerSupport{
 		this.exitStatus = jobExecution.getExitStatus().getExitCode().toString().replace("exitCode=", " "); 	
 		this.exitDescription = jobExecution.getExitStatus().getExitDescription().toString().replace("exitDescription=", " ");
 
-		String exitMessage = exitStatus;
-		if(exitDescription.length()>0)
-			exitMessage = exitStatus + exitDescription;
-
+		log.info(interfaceName + ": " + jobName + ": " + exitStatus + ": " + exitDescription);
 		if (sendEmailNotification) {
-			emailService.sendEmail(interfaceName, jobName, exitMessage);
+			emailService.sendCapHREmail(interfaceName, jobName, exitStatus, exitDescription);
 		}
 	}
 

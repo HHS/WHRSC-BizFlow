@@ -40,6 +40,7 @@ import gov.hhs.batch.bits.RecordCountListener;
 import gov.hhs.batch.bits.TableNEOStatusTarget;
 import gov.hhs.batch.bits.TruncateTaskletStep;
 import gov.hhs.batch.bits.ViewNEOStatusSource;
+import gov.hhs.batch.caphr.CapHRJobListener;
 import gov.hhs.batch.caphr.CapHRTasklet;
 
 @Configuration
@@ -68,7 +69,10 @@ public class BatchConfiguration {
 	private DataSource targetDataSource;
 
 	@Autowired
-	private BitsJobListener jobCompletionlistener;
+	private BitsJobListener bitsJobListener;
+	
+	@Autowired
+	private CapHRJobListener caphrJobListener;
 	
 	@Autowired
 	private RecordCountListener recordCountlistener;
@@ -136,7 +140,7 @@ public class BatchConfiguration {
 			log.info("Inside BitsInterfaceJob()");
 			return jobBuilderFactory.get("BitsInterfaceJob")
 					.incrementer(new RunIdIncrementer())
-					.listener(jobCompletionlistener)
+					.listener(bitsJobListener)
 					.start(truncateBITSTargetTableStep())
 					.next(importNEOStatusStep())
 					.build();
@@ -210,7 +214,7 @@ public class BatchConfiguration {
 		log.info("Inside BitsInterfaceJob()");
 		return jobBuilderFactory.get("CapHRInterfaceJob")
 				.incrementer(new RunIdIncrementer())
-				.listener(jobCompletionlistener)
+				.listener(caphrJobListener)
 				.preventRestart()
 				.start(importCapHRDataStep())//.on("*")
 				.build();

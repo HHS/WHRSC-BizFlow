@@ -6,8 +6,8 @@ echo using BASEDIR of $BASEDIR
 cd $BASEDIR
 
 #Get the PID of the process
-PID=$(cat $BASEDIR/interface.pid)
+PID=$(cat $BASEDIR/whrscinterface.pid)
 
 /bin/kill $PID
 
-rm $BASEDIR/interface.pid
+rm $BASEDIR/whrscinterface.pid

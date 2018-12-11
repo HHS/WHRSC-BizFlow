@@ -15,7 +15,8 @@ echo ============================
 # CHANGE the following environment variables to point to
 # the Java Development Kit and dependency library location.
 #-----------------------------------------------------------
-JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_76.jdk/Contents/Home
+#JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_76.jdk/Contents/Home
+JAVA_HOME=/usr/lib/jvm/jre-1.7.0-openjdk.x86_64
 LIB_DIR=$BASEDIR/lib
 CONF_DIR=$BASEDIR/conf
 EXECJAR=$BASEDIR/whrsc-interface-0.0.1-SNAPSHOT.jar
@@ -35,5 +36,5 @@ CLASSPATH=$CLASSPATH:.:$BASEDIR:$LIB_DIR/*:$CONF_DIR:$EXECJAR
 #-----------------------------
 # Run application
 #-----------------------------
-$JAVA_HOME/bin/java -jar $EXECJAR $1 $2 $3 $4 $5
+$JAVA_HOME/bin/java -jar $EXECJAR $1 $2 $3 $4 $5 & echo $! > $BASEDIR/whrscinterface.pid
 #$JAVA_HOME/bin/java -classpath $CLASSPATH org.springframework.boot.loader.JarLauncher  $1 $2 $3 $4 $5

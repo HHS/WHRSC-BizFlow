@@ -51,12 +51,9 @@ public class BitsJobListener extends JobExecutionListenerSupport {
 
 		int recordCount = BatchConfiguration.getRecordCount();
 
-		String exitMessage = exitStatus;
-		if(exitDescription.length()>0)
-			exitMessage = exitStatus + exitDescription;
-
+		log.info(interfaceName + ": " + jobName + ": " + exitStatus + ": " + exitDescription);
 		if (Boolean.valueOf(properties.getSendEmailNotification())) {
-			emailService.sendEmail(interfaceName, jobName, exitMessage);
+			emailService.sendBitsEmail(interfaceName, jobName, exitStatus, exitDescription, recordCount);
 		}
 	}
 
