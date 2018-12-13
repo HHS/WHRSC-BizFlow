@@ -1,6 +1,9 @@
 package gov.hhs.induction;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.client.WebServiceIOException;
+import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.soap.client.SoapFaultClientException;
 
 import gov.hhs.induction.schemas.ForeignNationalIdInfoType;
@@ -19,6 +23,8 @@ import gov.hhs.induction.schemas.IdentificationInformationType;
 import gov.hhs.induction.schemas.InductPersonApplicantDataType;
 import gov.hhs.induction.schemas.InductPersonRequest;
 import gov.hhs.induction.schemas.InductPersonResponse;
+import gov.hhs.induction.schemas.ReadInductionDataRequest;
+import gov.hhs.induction.schemas.ReadInductionDataResponse;
 import gov.hhs.induction.schemas.TransactionHeaderType;
 
 
@@ -26,6 +32,12 @@ import gov.hhs.induction.schemas.TransactionHeaderType;
 public class SOAPService {
 
 	private static final Log LOG = LogFactory.getLog(SOAPService.class);
+	private static final AtomicInteger count = new AtomicInteger(0); 
+	private int transactionOfTheDay;
+
+	//For testing
+	@Value("${mode.secure}")
+	private boolean secureMode;
 
 	@Autowired
 	private SOAPConnector soapConnector;
@@ -57,11 +69,15 @@ public class SOAPService {
 			LOG.info("INDUCTION SERVICE REQUEST :: " + getInductPersonRequestAsString(inductPersonRequest));
 
 			//Call Induction Web Service to receive Induct Person Response as per WSDL
-			inductPersonResponse = (InductPersonResponse) soapConnector.callWebService(inductionURL, inductPersonRequest);
+			//inductPersonResponse = (InductPersonResponse) soapConnector.callWebService(inductionURL, inductPersonRequest);
 
+			if(secureMode)
+			inductPersonResponse = (InductPersonResponse) soapConnector.callWebService(inductPersonRequest);
+			else
+				inductPersonResponse = (InductPersonResponse) soapConnector.callWebServiceTest(inductPersonRequest);
+			
 			LOG.info("INDUCTION SERVICE RESPONSE :: " + getInductPersonResponseAsString(inductPersonResponse));
 
-			//Prepare the Client Response
 			if(inductPersonResponse.getInductionResult().get(0).getResultCode() != null)
 				inductionResponse.setResultCode(inductPersonResponse.getInductionResult().get(0).getResultCode());
 			if(inductPersonResponse.getInductionResult().get(0).getAssignedPI() != null)
@@ -71,6 +87,28 @@ public class SOAPService {
 			if(inductPersonResponse.getInductionResult().get(0).getFailureDetailMessage() != null)
 				inductionResponse.setFailureDetailMessage(inductPersonResponse.getInductionResult().get(0).getFailureDetailMessage());
 
+
+			//If response received has message for duplicate SSN, call ReadInductionData to retrieve original record
+			if(inductionResponse.getResultCode().contains("Reject-Duplicate"))
+			{
+				ReadInductionDataRequest inductionDataRequest = new ReadInductionDataRequest();
+				ReadInductionDataResponse inductionDataResponse = new ReadInductionDataResponse();
+				inductionDataRequest.setTransactionHeader(createTransactionHeader());
+				inductionDataRequest.setSearchPI(inductionResponse.getHhsid());
+
+				inductionDataResponse = (ReadInductionDataResponse) soapConnector.callWebService(inductionDataRequest);
+
+				//set result message, original first name, original last name
+				if(inductionDataResponse.getInductionData().getPersonID().equalsIgnoreCase(inductionResponse.getHhsid())){
+					if(inductionDataResponse.getInductionData().getFirstName().equalsIgnoreCase(inductionRequest.getFirstName()) && (inductionDataResponse.getInductionData().getLastName().equalsIgnoreCase(inductionRequest.getLastName()))){
+						inductionResponse.setResultMessage(inductPersonResponse.getInductionResult().get(0).getResultMessage()+":: The record already exists for " +inductionDataResponse.getInductionData().getFirstName() + " " + inductionDataResponse.getInductionData().getLastName());
+						
+					}else
+					inductionResponse.setResultMessage(inductPersonResponse.getInductionResult().get(0).getResultMessage()+":: Original record exists for " +inductionDataResponse.getInductionData().getFirstName() + " " + inductionDataResponse.getInductionData().getLastName());
+				}
+				
+			}
+			
 		} catch(DatatypeConfigurationException datatypeConfig){
 			LOG.error("NO INDUCTION SERVICE RESPONSE DUE TO " + datatypeConfig.getClass().getSimpleName());
 			LOG.error("Exception Stack Trace :: ", datatypeConfig);
@@ -141,11 +179,18 @@ public class SOAPService {
 	/**
 	 * This method creates a transaction ID using random number
 	 * for transaction header element.
+	 * This method is modified to create a transaction ID based 
+	 * on current date and the transaction number of the day.
 	 * @return
 	 */
 	private String generateTransactionID(){
 
-		String newTransactionID = transactionIDAppender+UUID.randomUUID().toString();		
+		//String newTransactionID = transactionIDAppender+UUID.randomUUID().toString();	
+		Date currentDate = new Date();
+		String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(currentDate);
+		transactionOfTheDay = count.incrementAndGet(); 
+		String newTransactionID = transactionIDAppender+"-"+dateFormat+"-"+transactionOfTheDay;
+
 		return newTransactionID;
 	}
 
@@ -193,6 +238,22 @@ public class SOAPService {
 		return newInductPersonApplicantData;
 	}
 
+	/*	private InductionResponse prepareInductionResponse(InductPersonResponse inductPersonResponse, InductionResponse inductionResponse){
+		//InductionResponse inductionResponse = new InductionResponse();
+
+		if(inductionResponse.getResultCode().isEmpty() && inductPersonResponse.getInductionResult().get(0).getResultCode() != null)
+			inductionResponse.setResultCode(inductPersonResponse.getInductionResult().get(0).getResultCode());
+		if(inductPersonResponse.getInductionResult().get(0).getAssignedPI() != null)
+			inductionResponse.setHhsid(inductPersonResponse.getInductionResult().get(0).getAssignedPI());
+		if(inductionResponse.getResultCode().isEmpty() && inductPersonResponse.getInductionResult().get(0).getResultMessage() != null)
+			inductionResponse.setResultMessage(inductPersonResponse.getInductionResult().get(0).getResultMessage());
+		if(inductPersonResponse.getInductionResult().get(0).getFailureDetailMessage() != null)
+			inductionResponse.setFailureDetailMessage(inductPersonResponse.getInductionResult().get(0).getFailureDetailMessage());
+
+
+		return inductionResponse;
+	}*/
+
 	/**
 	 * This method converts the InductPersonRequest object into a string format.
 	 * @param inductPersonRequest
@@ -226,9 +287,9 @@ public class SOAPService {
 	 */
 	private String getInductionResponseAsString(InductionResponse inductionResponse){
 		return "Result Code: " + inductionResponse.getResultCode()
-				+ " | " + " Assigned PI (HHSID): " + inductionResponse.getHhsid()
-				+ " | " + " Result Message: " + inductionResponse.getResultMessage()
-				+ " | " + " Failure Detail: " + inductionResponse.getFailureDetailMessage();
+		+ " | " + " Assigned PI (HHSID): " + inductionResponse.getHhsid()
+		+ " | " + " Result Message: " + inductionResponse.getResultMessage()
+		+ " | " + " Failure Detail: " + inductionResponse.getFailureDetailMessage();
 	}
 
 }
