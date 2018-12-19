@@ -1,0 +1,51 @@
+<report xmlns="http://developer.cognos.com/schemas/report/14.2/"           useStyleVersion="11.4" expressionLocale="en-us">
+				
+				<drillBehavior/>
+				<layouts>
+					<layout>
+						<reportPages>
+							<page name="Page1">
+								<style>
+									<defaultStyles>
+										<defaultStyle refStyle="pg"/>
+									</defaultStyles>
+								</style>
+								<pageBody>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="pb"/>
+										</defaultStyles>
+									</style>
+									<contents><list horizontalPagination="true" name="List1" refQuery="Query1">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Vacancy Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Vacancy Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Vacancy Mission Critical Occupation"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Vacancy Mission Critical Occupation"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Vacancy Mission Critical Occupation Tag Level"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Vacancy Mission Critical Occupation Tag Level"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+								</pageBody>
+							</page>
+						</reportPages>
+					</layout>
+				</layouts>
+			<XMLAttributes><XMLAttribute output="no" name="RS_CreateExtendedDataItems" value="true"/><XMLAttribute output="no" name="RS_modelModificationTime" value="2018-11-22T01:09:29.415Z"/><XMLAttribute output="no" name="listSeparator" value=","/></XMLAttributes><queries><query name="Query1"><source><model/></source><selection><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Staffing Organization Code"><expression>[Applications].[Vacancy].[Vacancy Staffing Organization Code]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Mission Critical Occupation"><expression>[Applications].[Vacancy Mission Critical Occupations].[Vacancy Mission Critical Occupation]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Mission Critical Occupation Tag Level"><expression>[Applications].[Vacancy Mission Critical Occupations].[Vacancy Mission Critical Occupation Tag Level]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Number"><expression>[Applications].[Vacancy].[Vacancy Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="1"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem></selection><detailFilters><detailFilter><filterExpression>[Vacancy Staffing Organization Code] in (&apos;HE11&apos;, &apos;HE12&apos;, &apos;HE31&apos;, &apos;HE32&apos;, &apos;HE33&apos;, &apos;HE90&apos;, &apos;HE99&apos;)</filterExpression></detailFilter></detailFilters></query></queries><modelPath>/content/folder[@name=&apos;USA Staffing Packages and Folders&apos;]/package[@name=&apos;Staffing Reports&apos;]/model[@name=&apos;model&apos;]</modelPath><reportName>WHRSC Vacancy Mission Critical Occupations</reportName></report>

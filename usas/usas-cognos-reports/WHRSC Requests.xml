@@ -1,0 +1,56 @@
+<report xmlns="http://developer.cognos.com/schemas/report/14.2/"           useStyleVersion="11.4" expressionLocale="en-us">
+				
+				<drillBehavior/>
+				<layouts>
+					<layout>
+						<reportPages>
+							
+						<page name="Page1">
+			<pageBody>
+				<contents><list horizontalPagination="true" name="List1" refQuery="qry_PreRecruitment">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Request Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Request Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Request Security Clearance"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Request Security Clearance"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Request Type"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Request Type"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Request Customer Name"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Request Customer Name"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Requester Name"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Requester Name"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Request Supervisory Position"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Request Supervisory Position"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Request Travel Preference"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Request Travel Preference"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Request Description"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Request Description"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="pb"/>
+					</defaultStyles>
+				</style>
+			</pageBody>
+			<style>
+				<defaultStyles>
+					<defaultStyle refStyle="pg"/>
+				</defaultStyles>
+			</style>
+		</page></reportPages>
+					</layout>
+				</layouts>
+			<XMLAttributes><XMLAttribute name="RS_CreateExtendedDataItems" output="no" value="true"/><XMLAttribute output="no" name="listSeparator" value=","/><XMLAttribute output="no" name="RS_modelModificationTime" value="2018-11-22T01:09:29.415Z"/></XMLAttributes><modelPath>/content/folder[@name=&apos;USA Staffing Packages and Folders&apos;]/package[@name=&apos;Staffing Reports&apos;]/model[@name=&apos;model&apos;]</modelPath><reportName>WHRSC Requests</reportName><queries><query name="qry_PreRecruitment">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Staffing Organization Code"><expression>[Applications].[Vacancy].[Vacancy Staffing Organization Code]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Request Number"><expression>[Applications].[Request].[Request Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Request Security Clearance" label="Clearance Level Required for Position"><expression>[Applications].[Request].[Request Security Clearance]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Request Type"><expression>[Applications].[Request].[Request Type]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Request Customer Name"><expression>[Applications].[Request].[Request Customer Name]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Requester Name"><expression>[Applications].[Request].[Requester Name]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Request Supervisory Position"><expression>[Applications].[Request].[Request Supervisory Position]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Request Travel Preference"><expression>[Applications].[Request].[Request Travel Preference]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Request Description"><expression>[Applications].[Request].[Request Description]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[Vacancy Staffing Organization Code] in (&apos;HE11&apos;, &apos;HE12&apos;, &apos;HE31&apos;, &apos;HE32&apos;, &apos;HE33&apos;, &apos;HE90&apos;, &apos;HE99&apos;)</filterExpression></detailFilter></detailFilters></query></queries></report>

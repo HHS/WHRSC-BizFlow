@@ -1,0 +1,93 @@
+<report xmlns="http://developer.cognos.com/schemas/report/14.2/"           useStyleVersion="11.4" expressionLocale="en-us">
+				
+				<drillBehavior/>
+				<layouts>
+					<layout>
+						<reportPages>
+							<page name="Page1">
+								<style>
+									<defaultStyles>
+										<defaultStyle refStyle="pg"/>
+									</defaultStyles>
+								</style>
+								<pageBody>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="pb"/>
+										</defaultStyles>
+									</style>
+									<contents><list horizontalPagination="true" name="List1" refQuery="Final">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Vacancy Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Vacancy Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Total Vacancy Qual Reviews"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Total Vacancy Qual Reviews"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Quals Reviewer"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Quals Reviewer"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Reviewer Vacancy Quals Completed"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Reviewer Vacancy Quals Completed"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Date First Vacancy Note Completed"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Date First Vacancy Note Completed"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Reviewer Certificate Quals Completed"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Reviewer Certificate Quals Completed"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Date First Certificate Qual Completed"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Date First Certificate Qual Completed"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+								</pageBody>
+							</page>
+						</reportPages>
+					</layout>
+				</layouts>
+			<XMLAttributes><XMLAttribute name="RS_CreateExtendedDataItems" output="no" value="true"/><XMLAttribute output="no" name="listSeparator" value=","/><XMLAttribute output="no" name="RS_modelModificationTime" value="2018-11-22T01:09:29.415Z"/></XMLAttributes><queries><query name="CertificateNotes">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="Certificate Vacancy Number"><expression>[Certificates].[Certificate Vacancy].[Certificate Vacancy Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="1"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Number"><expression>[Certificates].[Certificate].[Certificate Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Note Created By"><expression>[Certificates].[Certificate Application Certificate Notes].[Certificate Application Certificate Note Created By]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Applications with Notes"><expression>count(distinct [Certificates].[Certificate Applications].[Certificate Application Number])</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Date First Certificate Note Created"><expression>minimum([Certificates].[Certificate Application Certificate Notes].[Certificate Application Certificate Note Date/Time])</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[Note Created By] is not null</filterExpression></detailFilter><detailFilter><filterExpression>[Certificates].[Certificate Vacancy].[Certificate Vacancy Staffing Organization Code] in (&apos;HE11&apos;, &apos;HE12&apos;, &apos;HE31&apos;, &apos;HE32&apos;, &apos;HE33&apos;, &apos;HE90&apos;, &apos;HE99&apos;, &apos;HE34&apos;, &apos;HE38&apos;)</filterExpression></detailFilter><detailFilter><filterExpression>[Certificates].[Certificate Application Certificate Notes].[Certificate Application Certificate Note Created By User Type] like &apos;%Human%&apos;</filterExpression></detailFilter></detailFilters></query><query name="VacancyNotes">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Number"><expression>[Applications].[Vacancy].[Vacancy Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="1"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Note Created By"><expression>[Applications].[Application Notes].[Application Note Created By]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Applications with Notes"><expression>count(distinct [Applications].[Application].[Application Number])</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Date First Vacancy Note Created"><expression>minimum([Applications].[Application Notes].[Application Note Date/Time])</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[Note Created By] is not null</filterExpression></detailFilter><detailFilter><filterExpression>[Applications].[Vacancy].[Vacancy Staffing Organization Code] in (&apos;HE11&apos;, &apos;HE12&apos;, &apos;HE31&apos;, &apos;HE32&apos;, &apos;HE33&apos;, &apos;HE90&apos;, &apos;HE99&apos;, &apos;HE34&apos;, &apos;HE38&apos;)</filterExpression></detailFilter><detailFilter><filterExpression>[Applications].[Application Notes].[Application Note Created By User Type] like &apos;%Human%&apos;</filterExpression></detailFilter></detailFilters></query><query name="Intermediate">
+			<source>
+				
+			<joinOperation>
+			<joinOperands>
+				<joinOperand cardinality="0:N"><queryRef refQuery="CertificateNotes"/></joinOperand>
+				<joinOperand cardinality="1:1"><queryRef refQuery="VacancyNotes"/></joinOperand>
+			</joinOperands>
+			<joinFilter>
+				<filterExpression>[CertificateNotes].[Certificate Vacancy Number] = [VacancyNotes].[Vacancy Number] and
+[CertificateNotes].[Note Created By] = [VacancyNotes].[Note Created By]</filterExpression>
+			</joinFilter>
+		</joinOperation></source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Number"><expression>[VacancyNotes].[Vacancy Number]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Quals Reviewer"><expression>[VacancyNotes].[Note Created By]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Quals Reviewed"><expression>[VacancyNotes].[Vacancy Applications with Notes]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Date First Vacancy Note Created"><expression>[VacancyNotes].[Date First Vacancy Note Created]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Number"><expression>[CertificateNotes].[Certificate Number]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Quals Reviewed"><expression>[CertificateNotes].[Certificate Applications with Notes]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Date First Certificate Note Created"><expression>[CertificateNotes].[Date First Certificate Note Created]</expression></dataItem></selection>
+		</query><query name="TotalVacancyNotes">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Number"><expression>[Applications].[Vacancy].[Vacancy Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="1"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Total Vacancy Applications with Notes"><expression>count(distinct concat([Applications].[Application].[Application Number],[Applications].[Application Notes].[Application Note Created By]))</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[Applications].[Vacancy].[Vacancy Staffing Organization Code] in (&apos;HE11&apos;, &apos;HE12&apos;, &apos;HE31&apos;, &apos;HE32&apos;, &apos;HE33&apos;, &apos;HE90&apos;, &apos;HE99&apos;, &apos;HE34&apos;, &apos;HE38&apos;)</filterExpression></detailFilter><detailFilter><filterExpression>[Applications].[Application Notes].[Application Note Created By User Type] like &apos;%Human%&apos;</filterExpression></detailFilter></detailFilters></query><query name="Final">
+			<source>
+				
+			<joinOperation>
+			<joinOperands>
+				<joinOperand cardinality="0:1"><queryRef refQuery="Intermediate"/></joinOperand>
+				<joinOperand cardinality="0:1"><queryRef refQuery="TotalVacancyNotes"/></joinOperand>
+			</joinOperands>
+			<joinFilter>
+				<filterExpression>[Intermediate].[Vacancy Number] = [TotalVacancyNotes].[Vacancy Number]</filterExpression>
+			</joinFilter>
+		</joinOperation></source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Number"><expression>[TotalVacancyNotes].[Vacancy Number]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Total Vacancy Qual Reviews"><expression>[TotalVacancyNotes].[Total Vacancy Applications with Notes]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Quals Reviewer"><expression>[Intermediate].[Quals Reviewer]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Reviewer Vacancy Quals Completed"><expression>[Intermediate].[Vacancy Quals Reviewed]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Date First Vacancy Note Completed"><expression>[Intermediate].[Date First Vacancy Note Created]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Number"><expression>[Intermediate].[Certificate Number]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Reviewer Certificate Quals Completed"><expression>[Intermediate].[Certificate Quals Reviewed]</expression></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Date First Certificate Qual Completed"><expression>[Intermediate].[Date First Certificate Note Created]</expression></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[Total Vacancy Qual Reviews]&gt;0</filterExpression></detailFilter></detailFilters></query></queries><modelPath>/content/folder[@name=&apos;USA Staffing Packages and Folders&apos;]/package[@name=&apos;Staffing Reports&apos;]/model[@name=&apos;model&apos;]</modelPath><reportName>WHRSC Quals Completed</reportName></report>
