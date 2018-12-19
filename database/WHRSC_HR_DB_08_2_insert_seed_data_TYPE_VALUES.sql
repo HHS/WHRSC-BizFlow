@@ -1646,6 +1646,7 @@ Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('Other Recruitment Considerations','SSB Recruitment',null,';ALL;',null,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('Other Recruitment Considerations','Other',null,';ALL;',null,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('Other Recruitment Considerations','N/A',null,';ALL;',null,null);
+Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('Other Recruitment Considerations','Direct Hire',null,';ALL;',10,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('Rater','DEU',null,';ALL;',null,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('Issue Category','HHS Careers (USAS) - Diversity Notification',';HHS Careers (USAS);',';hide;',1001,null);
 Insert into HHS_WHRSC_HR.TYPE_values (TYPE_NAME,TYPE_VALUE,CONDITION_1,CONDITION_2,DISP_ORDER,TYPE_CODE) values('Request Method','HRSS Audit',null,';HRSA;',999,null);
