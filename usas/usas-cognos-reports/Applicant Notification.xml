@@ -1,0 +1,139 @@
+<report xmlns="http://developer.cognos.com/schemas/report/14.2/"           useStyleVersion="11.4" expressionLocale="en-us">
+				
+				<drillBehavior/>
+				<layouts>
+					<layout>
+						<reportPages>
+							<page name="rptg_ApplicantNotification">
+								<style>
+									<defaultStyles>
+										<defaultStyle refStyle="pg"/>
+									</defaultStyles>
+								</style>
+								<pageBody>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="pb"/>
+										</defaultStyles>
+									</style>
+									<contents><list horizontalPagination="true" name="lst_ApplicantNotification" refQuery="qry_ApplicantNotification">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Application Status"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Application Status"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Applicant Last Name"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Applicant Last Name"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Applicant First Name"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Applicant First Name"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Application Record Status Description"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Application Record Status Description"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Application Received Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Application Received Date"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Notice of Results Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Notice of Results Date"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Notice of Referral Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Notice of Referral Date"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Notice of Disposition Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Notice of Disposition Date"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns><sortList><sortItem refDataItem="Application Status"/><sortItem refDataItem="Applicant Last Name"/><sortItem refDataItem="Applicant First Name"/></sortList></list></contents>
+								</pageBody>
+							</page>
+						</reportPages>
+					<promptPages><page name="prmpg_ApplicantNotification">
+			<pageHeader>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue/>
+								</dataSource>
+								<style>
+									<defaultStyles>
+										<defaultStyle refStyle="tt"/>
+									</defaultStyles>
+								</style>
+							</textItem>
+						</contents>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="ta"/>
+							</defaultStyles>
+						</style>
+					</block>
+				</contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="hp"/>
+					</defaultStyles>
+				</style>
+			</pageHeader>
+			<pageBody>
+				<contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Please enter a vacancy number (Required):</staticValue></dataSource></textItem></contents></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textBox parameter="parm_VacancyNumber"/></contents></tableCell></tableCells></tableRow></tableRows></table></contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="py"/>
+					</defaultStyles>
+				</style>
+			</pageBody>
+			<pageFooter>
+				<contents>
+					<promptButton type="cancel">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+					<promptButton type="back">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+					<promptButton type="next">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+					<promptButton type="finish">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+				</contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="fp"/>
+					</defaultStyles>
+				</style>
+			</pageFooter>
+			<style>
+				<defaultStyles>
+					<defaultStyle refStyle="pp"/>
+				</defaultStyles>
+			</style>
+		</page></promptPages></layout>
+				</layouts>
+			<XMLAttributes><XMLAttribute output="no" name="RS_CreateExtendedDataItems" value="true"/><XMLAttribute output="no" name="RS_modelModificationTime" value="2018-11-22T01:09:29.415Z"/><XMLAttribute output="no" name="listSeparator" value=","/></XMLAttributes><modelPath>/content/folder[@name=&apos;USA Staffing Packages and Folders&apos;]/package[@name=&apos;Staffing Reports&apos;]/model[@name=&apos;model&apos;]</modelPath><reportName>Applicant Notification</reportName><queries><query name="qry_ApplicantNotification">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="Application Notification Template Type"><expression>[Applications].[Application Notifications].[Application Notification Template Type]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Application Notification Date/Time Sent"><expression>[Applications].[Application Notifications].[Application Notification Date/Time Sent]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Application Record Status Description"><expression>[Applications].[Application].[Application Record Status Description]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Application Status"><expression>[Applications].[Application].[Application Status]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Applicant First Name"><expression>[Applications].[Applicant].[Applicant First Name]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Applicant Last Name"><expression>[Applications].[Applicant].[Applicant Last Name]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem name="Application Received Date"><expression>minimum(case when [Application Notification Template Type]=&apos;Application Received&apos; then [Application Notification Date/Time Sent] end)</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem name="Notice of Results Date"><expression>minimum(case when [Application Notification Template Type]=&apos;Notice of Results&apos; then [Application Notification Date/Time Sent] end)</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem name="Notice of Referral Date"><expression>minimum(case when [Application Notification Template Type]=&apos;Notice of Referral&apos; then [Application Notification Date/Time Sent] end)</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem name="Notice of Disposition Date"><expression>minimum(case when [Application Notification Template Type]=&apos;Disposition&apos; then [Application Notification Date/Time Sent] end)</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Number"><expression>[Applications].[Vacancy].[Vacancy Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="1"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[Applications].[Vacancy].[Vacancy Number] = ?parm_VacancyNumber?</filterExpression></detailFilter></detailFilters></query></queries></report>
