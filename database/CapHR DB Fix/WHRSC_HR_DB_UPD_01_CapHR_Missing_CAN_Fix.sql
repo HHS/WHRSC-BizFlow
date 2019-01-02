@@ -27,3 +27,13 @@
       
   COMMIT; 
 -------------------------------------------------  
+
+
+MERGE INTO hhs_whrsc_hr.main m
+USING ( select id, can_number
+          from hhs_whrsc_hr.chr_employee_info  ) c
+ON ( m.job_opening_id = c.id  
+and c.can_number is not null)
+WHEN MATCHED THEN 
+UPDATE SET  m.can_no = c.can_number;
+commit;

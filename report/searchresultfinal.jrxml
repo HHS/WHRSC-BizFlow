@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2018-11-16T16:38:50 -->
+<!-- 2018-12-19T16:40:49 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4_1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7e6f1708-8d95-4fc9-83df-47a4ed0f6950">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="ireport.jasperserver.url" value="http://whrsc.bizflow.com/bizflowadvreport/"/>
@@ -245,7 +245,7 @@ WHERE LSC.SEARCH_ID = $P{SEARCH_ID}]]>
 				<textElement textAlignment="Left" verticalAlignment="Top" markup="html">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{CLEARING_ACTION_CODE} + ((null==$F{COMMENTS})?"":"<br><b>Comments: </b>" + $F{COMMENTS})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[((null==$F{CLEARING_ACTION_CODE})?"":$F{CLEARING_ACTION_CODE}) + ((null==$F{COMMENTS})?"":"<br><b>Comments: </b>" + $F{COMMENTS})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="52" height="21" uuid="c812c47b-db9b-4e93-b520-e2162ce1f706"/>
