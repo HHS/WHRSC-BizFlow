@@ -19,7 +19,6 @@ import gov.hhs.induction.schemas.YesNoCodeType;
 @XmlType(name = "InductionRequest")
 public class InductionRequest {
 	
-	//@XmlElement(name = "PersonSponsored")
 	@Value("${request.personSponsored}")
     private String personSponsored;
     @XmlElement(name = "FirstName", required = true)
@@ -39,14 +38,9 @@ public class InductionRequest {
     private String foreignIDIssuingCountry;   
     @XmlElement(name = "DOB", required = true)
     @XmlSchemaType(name = "date")
-    //private XMLGregorianCalendar DateOfBirth;
     private String DateOfBirth;
-    //@XmlElement(name = "EmergencyResponder")
-    //@XmlSchemaType(name = "string")
     @Value("${request.emergencyResponder}")
     private String emergencyResponder;
-    //@XmlElement(name = "Organization")
-    //@XmlSchemaType(name = "string")
     @Value("${request.organization}")
     private String organization;
     @XmlElement(name = "OPDIV", required = true)
@@ -55,17 +49,11 @@ public class InductionRequest {
     @XmlElement(name = "AffiliationCode", required = true)
     @XmlSchemaType(name = "string")
     private String affiliationCode;
-    //@XmlElement(name = "CredentialCategory")
-    //@XmlSchemaType(name = "string")
     @Value("${request.credentialCategory}")
     private String credentialCategory;
     
 	public InductionRequest() {
 		init();
-		/*this.personSponsored = "${request.personSponsored}";
-		this.emergencyResponder = "${request.emergencyResponder}";
-		this.organization = "${request.organization}";
-		this.credentialCategory = "${request.credentialCategory}";*/
 		this.firstName = "";
 		this.lastName = "";
 		this.ssn = "";
@@ -185,7 +173,7 @@ public class InductionRequest {
 		this.opdiv = opdiv.name();
 	}
 	public AffiliationCodeType getAffiliationCode() {
-		return AffiliationCodeType.valueOf(affiliationCode);
+		return AffiliationCodeType.fromValue(affiliationCode);
 	}
 	public void setAffiliationCode(AffiliationCodeType affiliationCode) {
 		this.affiliationCode = affiliationCode.name();
