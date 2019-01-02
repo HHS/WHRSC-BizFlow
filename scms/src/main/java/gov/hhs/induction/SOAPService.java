@@ -2,7 +2,6 @@ package gov.hhs.induction;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.client.WebServiceIOException;
-import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.soap.client.SoapFaultClientException;
 
 import gov.hhs.induction.schemas.ForeignNationalIdInfoType;
@@ -35,7 +33,6 @@ public class SOAPService {
 	private static final AtomicInteger count = new AtomicInteger(0); 
 	private int transactionOfTheDay;
 
-	//For testing
 	@Value("${mode.secure}")
 	private boolean secureMode;
 
@@ -49,6 +46,21 @@ public class SOAPService {
 	private String systemID;
 	@Value("${induction.url}")
 	private String inductionURL;
+	@Value("${message.duplicate}")
+	private String duplicateMessage;
+	@Value("${message.success}")
+	private String successMessage;
+	@Value("${error.soapfault}")
+	private String soapFaultErrorMessage;
+	@Value("${error.webserviceIO}")
+	private String webServiceIOErrorMessage;
+	@Value("${error.illegalArgument}")
+	private String illegalArgumentErrorMessage;
+	@Value("${error.other}")
+	private String otherErrorMessage;
+	@Value("${code.error}")
+	private String errorCode;
+
 
 	/**
 	 * This method prepares Induct Person request using Induction request 
@@ -60,23 +72,23 @@ public class SOAPService {
 	 * @param inductionRequest
 	 * @return
 	 */
+	@SuppressWarnings("finally")
 	public InductionResponse getInductionResponse(InductionRequest inductionRequest){
 
 		InductionResponse inductionResponse = new InductionResponse();
 		InductPersonResponse inductPersonResponse = new InductPersonResponse();
+
 		try {
+			//prepare InductPerson request using WSDL generated classes and request parameters received
 			InductPersonRequest inductPersonRequest = createInductPersonRequest(inductionRequest);
-			LOG.info("INDUCTION SERVICE REQUEST :: " + getInductPersonRequestAsString(inductPersonRequest));
+			LOG.info("InductPerson Request [" + getInductPersonRequestAsString(inductPersonRequest) + "]");
 
-			//Call Induction Web Service to receive Induct Person Response as per WSDL
-			//inductPersonResponse = (InductPersonResponse) soapConnector.callWebService(inductionURL, inductPersonRequest);
-
-			if(secureMode)
-			inductPersonResponse = (InductPersonResponse) soapConnector.callWebService(inductPersonRequest);
+			if(secureMode)//web app connects to target web service using mutual authentication over HTTPS
+				inductPersonResponse = (InductPersonResponse) soapConnector.callWebService(inductPersonRequest);
 			else
 				inductPersonResponse = (InductPersonResponse) soapConnector.callWebServiceTest(inductPersonRequest);
-			
-			LOG.info("INDUCTION SERVICE RESPONSE :: " + getInductPersonResponseAsString(inductPersonResponse));
+
+			LOG.info("InductPerson Response [" + getInductPersonResponseAsString(inductPersonResponse)+"]");
 
 			if(inductPersonResponse.getInductionResult().get(0).getResultCode() != null)
 				inductionResponse.setResultCode(inductPersonResponse.getInductionResult().get(0).getResultCode());
@@ -87,8 +99,11 @@ public class SOAPService {
 			if(inductPersonResponse.getInductionResult().get(0).getFailureDetailMessage() != null)
 				inductionResponse.setFailureDetailMessage(inductPersonResponse.getInductionResult().get(0).getFailureDetailMessage());
 
-
-			//If response received has message for duplicate SSN, call ReadInductionData to retrieve original record
+			if(inductionResponse.getResultCode().contains("Success"))
+			{
+				inductionResponse.setResultMessage(successMessage.replace("FIRST_NAME", inductionRequest.getFirstName()).replace("LAST_NAME", inductionRequest.getLastName()));
+			}
+			//If response received has message for duplicate SSN, call ReadInductionData to retrieve original record info
 			if(inductionResponse.getResultCode().contains("Reject-Duplicate"))
 			{
 				ReadInductionDataRequest inductionDataRequest = new ReadInductionDataRequest();
@@ -100,42 +115,32 @@ public class SOAPService {
 
 				//set result message, original first name, original last name
 				if(inductionDataResponse.getInductionData().getPersonID().equalsIgnoreCase(inductionResponse.getHhsid())){
-					if(inductionDataResponse.getInductionData().getFirstName().equalsIgnoreCase(inductionRequest.getFirstName()) && (inductionDataResponse.getInductionData().getLastName().equalsIgnoreCase(inductionRequest.getLastName()))){
-						inductionResponse.setResultMessage(inductPersonResponse.getInductionResult().get(0).getResultMessage()+":: The record already exists for " +inductionDataResponse.getInductionData().getFirstName() + " " + inductionDataResponse.getInductionData().getLastName());
-						
-					}else
-					inductionResponse.setResultMessage(inductPersonResponse.getInductionResult().get(0).getResultMessage()+":: Original record exists for " +inductionDataResponse.getInductionData().getFirstName() + " " + inductionDataResponse.getInductionData().getLastName());
+//					if(inductionDataResponse.getInductionData().getFirstName().equalsIgnoreCase(inductionRequest.getFirstName()) && (inductionDataResponse.getInductionData().getLastName().equalsIgnoreCase(inductionRequest.getLastName()))){
+//						inductionResponse.setResultMessage(samePersonDuplicateMessage.replace("FIRST_NAME", inductionDataResponse.getInductionData().getFirstName()).replace("LAST_NAME", inductionDataResponse.getInductionData().getLastName()));
+//					}else
+						inductionResponse.setResultMessage(duplicateMessage.replace("FIRST_NAME", inductionDataResponse.getInductionData().getFirstName()).replace("LAST_NAME", inductionDataResponse.getInductionData().getLastName()));
 				}
-				
+
 			}
-			
-		} catch(DatatypeConfigurationException datatypeConfig){
-			LOG.error("NO INDUCTION SERVICE RESPONSE DUE TO " + datatypeConfig.getClass().getSimpleName());
-			LOG.error("Exception Stack Trace :: ", datatypeConfig);
-			inductionResponse.setResultCode(datatypeConfig.getClass().getSimpleName());
-			inductionResponse.setFailureDetailMessage(datatypeConfig.getMessage());
-		} catch (SoapFaultClientException soapFault) {
-			LOG.error("NO INDUCTION SERVICE RESPONSE DUE TO " + soapFault.getClass().getSimpleName());
-			LOG.error(soapFault.getFaultStringOrReason() + " : " + soapFault.getCause(), soapFault);
-			inductionResponse.setResultCode(soapFault.getClass().getSimpleName());
-			inductionResponse.setFailureDetailMessage(soapFault.getMessage());
-		} catch(WebServiceIOException webIOException){
-			LOG.error("NO INDUCTION SERVICE RESPONSE DUE TO " + webIOException.getClass().getSimpleName());
-			LOG.error("Exception Stack Trace :: ", webIOException);
-			inductionResponse.setResultCode(webIOException.getClass().getSimpleName());
-			inductionResponse.setFailureDetailMessage(webIOException.getMessage());
-		} catch(IllegalArgumentException illegalArg){
-			LOG.error("NO INDUCTION SERVICE RESPONSE DUE TO " + illegalArg.getClass().getSimpleName());
-			LOG.error("Exception Stack Trace :: ",illegalArg);
-			inductionResponse.setResultCode(illegalArg.getClass().getSimpleName());
-			inductionResponse.setFailureDetailMessage("Invalid request parameters.");
-		} catch (Exception e) {
-			LOG.error("NO INDUCTION SERVICE RESPONSE DUE TO " + e.getClass().getSimpleName());
+
+		} catch(SoapFaultClientException e){
 			LOG.error("Exception Stack Trace :: ", e);
-			inductionResponse.setResultCode(e.getClass().getSimpleName());
-			inductionResponse.setFailureDetailMessage(e.getMessage());
+			inductionResponse.setResultCode(errorCode);
+			inductionResponse.setFailureDetailMessage(soapFaultErrorMessage);
+		} catch(WebServiceIOException e){
+			LOG.error("Exception Stack Trace :: ", e);
+			inductionResponse.setResultCode(errorCode);
+			inductionResponse.setFailureDetailMessage(webServiceIOErrorMessage);
+		} catch(IllegalArgumentException e){
+			LOG.error("Exception Stack Trace :: ", e);
+			inductionResponse.setResultCode(errorCode);
+			inductionResponse.setFailureDetailMessage(illegalArgumentErrorMessage+" "+e.getMessage());
+		} catch (Exception e) {
+			LOG.error("Exception Stack Trace :: ", e);
+			inductionResponse.setResultCode(errorCode);
+			inductionResponse.setFailureDetailMessage(otherErrorMessage);
 		}finally{
-			LOG.info("CLIENT RESPONSE :: " + getInductionResponseAsString(inductionResponse));
+			LOG.info("SCMS Induction response [" + getInductionResponseAsString(inductionResponse) +"]");
 			return inductionResponse;
 		}
 	}
@@ -180,12 +185,11 @@ public class SOAPService {
 	 * This method creates a transaction ID using random number
 	 * for transaction header element.
 	 * This method is modified to create a transaction ID based 
-	 * on current date and the transaction number of the day.
+	 * on the current date and the transaction number of the day.
 	 * @return
 	 */
 	private String generateTransactionID(){
 
-		//String newTransactionID = transactionIDAppender+UUID.randomUUID().toString();	
 		Date currentDate = new Date();
 		String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(currentDate);
 		transactionOfTheDay = count.incrementAndGet(); 
@@ -238,21 +242,6 @@ public class SOAPService {
 		return newInductPersonApplicantData;
 	}
 
-	/*	private InductionResponse prepareInductionResponse(InductPersonResponse inductPersonResponse, InductionResponse inductionResponse){
-		//InductionResponse inductionResponse = new InductionResponse();
-
-		if(inductionResponse.getResultCode().isEmpty() && inductPersonResponse.getInductionResult().get(0).getResultCode() != null)
-			inductionResponse.setResultCode(inductPersonResponse.getInductionResult().get(0).getResultCode());
-		if(inductPersonResponse.getInductionResult().get(0).getAssignedPI() != null)
-			inductionResponse.setHhsid(inductPersonResponse.getInductionResult().get(0).getAssignedPI());
-		if(inductionResponse.getResultCode().isEmpty() && inductPersonResponse.getInductionResult().get(0).getResultMessage() != null)
-			inductionResponse.setResultMessage(inductPersonResponse.getInductionResult().get(0).getResultMessage());
-		if(inductPersonResponse.getInductionResult().get(0).getFailureDetailMessage() != null)
-			inductionResponse.setFailureDetailMessage(inductPersonResponse.getInductionResult().get(0).getFailureDetailMessage());
-
-
-		return inductionResponse;
-	}*/
 
 	/**
 	 * This method converts the InductPersonRequest object into a string format.

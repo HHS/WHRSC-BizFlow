@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import gov.hhs.induction.InductionResponse;
 
 /**
  * @author prabhjyot.virdi
@@ -25,10 +24,11 @@ public class SOAPController
 
 	@Autowired
 	SOAPService soapService;	
+	
 
 	/**
-	 * This method gets the induction request for a new applicant 
-	 * and sends the response received from Induction web service. 
+	 * This method receives the request to induct a new applicant 
+	 * and returns the response received from Induction web service. 
 	 * 
 	 * @param inductionRequest - Object with all required parameters for Induction service
 	 * @return response object with result code, etc.
@@ -37,21 +37,26 @@ public class SOAPController
 	@ResponseBody
 	public InductionResponse getResponse(@RequestBody InductionRequest inductionRequest)
 	{
-		LOG.info("CLIENT REQUEST RECEIVED TO INDUCT NEW PERSON.");
 		InductionResponse inductionResponse = new InductionResponse();
 		if(inductionRequest.getFirstName().isEmpty() || inductionRequest.getLastName().isEmpty()){
-			LOG.info("CLIENT REQUEST RECEIVED :: Invalid FirstName and/or LastName.");
+			LOG.info("SCMS Induction request has invalid FirstName and/or LastName.");
 			inductionResponse.setResultCode("Failed");
 			inductionResponse.setFailureDetailMessage("Invalid FirstName and/or LastName.");
-			LOG.info("CLIENT RESPONSE SENT :: Invalid FirstName and/or LastName.");
 			return inductionResponse;
 		}else{
-			LOG.info("CLIENT REQUEST RECEIVED :: " + inductionRequest.getFirstName() + " " + inductionRequest.getLastName());
+			LOG.info("SCMS Induction request received for [" + inductionRequest.getFirstName() + " " + inductionRequest.getLastName() +"]");
 			inductionResponse = soapService.getInductionResponse(inductionRequest);
-			LOG.info("CLIENT RESPONSE SENT :: " + inductionRequest.getFirstName() + " " + inductionRequest.getLastName());
+			LOG.info("SCMS Induction response sent for [" + inductionRequest.getFirstName() + " " + inductionRequest.getLastName()+"]");
 			return inductionResponse;
 		}
 	}	
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+	@ResponseBody
+	public String testStartup(){
+		LOG.info("RESOURCE REQUEST RECEIVED /test");
+		return "SCMS Induction Client Deployment Test Successful";
+	}
 
 }
 
