@@ -1391,7 +1391,8 @@ BEGIN
 					, TOTAL_ELIGIBLE_APPLICANTS						
 					, TOTAL_REFERRED_APPLICANTS						
 					, TOTAL_SELECTED_APPLICANTS
-					, ANNOUNCEMENT_CONTROL_NUMBER)						
+					, ANNOUNCEMENT_CONTROL_NUMBER
+					, ANNOUNCEMENT_APP_COUNT)						
 		SELECT					
 				X.POSITION_TITLE			
 				, X.VACANCY_IDENTIFICATION_NUMBER							
@@ -1408,7 +1409,8 @@ BEGIN
 				, X.TOTAL_ELIGIBLE_APPLICANTS							
 				, X.TOTAL_REFERRED_APPLICANTS							
 				, X.TOTAL_SELECTED_APPLICANTS
-				, X.ANNOUNCEMENT_CONTROL_NUMBER				
+				, X.ANNOUNCEMENT_CONTROL_NUMBER
+				, X.ANNOUNCEMENT_APP_COUNT
 							
 		FROM INTG_DATA_DTL IDX					
 			, XMLTABLE(XMLNAMESPACES(DEFAULT 'http://www.ibm.com/xmlns/prod/cognos/dataSet/201006'), '/dataSet/dataTable/row[../id/text() = "List1"]'				
@@ -1430,6 +1432,7 @@ BEGIN
 					,TOTAL_REFERRED_APPLICANTS		NUMBER(10)		Path 'Vacancy__Total__Referred__Applicants'					
 					,TOTAL_SELECTED_APPLICANTS		NUMBER(10)		Path 'Vacancy__Total__Selected__Applicants'					
 					,ANNOUNCEMENT_CONTROL_NUMBER	NUMBER(10)		Path 'Announcement__Control__Number'
+					,ANNOUNCEMENT_APP_COUNT         NUMBER(10)      Path 'Announcement__Application__Count'
 					) X							
 		WHERE IDX.ID = I_ID;					
 							
