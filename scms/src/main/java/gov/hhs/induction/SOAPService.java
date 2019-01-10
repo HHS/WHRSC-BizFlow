@@ -15,15 +15,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.ws.client.WebServiceIOException;
 import org.springframework.ws.soap.client.SoapFaultClientException;
 
-import gov.hhs.induction.schemas.ForeignNationalIdInfoType;
-import gov.hhs.induction.schemas.HHSInductPersonRequiredDataType;
-import gov.hhs.induction.schemas.IdentificationInformationType;
-import gov.hhs.induction.schemas.InductPersonApplicantDataType;
-import gov.hhs.induction.schemas.InductPersonRequest;
-import gov.hhs.induction.schemas.InductPersonResponse;
-import gov.hhs.induction.schemas.ReadInductionDataRequest;
-import gov.hhs.induction.schemas.ReadInductionDataResponse;
-import gov.hhs.induction.schemas.TransactionHeaderType;
+import gov.hhs.induction.schema.ForeignNationalIdInfoType;
+import gov.hhs.induction.schema.HHSInductPersonRequiredDataType;
+import gov.hhs.induction.schema.IdentificationInformationType;
+import gov.hhs.induction.schema.InductPersonApplicantDataType;
+import gov.hhs.induction.schema.InductPersonRequest;
+import gov.hhs.induction.schema.InductPersonResponse;
+import gov.hhs.induction.schema.ReadInductionDataRequest;
+import gov.hhs.induction.schema.ReadInductionDataResponse;
+import gov.hhs.induction.schema.TransactionHeaderType;
 
 
 @Service

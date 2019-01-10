@@ -1,0 +1,1283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:iws="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="PacsStdInterface" version="1.2.2009-11-23">
+
+	<xs:include schemaLocation="HHSCommonTypes.xsd"></xs:include>
+	<xs:annotation>
+		<xs:appinfo>
+			<bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd" bpd:docNsPrefix="iws"/>
+			<bpd:schemaDocInclude bpd:file="CommonEnumerations.xsd" bpd:docNsPrefix="iws"/>
+		</xs:appinfo>
+	</xs:annotation>
+
+
+	<!-- PacsPersonInfoDataType Defined -->
+	<xs:complexType name="PacsPersonInfoDataType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This Type defines the data items associated with a
+        		Person on the PACS system.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+        	<xs:element name="Prefix" type="iws:NamePrefixType" nillable="true" minOccurs="0" >
+        		<xs:annotation>
+        			<xs:documentation>
+        				The person's name prefix
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="FirstName" minOccurs="0" maxOccurs="1" type="iws:FirstNameType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		The person's first name
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="MiddleName" maxOccurs="1" minOccurs="0" type="iws:MiddleNameType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		The person's middle initial
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="LastName" minOccurs="0" maxOccurs="1" type="iws:LastNameType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		The person's last name
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="GenerationQualifier"
+        		type="iws:NameGenerationQualifierType" nillable="true" minOccurs="0" >
+        		<xs:annotation>
+        			<xs:documentation>
+        				The person's generational qualifier
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="NameSuffix" minOccurs="0" type="iws:NameSuffixType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		The person's name suffix such as "Esq."
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="DOB" type="xs:date" nillable="true" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The person's date of birth
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="CityOfBirth" minOccurs="0" type="iws:CityOfBirthType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		The person's city of birth
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="StateOfBirth" type="iws:StateCodeType" nillable="true"
+        		minOccurs="0" >
+        		<xs:annotation>
+        			<xs:documentation>
+        				The person's state of birth
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="CountryOfBirth" type="iws:CountryCodeType" nillable="true"
+        		minOccurs="0" >
+        		<xs:annotation>
+        			<xs:documentation>
+        				The person's country of birth (should be
+        				NCIC-2000?)
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="CountryOfCitizenship"
+        		type="iws:CountryCodeType" nillable="true" minOccurs="0" >
+        		<xs:annotation>
+        			<xs:documentation>
+        				The person's country of citizenship (should be
+        				NCIC 2000?)
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="VisaNumber" type="iws:VisaNumberType" nillable="true"
+        		minOccurs="0">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The person's Visa number
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="ARN" type="iws:AlienRegistrationNumberType" nillable="true"
+        		minOccurs="0">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The person's Alien Registration Number
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="ForeignID" type="iws:ForeignNationalIdInfoType" nillable="true"
+        		minOccurs="0">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The person's Foreign National ID information
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="PositionTitle" minOccurs="0" type="iws:PositionTitleType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		The person's Position Title
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+			<xs:element name="PositionSensitivity" minOccurs="0"
+        		type="iws:PositionSensitivityType" nillable="true" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				PositionSensitivity
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="EmergencyResponder"
+        		type="iws:YesNoCodeType" nillable="true" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				Indicates if person is a federal emergency
+        				responder
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="CredentialCategory"
+        		type="iws:CredentialCategoryType" nillable="true" minOccurs="0" >
+        		<xs:annotation>
+        			<xs:documentation>
+        				Credential category - Used to determine color bar (Zone 15) on PIV
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="Organization" minOccurs="0" maxOccurs="1" 
+        		type="iws:OrganizationCodeType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		The organization sponsoring the person
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="OPDIV" type="iws:OpdivCodeType" nillable="true"
+        		minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The OPDIV sponsoring the person
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="AffiliationCode"
+        		type="iws:AffiliationCodeType" nillable="true" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				Affiliation code
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="EmployerName"
+        		type="iws:EmployerNameType" nillable="true" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The actual employer of the person, can be the government or the
+        				name of the private employer that actually pays the person. 
+        			</xs:documentation>
+        		</xs:annotation></xs:element>
+        	<xs:element name="WorkLocationCode" type="iws:WorkLocationCodeType" minOccurs="0" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>A code describing the primary work location for the person</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="WorkPhone" minOccurs="0" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>Work Phone</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+        			<xs:restriction base="xs:string">
+        				<xs:maxLength value="30"></xs:maxLength>
+        			</xs:restriction>
+        		</xs:simpleType>
+        	</xs:element>
+        	<xs:element name="WorkPhoneExtension" minOccurs="0" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		Work phone extension
+                	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+        			<xs:restriction base="xs:string">
+        				<xs:maxLength value="8"></xs:maxLength>
+        			</xs:restriction>
+        		</xs:simpleType>
+        	</xs:element>
+        	<xs:element name="CostCenter" minOccurs="0" maxOccurs="1" type="iws:CostCenterType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>Cost Center</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="SubAgency" minOccurs="0" maxOccurs="1" type="iws:SubAgencyType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>Sub-agency</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="PrimaryEmailAddress" minOccurs="0" maxOccurs="1" 
+        		type="iws:EmailAddressType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		Primary Email Address
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="AlternateEmailAddress" minOccurs="0" type="iws:EmailAddressType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		Alternate email address
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="UPN" minOccurs="0" maxOccurs="1" type="iws:UPNType" nillable="true">
+                <xs:annotation>
+                	<xs:documentation>
+                		Active Directory UPN
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        </xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- PacsPersonIdentifiersType Element Defined -->
+	<xs:complexType name="PacsPersonIdentifiersType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This element contains data items which may be used to
+        		uniquely identify a person on the PACS and in the IDMS.  
+        		At least one of the sub elements must be specified when 
+        		attempting to get or set a persons data on the PACS. 
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+        	<xs:element name="HHSID" type="iws:PersonIdType" nillable="true" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                	<xs:documentation>
+                		The persons HHS-ID.
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="EmployeeID" type="iws:OpdivEmployeeIDType" nillable="true" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The person's Employee ID as assigned by their
+        				OPDIV (this is not a person's HHSID)
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<xs:simpleType name="PacsCardIdStringType">
+		<xs:annotation>
+			<xs:documentation>
+				This is the PACS unique identifier for a particular card.  The card
+				unique identifier can be used to target actions to a particular card
+				if the particular card can not be specified by the fields of a FASC-N.  
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="64"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	<!-- PacsCardIdentifiersType Element Defined -->
+	<xs:complexType name="PacsCardIdentifiersType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This element contains data items which may be used to
+        		uniquely identify a card belonging to a person on the PACS.  
+        		At least one of the sub elements must be specified when 
+        		attempting to get or set information relating to a persons card. 
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+        	<xs:element name="FASCN" type="iws:FASCNDataFieldsType" nillable="true" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                	<xs:documentation>
+                		The FASC-N of the persons card.
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="PacsCardIdentifier" type="PacsCardIdStringType" nillable="true" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The PACS card identifier of the persons card.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<xs:simpleType name="PacsCardTypeCodeType">
+		<xs:annotation><xs:documentation>
+        		This enumeration defines PACS card type codes. 
+        	</xs:documentation></xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PIV">
+		        <xs:annotation><xs:documentation>
+						HSPD-12 PIV card
+		        	</xs:documentation></xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Other">
+		        <xs:annotation><xs:documentation>
+						Generic access card
+		        	</xs:documentation></xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	<xs:simpleType name="PacsCardStateCodeType">
+		<xs:annotation><xs:documentation>
+        		This enumeration defines PACS card state codes. 
+        	</xs:documentation></xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Active">
+		        <xs:annotation><xs:documentation>
+						The card is active and usable.
+		        	</xs:documentation></xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Expired">
+		        <xs:annotation><xs:documentation>
+						The card is expired.
+		        	</xs:documentation></xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Suspended">
+		        <xs:annotation><xs:documentation>
+						The card is suspended.
+		        	</xs:documentation></xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Revoked">
+		        <xs:annotation><xs:documentation>
+						The card is revoked.
+		        	</xs:documentation></xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	<xs:complexType name="PacsFacialImageInfoType">
+        <xs:annotation><xs:documentation>
+        		This element contains data items related to facial image data
+        		which may be stored on the PACS. 
+        	</xs:documentation></xs:annotation>
+        <xs:sequence>
+				<xs:element name="CreationDate" type="xs:dateTime"  minOccurs="0" >
+					<xs:annotation><xs:documentation>
+							If present, this element  will be populated
+							with a date / time stamp indicating when the
+							facial image was captured.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="ValidityStart" type="xs:dateTime"  minOccurs="0" >
+					<xs:annotation><xs:documentation>
+							If present, this element  will be populated
+							with the earliest date / time that the
+							facial image is considered valid.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="ValidityEnd" type="xs:dateTime"  minOccurs="0" >
+					<xs:annotation><xs:documentation>
+							If present, this element  will be populated
+							with the latest date / time that the
+							facial image is considered valid.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="ImageType" minOccurs="0">
+                   <xs:annotation><xs:documentation>
+                   			The Image encoding type
+                       </xs:documentation></xs:annotation>
+                   <xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="385-2004">
+							<xs:annotation><xs:documentation>
+									SF385 2004.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="JPEG">
+							<xs:annotation><xs:documentation>
+									Standard JPEG encoding.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="JPEG2000">
+							<xs:annotation><xs:documentation>
+									JPEG2000 encoding.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ImageData" type="xs:base64Binary" minOccurs="0" nillable="true">
+		        <xs:annotation><xs:documentation>
+		        		This element should be populated with the base64
+		        		encoded facial image data.
+		        	</xs:documentation></xs:annotation>
+			</xs:element>
+			<xs:element name="ThumbNailType" minOccurs="0">
+                   <xs:annotation><xs:documentation>
+                   			The thumb nail image encoding type
+                       </xs:documentation></xs:annotation>
+                   <xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="JPEG">
+							<xs:annotation><xs:documentation>
+									Standard JPEG encoding.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="JPEG2000">
+							<xs:annotation><xs:documentation>
+									JPEG2000 encoding.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ThumbNailData" type="xs:base64Binary" minOccurs="0" nillable="true">
+		        <xs:annotation><xs:documentation>
+		        		This element should be populated with the base64
+		        		encoded facial image thumb nail
+		        	</xs:documentation></xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="PacsFingerPrintInfoType">
+        <xs:annotation><xs:documentation>
+        		This element contains data items related to finger print data
+        		which may be stored on the PACS. 
+        	</xs:documentation></xs:annotation>
+        <xs:sequence>
+				<xs:element name="CreationDate" type="xs:dateTime"  minOccurs="0" >
+					<xs:annotation><xs:documentation>
+							If present, this element  will be populated
+							with a date / time stamp indicating when the
+							print was captured.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="ValidityStart" type="xs:dateTime"  minOccurs="0" >
+					<xs:annotation><xs:documentation>
+							If present, this element  will be populated
+							with the earliest date / time that the
+							print is considered valid.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="ValidityEnd" type="xs:dateTime"  minOccurs="0" >
+					<xs:annotation><xs:documentation>
+							If present, this element  will be populated
+							with the latest date / time that the
+							print is considered valid.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="PrintDataFormat" minOccurs="0" nillable="true">
+                   <xs:annotation><xs:documentation>
+                   			The print data type
+                       </xs:documentation></xs:annotation>
+                   <xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="378-2004">
+							<xs:annotation><xs:documentation>
+									ANSI 378 2004.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PrintData" type="xs:base64Binary" minOccurs="0" nillable="true">
+		        <xs:annotation><xs:documentation>
+		        		This element should be populated with the base64
+		        		encoded finger print data
+		        	</xs:documentation></xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- PacsCardInformationType Element Defined -->
+	<xs:complexType name="PacsCardInformationType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This element contains data items related to a PACS persons card.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+        	<xs:element name="CardId" type="PacsCardIdentifiersType" nillable="true" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                	<xs:documentation>
+                		The FASC-N or unique PACS card ID of the persons card.
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="CardType" type="PacsCardTypeCodeType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                	<xs:documentation>
+                		The PACS card type.
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="CardState" type="PacsCardStateCodeType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                	<xs:documentation>
+                		The PACS card state.
+                	</xs:documentation>
+                </xs:annotation>
+        	</xs:element>
+        	<xs:element name="ExpirationDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The card expiration date and time.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="IssueDate" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The card issuance date and time.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="FacialImage" type="PacsFacialImageInfoType" nillable="true" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The card facial image.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="FingerPrints" type="PacsFingerPrintInfoType" nillable="true" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The card finger print data.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="CardLost" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false">
+        		<xs:annotation>
+        			<xs:documentation>
+        				This optional element indicates if the card is lost.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="CardStolen" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false">
+        		<xs:annotation>
+        			<xs:documentation>
+        				This optional element indicates if the card is stolen.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="PacsPendingOperationResultType">
+        <xs:annotation><xs:documentation>
+        		This element describes the final result of a PACS pending operation 
+        		that has completed. 
+        	</xs:documentation></xs:annotation>
+        <xs:sequence>
+			<xs:choice minOccurs="1">
+				<xs:annotation><xs:documentation>
+						One of these elements will be specified to indicate what action
+						result is being communicated by this PacsPendingOperationResultType.
+					</xs:documentation></xs:annotation>
+				<xs:element name="UpdatePersonInfo" type="xs:string">
+					<xs:annotation><xs:documentation>
+							If this element is present, then an UpdatePersonInfo operation has completed.
+							The contents of this element may provide an implementation dependent 
+							description of how the PACS persons information was updated..
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="AddCard" type="PacsCardIdentifiersType">
+					<xs:annotation><xs:documentation>
+							If this element is present, then an AddCard operation has completed.
+							The contents of this element indicate which card was targeted
+							by the operation.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="UpdateCard" type="PacsCardIdentifiersType">
+					<xs:annotation><xs:documentation>
+							If this element is present, then an UpdateCard operation has completed.
+							The contents of this element indicate which card was targeted
+							by the operation.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="SuspendCard" type="PacsCardIdentifiersType">
+					<xs:annotation><xs:documentation>
+							If this element is present, then an SuspendCard operation has completed.
+							The contents of this element indicate which card was targeted
+							by the operation.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="ReactivateCard" type="PacsCardIdentifiersType">
+					<xs:annotation><xs:documentation>
+							If this element is present, then an ReactivateCard operation has completed.
+							The contents of this element indicate which card was targeted
+							by the operation.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="RevokeCard" type="PacsCardIdentifiersType">
+					<xs:annotation><xs:documentation>
+							If this element is present, then an RevokeCard operation has completed.
+							The contents of this element indicate which card was targeted
+							by the operation.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="ResultCode" minOccurs="1">
+				<xs:annotation><xs:documentation>
+						A short code describing the results of the
+						now completed pending operation.
+					</xs:documentation></xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Success">
+							<xs:annotation><xs:documentation>
+									The operation was successfully completed.
+								</xs:documentation></xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="NotFound">
+							<xs:annotation><xs:documentation>
+									The update or query operation failed because the 
+                                    requested PACS Person Record could not be found.
+								</xs:documentation></xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="Reject-InvalidData">
+							<xs:annotation><xs:documentation>
+									The request failed because one or more
+									specified data items contained invalid data.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="Reject-InvalidDataForPACS">
+							<xs:annotation><xs:documentation>
+									Even though the request was valid as far as the PACS Gateway
+									is concerned, the request failed because one or more
+									specified data items contained invalid data for the target
+									PACS system.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="Reject-Duplicate">
+							<xs:annotation><xs:documentation>
+									The Add operation failed because an existing PACS person
+									record which matches at least one of the specified 
+									PersonIds fields was found.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="Reject-NotSettable">
+							<xs:annotation><xs:documentation>
+									The add or update operation failed because the request specified 
+                                    a new or updated value for a particular piece of data that the PACS 
+									deems read-only.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="Reject-MissingData">
+							<xs:annotation><xs:documentation>
+									The request failed because one or more required data fields
+									are missing from the request.  Note that different PACS systems
+									may have different sets of required fields.
+								</xs:documentation> </xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="Failed">
+							<xs:annotation><xs:documentation>
+									The operation did not complete successfully.
+								</xs:documentation></xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+				<xs:annotation><xs:documentation>
+						If the ResultCode is "Failed", this field may contain some extra 
+						information which may be helpful in diagnosing the reason for the
+						failure. Note that the information in this field is not intended 
+						to be useful to the average user but is intended to help advanced 
+						users or help desk personal debug the problem.
+					</xs:documentation></xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+
+	<!-- GetPacsPersonDataRequest Element Defined -->
+	<xs:element name="GetPacsPersonDataRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		PACS Gateway in order to retrieve a persons demographic and other 
+        		information from the PACS Gateway.
+        		Note that the returned data is provided form the local PACS Gateway
+        		database anf not from any particular PACS which may be connected
+        		to the PACS Gateway.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="iws:TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+	        	<xs:element name="SearchPersonIds" type="PacsPersonIdentifiersType"
+	        		minOccurs="1" >
+	        		<xs:annotation>
+	        			<xs:documentation>
+	        				This element must be loaded with at least one
+	        				person identifier field that uniquely identifies
+	        				the person whose information is to be
+	        				retrieved.  If more than one person identifier field 
+	        				is specified, the PACS may (but is not required to) 
+	        				validate that each person identifier value selects the
+	        				same person record in the PACS.
+	        			</xs:documentation>
+	        		</xs:annotation>
+	        	</xs:element>
+	        	<xs:element name="WantPersonInfo" type="xs:boolean" default="false" 
+	        		minOccurs="0">
+	        		<xs:annotation>
+	        			<xs:documentation>
+	        				Include this element with a inner text of true if you
+	        				want PacsPersonInfoDataType data returned if the
+	        				PACS person record is found.
+	        			</xs:documentation>
+	        		</xs:annotation>
+	        	</xs:element>
+	        	<xs:element name="WantCardInfo" type="xs:boolean" default="false" 
+	        		minOccurs="0">
+	        		<xs:annotation>
+	        			<xs:documentation>
+	        				Include this element with a inner text of true if you
+	        				want the persons card information returned if the
+	        				PACS person record is found.
+	        			</xs:documentation>
+	        		</xs:annotation>
+	        	</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- GetPacsPersonDataResponse Element Defined -->
+	<xs:element name="GetPacsPersonDataResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "ReadPacsPersonDataRequest", the PACS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the
+							Read Induction Data request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation>
+									<xs:documentation>
+										The operation was successfully
+										processed.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="NotFound">
+								<xs:annotation>
+									<xs:documentation>
+										A person with the given
+										SearchPI was not found.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation>
+									<xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PersonInfo"
+					type="PacsPersonInfoDataType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the "ResultCode" indicates success, this
+							element will be present and it will be
+							populated with the person's demographic and
+							other data as stored on the IDMS.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="LastUpdateTimestamp"
+					type="xs:dateTime" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the "ResultCode" indicates success, this
+							element will be present and it will be
+							populated with a time stamp indicating when
+							the induction data for the given SearchPI
+							was last modified.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CardInformation"
+					type="PacsCardInformationType"  minOccurs="0" maxOccurs="unbounded" >
+					<xs:annotation>
+						<xs:documentation>
+							If the "ResultCode" indicates success, 
+							the caller requested card information and at least one card 
+							exists for the person, one or more of these 
+							elements will be present.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- SetPacsPersonDataRequest Element Defined -->
+	<xs:element name="SetPacsPersonDataRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		PACS Gateway in order to add or update a persons data on the PACS Gateway
+        		and any appropriate PACS system(s) connected to the PACS Gateway. 
+        		NOTE: This command returns Success as soon as the local PACS Gateway
+        		database is updated.  The actual PACS update process takes place
+        		after this command returns.  If you want to be notified after
+        		the PACS update process is complete, include the WantPacsUpdateNotification
+        		element and set its inner text to true.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader" type="iws:TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="Operation" minOccurs="1">
+                    <xs:annotation><xs:documentation>
+                    		A short code describing what sort of SET operation 
+                    		should be performed.
+                    	</xs:documentation></xs:annotation>
+                    <xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Add">
+								<xs:annotation><xs:documentation>
+										The information provided in the SetPacsPersonDataRequest
+										will be used to CREATE a NEW person record on the PACS.  If
+										a person exists on the PACS which matches one of the
+										given PersonIds fields, a Reject-Duplicate error will
+										be returned.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Update">
+								<xs:annotation><xs:documentation>
+										The information provided in the SetPacsPersonDataRequest
+										will be used to UPDATE an EXISTING person record in the 
+										PACS.  If a PACS person record matching at least one of the 
+										given PersonIds fields can not be found, a NotFound error 
+										will be returned.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="AddOrUpdate">
+								<xs:annotation><xs:documentation>
+										The information provided in the SetPacsPersonDataRequest
+										will be used to create a new person record or update 
+										an existing person record on the PACS.
+										If a PACS person record matching at least one of the 
+										given PersonIds fields CAN be found, an UPDATE will
+										be performed.
+										If a PACS person record matching at least one of the 
+										given PersonIds fields CAN NOT be found, an ADD will
+										be performed.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+	        	<xs:element name="PersonIds" type="PacsPersonIdentifiersType" minOccurs="1" >
+	        		<xs:annotation>
+	        			<xs:documentation xmlns="http://www.w3.org/1999/xhtml">
+	        				This element must be loaded with at least one
+	        				person identifier field that uniquely identifies
+	        				the person whose information is to be
+	        				added or updated.  The semantics of this element 
+	        				can vary depending on which Operation was specified.
+	        				<br/>
+	        				If an Add Operation was specified, the fields of this element will
+	        				be used to set the corresponding fields in the newly created
+	        				PACS person record.
+	        				<br/>
+	        				If an Update Operation was specified, the fields of this element will
+	        				be used to locate the PACS person record to be updated.
+	        				If more than one field is specified, the PACS may (but is not required to) 
+	        				validate that each person identifier value selects the
+	        				same person record in the PACS.
+	        				<br/>
+	        				If an AddOrUpdate Operation was specified, the fields of this element will
+	        				first be used to locate an existing PACS person record.  If an existing
+	        				PACS person record is found, the Update semantics apply.  If an existing
+	        				PACS person record is NOT found, the Add semantics apply.
+	        			</xs:documentation>
+	        		</xs:annotation>
+	        	</xs:element>
+	        	<xs:element name="UpdatePersonIds" type="PacsPersonIdentifiersType" minOccurs="0">
+	        		<xs:annotation><xs:documentation>
+	        				This element can be used to update PacsPersonIdentifiersType
+	        				field values for a PACS person record that is being updated.
+	        				Note that this element is only allowed for Update Operations and
+	        				if it is present in an Add or AddOrUpdate operation, a
+	        				Reject-InvalidData error will be returned.    
+	        			</xs:documentation></xs:annotation>
+	        	</xs:element>
+				<xs:element name="PersonInfo" type="PacsPersonInfoDataType"  minOccurs="0" maxOccurs="1">
+					<xs:annotation><xs:documentation>
+							This element should be populated with the data
+							elements to be updated or added for the PACS person record.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:choice minOccurs="0" maxOccurs="1">
+					<xs:annotation><xs:documentation>
+							The request may include one of these elements to
+							manipulate one or more card(s) associated with a person.
+						</xs:documentation></xs:annotation>
+					<xs:element name="AddCard" type="PacsCardInformationType">
+						<xs:annotation><xs:documentation>
+								To add a new card to the PACS person associated with this request, 
+								populate one of these elements with information about the 
+								new card to add.
+							</xs:documentation></xs:annotation>
+					</xs:element>
+					<xs:element name="UpdateCard" type="PacsCardInformationType">
+						<xs:annotation><xs:documentation>
+								To update an existing card associated with the PACS person associated 
+								with this request, populate one of these elements with the updated 
+								information for the card.
+							</xs:documentation></xs:annotation>
+					</xs:element>
+					<xs:element name="SuspendCard" type="PacsCardIdentifiersType">
+						<xs:annotation><xs:documentation>
+								Populate one of these elements to suspend an existing card associated 
+								with the PACS person associated with this request.
+							</xs:documentation></xs:annotation>
+					</xs:element>
+					<xs:element name="ReactivateCard" type="PacsCardIdentifiersType">
+						<xs:annotation><xs:documentation>
+								Populate one of these elements to re-activate an existing suspended 
+								card associated with the PACS person associated with this request.
+							</xs:documentation></xs:annotation>
+					</xs:element>
+					<xs:element name="RevokeCard" type="PacsCardIdentifiersType">
+						<xs:annotation><xs:documentation>
+								Populate one of these elements to revoke an existing card 
+								associated with the PACS person associated with this request.
+							</xs:documentation></xs:annotation>
+					</xs:element>
+					<xs:element name="SuspendAllCards" type="xs:string">
+						<xs:annotation><xs:documentation>
+								Populate one of these elements to suspend all cards associated 
+								with the PACS person associated with this request.
+								The contents of this element optionally describe the reason
+								for this action.  This is a free form string that may be logged
+								but has no special format or meaning.
+							</xs:documentation></xs:annotation>
+					</xs:element>
+					<xs:element name="ReactivateAllCards" type="xs:string">
+						<xs:annotation><xs:documentation>
+								Populate one of these elements to reactivate all cards associated 
+								with the PACS person associated with this request.
+								The contents of this element optionally describe the reason
+								for this action.  This is a free form string that may be logged
+								but has no special format or meaning.
+							</xs:documentation></xs:annotation>
+					</xs:element>
+					<xs:element name="TerminateAllCards" type="xs:string">
+						<xs:annotation><xs:documentation>
+								Populate one of these elements to terminate all cards associated 
+								with the PACS person associated with this request.
+								The contents of this element optionally describe the reason
+								for this action.  This is a free form string that may be logged
+								but has no special format or meaning.
+							</xs:documentation></xs:annotation>
+					</xs:element>
+				</xs:choice>
+	        	<xs:element name="WantPersonInfo" type="xs:boolean" default="false" 
+	        		minOccurs="0">
+	        		<xs:annotation>
+	        			<xs:documentation>
+	        				Include this element with a inner text of true if you
+	        				want PacsPersonInfoDataType data returned if the
+	        				add or update operation completes successfully.
+	        			</xs:documentation>
+	        		</xs:annotation>
+	        	</xs:element>
+	        	<xs:element name="WantCardInfo" type="xs:boolean" default="false" 
+	        		minOccurs="0">
+	        		<xs:annotation>
+	        			<xs:documentation>
+	        				Include this element with a inner text of true if you
+	        				want the persons card information returned if the
+	        				add or update operation completes successfully.
+	        			</xs:documentation>
+	        		</xs:annotation>
+	        	</xs:element>
+	        	<xs:element name="WantPacsUpdateNotification" type="xs:boolean" default="false" 
+	        		minOccurs="0">
+	        		<xs:annotation>
+	        			<xs:documentation>
+	        				Include this element with a inner text of true if you
+	        				want to be notified when the add or update operation 
+	        				specified in this command has been propagated to the PACS.
+	        				The notification will indicate if the PACS was successfully 
+	        				updated and when the PACS update completed.
+	        				Note that if this command does not return a ResultCode of
+	        				success, no notification will be generated. 
+	        			</xs:documentation>
+	        		</xs:annotation>
+	        	</xs:element>
+	        	<xs:element name="SuppressPacsUpdate" type="xs:boolean" default="false" 
+	        		minOccurs="0">
+	        		<xs:annotation>
+	        			<xs:documentation>
+	        				Include this element with a inner text of true if you
+	        				want to update the local PACS Gateway database without 
+	        				causing the update to be pushed to any relevant PACS systems.
+	        				This can be helpful when loading an initial set of person
+	        				data into the PACS Gateway.   
+	        			</xs:documentation>
+	        		</xs:annotation>
+	        	</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- SetPacsPersonDataResponse Element Defined -->
+	<xs:element name="SetPacsPersonDataResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "SetPacsPersonDataRequest", the PACS will
+        		send this element to the requester so that the results
+        		of the update can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation><xs:documentation>
+                    		A short code describing the results of the
+                    		Update Induction Data request.
+                    	</xs:documentation></xs:annotation>
+                    <xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The operation was successfully processed by the PACS.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="NotFound">
+								<xs:annotation><xs:documentation>
+										A person with the given UpdatePI was not found.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Reject-InvalidData">
+								<xs:annotation><xs:documentation>
+										The request failed because one or more
+										specified data items contained invalid data.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Reject-InvalidDataForPACS">
+								<xs:annotation><xs:documentation>
+										Even though the request was valid as far as the PACS Gateway
+										is concerned, the request failed because one or more
+										specified data items contained invalid data for the target
+										PACS system.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Reject-Duplicate">
+								<xs:annotation><xs:documentation>
+										The Add operation failed because an existing PACS person
+										record which matches at least one of the specified 
+										PersonIds fields was found.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Reject-NotSettable">
+								<xs:annotation><xs:documentation>
+										The operation failed because the request specified a new
+										or updated value for a particular piece of data that the PACS 
+										deems read-only.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Reject-MissingData">
+								<xs:annotation><xs:documentation>
+										The request failed because one or more required data fields
+										are missing from the request.  Note that different PACS systems
+										may have different sets of required fields.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="RequestedValuesAlreadySet" type="xs:boolean" minOccurs="0">
+					<xs:annotation><xs:documentation>
+							If the ResultCode is "Success", and this field
+							is present and contains a value of true, the data
+							values included in the SetPacsPersonDataRequest
+							were already set in the PACS Gateway for the specified person.
+							In other words the request did not change any values.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="ResultMessage" minOccurs="0">
+					<xs:annotation><xs:documentation>
+							A short message which explains or elaborates
+							on the ResultCode
+						</xs:documentation></xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="256"></xs:maxLength>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation><xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							rejection. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- PacsPendingOperationCompleteNotifyRequest Element Defined -->
+	<xs:element name="PacsPendingOperationCompleteNotifyRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element will be sent to the
+        		IDMS from the PACS Gateway when a PACS update caused by
+        		SetPacsPersonData command has been completed on the PACS. 
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader" type="iws:TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+	        	<xs:element name="PersonIds" type="PacsPersonIdentifiersType" minOccurs="1" >
+	        		<xs:annotation><xs:documentation>
+	        				This element must be loaded with at least one
+	        				person identifier field that uniquely identifies
+	        				the person associated with this notification.
+	        			</xs:documentation></xs:annotation>
+	        	</xs:element>
+	        	<xs:element name="OperationResult" type="PacsPendingOperationResultType"  minOccurs="1" 
+	        		maxOccurs="unbounded">
+	        		<xs:annotation><xs:documentation>
+	        				One or more of these elements will be present to convey the results
+	        				of the pending operation(s) that have completed.
+	        			</xs:documentation></xs:annotation>
+	        	</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<!-- PacsPendingOperationCompleteNotifyResponse Element Defined -->
+	<xs:element name="PacsPendingOperationCompleteNotifyResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "PacsPendingOperationCompleteNotifyRequest", the IDMS
+        		will send this element to the requester so the requester can verify that
+        		the notification was successfully processed.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation><xs:documentation>
+                    		A short code describing the results of the notification request.
+                    	</xs:documentation></xs:annotation>
+                    <xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The operation was successfully processed by the IDMS.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation><xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							rejection. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+</xs:schema>

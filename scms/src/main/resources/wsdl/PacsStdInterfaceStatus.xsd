@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:iws="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="PacsStdInterface" version="1.1.2009-05-12">
+
+	<xs:element name="PacsGetNodeStatusRequest">
+	        <xs:annotation>
+	        	<xs:documentation>
+	        		Request status information from the PACS Gateway Node. 
+	        	</xs:documentation>
+	        </xs:annotation>
+	        <xs:complexType>
+				<xs:sequence>
+					<xs:element name="Command" type="xs:string"  minOccurs="1" maxOccurs="1">
+						<xs:annotation><xs:documentation> 
+							The status command to be executed.
+							</xs:documentation></xs:annotation>
+					</xs:element>
+		        	<xs:element name="Arg" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+		        		<xs:annotation><xs:documentation>
+		        				An argument for the Command.
+		        			</xs:documentation></xs:annotation>
+		        	</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+		
+		<xs:element name="PacsGetNodeStatusResponse">
+	        <xs:annotation>
+	        	<xs:documentation>
+	        		This document will be sent in response to a PacsGetNodeStatusRequest. 
+	        	</xs:documentation>
+	        </xs:annotation>
+	        <xs:complexType>
+				<xs:sequence>
+					<xs:element name="Result" type="xs:string"  minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation><xs:documentation> 
+							The status command to be executed.
+							</xs:documentation></xs:annotation>
+					</xs:element>
+					<xs:element name="ResultXml" minOccurs="0" maxOccurs="unbounded">
+	                    <xs:complexType>
+	                        <xs:sequence>
+	                            <xs:any namespace="##any" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+	                        </xs:sequence>
+	                    </xs:complexType>
+	                </xs:element>
+					
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+</xs:schema>

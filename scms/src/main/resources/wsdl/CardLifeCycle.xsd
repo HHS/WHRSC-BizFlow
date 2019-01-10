@@ -1,0 +1,1173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:tns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="CardLifeCycle" version="1.0.2007-10-01">
+
+	<xs:include schemaLocation="HHSCommonTypes.xsd"></xs:include>
+	<xs:annotation>
+		<xs:appinfo>
+			<bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd"/>
+		</xs:appinfo>
+	</xs:annotation>
+	
+	<!-- CardTrackingUpdateRequest Element Defined -->
+	<xs:element name="CardTrackingUpdateRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to allow
+        		the BearingPoint IDMS to track card delivery progress.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="CardBarCodeData" minOccurs="1"
+					maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							This element contains the data retrieved by
+							scanning the bar code on a PIV card whose
+							progress is being tracked. There must be one
+							or more of these elements present in the
+							CardTrackingUpdateRequest.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="256"></xs:maxLength>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PackageTrackingID" maxOccurs="1"
+					minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Package tracking number or other package
+							tracking identifier of the package the
+							card(s) were received in.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="128"></xs:maxLength>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CardReceivedLocation" type="xs:string"
+					maxOccurs="1" minOccurs="1">
+                    <xs:annotation>
+                    	<xs:documentation>
+                    		The location of the facility where the card
+                    		was received.
+                    	</xs:documentation>
+                    </xs:annotation>
+				</xs:element>
+				<xs:element name="CardHandlerPI" type="PersonIdType" maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The PI of the person who is handling the
+							receipt and processing of the cards
+							referenced in this
+							CardTrackingLogisticsRequest.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- CardTrackingUpdateResponse Element Defined -->
+	<xs:element name="CardTrackingUpdateResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "CardTrackingUpdateRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the
+							card tracking update request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The card tracking information was successfully processed by the IDMS.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="CardHandlerPiNotFound">
+								<xs:annotation><xs:documentation>
+										The card holder PI specified in the request was not found
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- GetCardTrackingHistoryRequest Element Defined -->
+	<xs:element name="GetCardTrackingHistoryRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS to retrieve the
+        		Card Tracking History for a given set of search parameters.
+        		Note that the results will be filtered to those events which
+        		meet ALL the specified criteria.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="CardBarCodeData" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							If present, this element limits the card tracking
+							history results to a particular card identified by
+							scanning its bar code.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="256"></xs:maxLength>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PackageTrackingID" maxOccurs="1"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If present, this element limits the card tracking
+							history results to the card(s) shipped in the 
+							package with the given Package tracking number 
+							or other package tracking identifier.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="128"></xs:maxLength>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CardReceivedLocation" type="xs:string"
+					maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                    	<xs:documentation>
+	                    	If present, this element limits the card tracking
+							history results to the card(s) received at the
+							given facility.
+                    	</xs:documentation>
+                    </xs:annotation>
+				</xs:element>
+				<xs:element name="CardHandlerPI" type="PersonIdType" maxOccurs="1" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If present, this element limits the card tracking
+							history results to the card(s) handled by the
+							person with the given PI.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="StartDate" type="xs:date" maxOccurs="1" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If present, this element limits the card tracking
+							history results to events which occurred on or after
+							the given start date.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="EndDate" type="xs:date" maxOccurs="1" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If present, this element limits the card tracking
+							history results to events which occurred on or before
+							the given end date.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+	
+	
+	
+	<!-- CardTrackingHistoryEventType Element Defined -->
+	<xs:complexType name="CardTrackingHistoryEventType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This type defines what information is associated with a 
+        		Card Tracking History Event.
+        	</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="CardBarCodeData" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						This element contains the data retrieved by
+						scanning the bar code on a PIV card.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PackageTrackingID" maxOccurs="1"
+				minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Package tracking number or other package
+						tracking identifier of the package the
+						card(s) were received in.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="128"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CardReceivedLocation" type="xs:string"
+				maxOccurs="1" minOccurs="1">
+                   <xs:annotation>
+                   	<xs:documentation>
+                   		The location of the facility where the card
+                   		was received.
+                   	</xs:documentation>
+                   </xs:annotation>
+			</xs:element>
+			<xs:element name="CardHandlerPI" type="PersonIdType" maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The PI of the person who handled the
+						receipt and processing of the card.
+					</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- GetCardTrackingHistoryResponse Element Defined -->
+	<xs:element name="GetCardTrackingHistoryResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "GetCardTrackingHistoryRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the
+							request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The query completed without errors (this doesn't guarantee that
+										there will be any HistoryEvent's returned)..
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="HistoryEvent" type="CardTrackingHistoryEventType" 
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							For each matching Card Tracking History Event, one of these
+							History Event elements will be returned.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	
+	<!-- CardRenewalRequiredRequest Element Defined -->
+	<xs:element name="CardRenewalRequiredRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to notify
+        		the IDMS that a card renewal is required for a person.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="CardHolderPI" type="PersonIdType"
+					maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The PI of the person whose card needs to be
+							renewed.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CardExpirationDate" type="xs:date" maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The date on which the card will expire.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="CardPersonalizationLocationType"
+					type="CardPersonalizationLocationTypeCodeType" maxOccurs="1"
+					minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Define whether the reissued card should be
+							personalized locally or at a remote printing
+							facility.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="NewBiometricCaptureRequired" type="xs:boolean" maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							This element indicates if the person
+							receiving the card renewal needs their
+							biometric data captured again prior to
+							card renewal.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- CardRenewalRequiredResponse Element Defined -->
+	<xs:element name="CardRenewalRequiredResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "CardRenewalRequiredRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the
+							request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The operation was successfully processed by the IDMS.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="CardHolderPiNotFound">
+								<xs:annotation><xs:documentation>
+										The specified card holder is not in the system
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="BadExpirationDate">
+								<xs:annotation><xs:documentation>
+										The requested expiration date is in the past or
+										otherwise invalid.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="CardNotRenewable">
+								<xs:annotation><xs:documentation>
+										The card can not be renewed.  See the
+										FailureDetailMessage element for details.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:simpleType name="CardReissueReasonCodeType">
+		<xs:annotation>
+			<xs:documentation>
+				This type defines the enumeration of card reissuance
+				reasons
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CardLost"></xs:enumeration>
+			<xs:enumeration value="CardStolen"></xs:enumeration>
+			<xs:enumeration value="AppearanceChange"></xs:enumeration>
+			<xs:enumeration value="NameChange"></xs:enumeration>
+			<xs:enumeration value="Other"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CardPersonalizationLocationTypeCodeType">
+		<xs:annotation>
+			<xs:documentation>
+				This type defines the enumeration of card personalization
+				location types
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Local"></xs:enumeration>
+			<xs:enumeration value="Remote"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+
+	<!-- CardReissueRequiredRequest Element Defined -->
+	<xs:element name="CardReissueRequiredRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to notify
+        		the IDMS that a card reissuance is required for a person.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="CardHolderPI" type="PersonIdType"
+					maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The PI of the person whose card needs to be
+							reissued.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CardReissueReason"
+					type="CardReissueReasonCodeType" maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The reason code explaining why the card must
+							be reissued.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CardPersonalizationLocationType"
+					type="CardPersonalizationLocationTypeCodeType" maxOccurs="1"
+					minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Define whether the reissued card should be
+							personalized locally or at a remote printing
+							facility.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="NewBiometricCaptureRequired" type="xs:boolean" maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							This element indicates if the person
+							receiving the reissued card needs their
+							biometric data captured again prior to
+							card re-issuance.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- CardReissueRequiredResponse Element Defined -->
+	<xs:element name="CardReissueRequiredResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "CardReissueRequiredRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the
+							request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The operation was successfully processed by the IDMS.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="CardHolderPiNotFound">
+								<xs:annotation><xs:documentation>
+										The specified card holder is not in the system
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="CardNotReissuable">
+								<xs:annotation><xs:documentation>
+										The card can not be reissued.  See the
+										FailureDetailMessage element for details.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:simpleType name="PIVTerminationReasonCodeType">
+		<xs:annotation>
+			<xs:documentation>
+				This type defines the enumeration of PIV card termination /
+				suspension reasons
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EmploymentTerminated"></xs:enumeration>
+			<xs:enumeration value="CardLost"></xs:enumeration>
+			<xs:enumeration value="CardStolen"></xs:enumeration>
+			<xs:enumeration value="Other"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+
+	<!-- PIVTerminationRequest Element Defined -->
+	<xs:element name="PIVTerminationRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to notify
+        		the IDMS that a PIV card termination is required for a person.
+        		If the person has not yet been issued a PIV card, the card
+        		issuance process flow will be terminated.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="CardHolderPI" type="PersonIdType"
+					maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The PI of the person whose card needs to be
+							terminated.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PIVTerminationReason"
+					type="PIVTerminationReasonCodeType" maxOccurs="1"
+					minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The reason code explaining why the PIV card must
+							be terminated.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SuspendCardUntil" type="xs:date" maxOccurs="1" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If this element is specified, the PIV card will
+							not be terminated immediately. Rather, the
+							card will be suspended until the given date
+							and then terminated.  If the PIV card has not yet 
+							been issued, the card issuance process flow will 
+							be suspended.
+							
+							If the given date is in the past, the card will 
+							be terminated immediately or the card issuance process
+							flow will be terminated immediately.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- PIVTerminationResponse Element Defined -->
+	<xs:element name="PIVTerminationResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "PIVTerminationRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the
+							request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The operation was successfully processed by the IDMS.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="NotFound">
+								<xs:annotation><xs:documentation>
+										The CardHolderPI specified in the request could not be found
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="CardTerminated">
+								<xs:annotation><xs:documentation>
+										The PIV card for the specified CardHolderPI 
+										is already Terminated and thus can not be
+										suspended or terminated again.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="PIVReactivationReasonCodeType">
+		<xs:annotation>
+			<xs:documentation>
+				This type defines the enumeration of PIV card reactivation
+				reasons
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EmploymentReinstated"></xs:enumeration>
+			<xs:enumeration value="LostCardFound"></xs:enumeration>
+			<xs:enumeration value="StolenCardRetrieved"></xs:enumeration>
+			<xs:enumeration value="Other"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- PIVReactivationRequest Element Defined -->
+	<xs:element name="PIVReactivationRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to notify
+        		the IDMS that a persons PIV card that was previously suspended
+        		should be reactivated.
+        		If the person had not yet been issued a PIV card at the
+        		time of suspension, the card issuance process flow will 
+        		continue where it had been stopped when the suspension occurred.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="CardHolderPI" type="PersonIdType"
+					maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The PI of the person whose card needs to be
+							reactivated.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PIVReactivationReason"
+					type="PIVReactivationReasonCodeType" maxOccurs="1"
+					minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The reason code explaining why the PIV card is
+							being reactivated.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+	
+	<!-- PIVReactivationResponse Element Defined -->
+	<xs:element name="PIVReactivationResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "PIVReactivationRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the
+							request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The operation was successfully processed by the IDMS.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="NotFound">
+								<xs:annotation><xs:documentation>
+										The CardHolderPI specified in the request could not be found
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="NotSuspended">
+								<xs:annotation><xs:documentation>
+										The PIV card for the specified CardHolderPI 
+										is not suspended
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="CardTerminated">
+								<xs:annotation><xs:documentation>
+										The PIV card for the specified CardHolderPI 
+										is Terminated and thus cannot be reactivated
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- CreateBadgeRequest Element Defined -->
+	<xs:element name="CreateBadgeRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		IDMS in order to request PIV card issuance for a PIV
+        		applicant whose work flow does not include automatic card issuance.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="ApplicantPI" type="PersonIdType"
+					maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The PI of the person whose card needs to be
+							produced.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="UseLocalPrinting"
+					type="xs:boolean" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							If present and set to true, this element notifies the
+							IDMS that the card will be printed locally and thus 
+							should not be submitted for batch printing.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+	<!-- CreateBadgeResponse Element Defined -->
+	<xs:element name="CreateBadgeResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "CreateBadgeRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the
+							request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The operation was successfully processed by the IDMS.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="NotFound">
+								<xs:annotation><xs:documentation>
+										The ApplicantPI specified in the request could not be found
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="LocalPrintingNotAllowed">
+								<xs:annotation><xs:documentation>
+										Local printing was requested but is not allowed
+										for the specified ApplicantPI.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="MissingData">
+								<xs:annotation><xs:documentation>
+										A badge can not be created for the given
+										ApplicantPI because required data is not
+										available. 
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- GetIssuedCardInfoRequest Element Defined -->
+	<xs:element name="GetIssuedCardInfoRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		IDMS to request information about the current PIV card(s) 
+        		issued to a person.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+				<xs:element name="ApplicantPI" type="PersonIdType"
+					maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The PI of the person whose issued card information
+							is to be retrieved.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+	<!-- GetIssuedCardInfoResponse Element Defined -->
+	<xs:element name="GetIssuedCardInfoResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "GetIssuedCardInfoResquest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the
+							request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The operation was successfully processed by the IDMS.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="NotFound">
+								<xs:annotation><xs:documentation>
+										The ApplicantPI specified in the request could not be found
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="CHUID" type="CHUIDDataFieldsType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							Each CHUID element contains data fields which mirror the data fields 
+							in the CHUID of a PIV card.
+							If the person specified in the GetIssuedCardInfoRequest
+							has any active issued cards, one of these elements wil be 
+							returned for each active card.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+ 
+    <!-- ReissueExistentCardRequest Element Defined -->
+    <xs:element name="ReissueExistentCardRequest">
+        <xs:annotation>
+            <xs:documentation>
+                ::TODO::
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+                        type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation><xs:documentation> 
+                        The standard IDMS transaction header.
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+                <xs:element name="CardHolderPI" type="PersonIdType"
+                    maxOccurs="1" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The PI of the person whose card needs to be
+                            renewed.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- ReissueExistentCardResponse Element Defined -->
+    <xs:element name="ReissueExistentCardResponse">
+        <xs:annotation>
+            <xs:documentation>
+                ::TODO::
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A short code describing the results of the
+                            request.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation><xs:documentation>
+                                        The operation was successfully processed by the IDMS.
+                                    </xs:documentation> </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="CardHolderPiNotFound">
+                                <xs:annotation><xs:documentation>
+                                        The specified card holder is not in the system
+                                    </xs:documentation> </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="CardNotReissuable">
+                                <xs:annotation><xs:documentation>
+                                        The card can not be reissue.  See the
+                                        FailureDetailMessage element for details.
+                                    </xs:documentation> </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation><xs:documentation>
+                                        An unexpected error has occurred
+                                    </xs:documentation> </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            If the ResultCode is "Failed", this field
+                            may contain some extra information which may
+                            be helpful in diagnosing the reason for the
+                            failure. Note that the information in this
+                            field is not intended to be useful to the
+                            average user but is intended to help
+                            advanced users or help desk personal debug
+                            the problem.
+                        </xs:documentation>
+                    </xs:annotation></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

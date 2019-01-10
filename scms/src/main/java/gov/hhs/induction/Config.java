@@ -60,11 +60,14 @@ public class Config {
 
 	@Value("${ssl.cert.path}")
 	private String certPath;
+	
+	@Value("${jaxb.context.path}")
+	private String jaxbContextPath;
 
 	@Bean
 	public Jaxb2Marshaller marshaller() {
 		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-		marshaller.setContextPath("gov.hhs.induction.schemas");
+		marshaller.setContextPath(jaxbContextPath);
 		return marshaller;
 	}
 

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions name="SponsorshipDownloadService"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://ws.bearingpoint.com/idms/facility"
+  xmlns:bp="http://hspd12.hhs.gov/federated/enrollment/v1"
+  xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+  targetNamespace="http://ws.bearingpoint.com/idms/facility"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+  
+  <types>
+    <xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+		xmlns:tns="http://hspd12.hhs.gov/federated/enrollment/v1"
+		elementFormDefault="qualified" attributeFormDefault="unqualified"
+		xmlns:hhs="http://hspd12.hhs.gov/federated/enrollment/v1">
+
+		<xs:include schemaLocation="FacilityInterface.xsd"></xs:include>
+		<xs:annotation>
+			<xs:appinfo>
+				<bpd:schemaDocInclude bpd:file="FacilityInterface.xsd"/>
+				<bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd"/>
+			</xs:appinfo>
+		</xs:annotation>
+			
+    </xs:schema>
+  </types>
+  
+  <message name="CheckCardSoapIn">
+    <part name="request" element="bp:CheckCardRequest"/>
+  </message>
+  <message name="CheckCardSoapOut">
+    <part name="result" element="bp:CheckCardResponse"/>
+  </message>
+  <message name="SubscribeCardEventsSoapIn">
+    <part name="request" element="bp:SubscribeCardEventsRequest"/>
+  </message>
+  <message name="SubscribeCardEventsSoapOut">
+    <part name="result" element="bp:SubscribeCardEventsResponse"/>
+  </message>
+  <message name="UnSubscribeCardEventsSoapIn">
+    <part name="request" element="bp:UnSubscribeCardEventsRequest"/>
+  </message>
+  <message name="UnSubscribeCardEventsSoapOut">
+    <part name="result" element="bp:UnSubscribeCardEventsResponse"/>
+  </message>
+
+
+  <portType name="FacilityInterfaceEndpoint">
+    <operation name="CheckCard">
+      <input message="tns:CheckCardSoapIn"/>
+      <output message="tns:CheckCardSoapOut"/>
+    </operation>
+    <operation name="SubscribeCardEvents">
+      <input message="tns:SubscribeCardEventsSoapIn"/>
+      <output message="tns:SubscribeCardEventsSoapOut"/>
+    </operation>
+    <operation name="UnSubscribeCardEvents">
+      <input message="tns:UnSubscribeCardEventsSoapIn"/>
+      <output message="tns:UnSubscribeCardEventsSoapOut"/>
+    </operation>
+  </portType>
+
+
+  <binding name="FacilityInterfaceEndpointBinding" type="tns:FacilityInterfaceEndpoint">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="CheckCard">
+      <soap:operation soapAction="http://idms.bearingpoint.com/CheckCard" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="SubscribeCardEvents">
+      <soap:operation soapAction="http://idms.bearingpoint.com/SubscribeCardEvents" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="UnSubscribeCardEvents">
+      <soap:operation soapAction="http://idms.bearingpoint.com/UnSubscribeCardEvents" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+  </binding>
+  
+  <service name="FacilityInterfaceService">
+    <documentation>
+    	IDMS Facility Interface Web Services
+	</documentation>
+    <port name="FacilityInterfaceEndpointPort" binding="tns:FacilityInterfaceEndpointBinding">
+      <soap:address location="https://REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>

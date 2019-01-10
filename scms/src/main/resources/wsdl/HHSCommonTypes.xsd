@@ -1,0 +1,1176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:bp="http://hspd12.bearingpoint.com/webservice/doc"
+	targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="HHSCommonTypes" version="1.1.2008-07-10">
+    <xs:include schemaLocation="CommonEnumerations.xsd"></xs:include>
+    <!-- Person Identifier (PI) Defined -->
+    <xs:simpleType name="PersonIdType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{10}"></xs:pattern>
+            <xs:length value="10"></xs:length>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- HHS Employee ID Type Defined -->
+    <xs:simpleType name="OpdivEmployeeIDType">
+        <xs:annotation>
+            <xs:documentation>
+				Legacy OPDIV Employee ID.  This is NOT the HSPD12 PersonID
+				(or HHSID) but rather an OPDIV specific legacy employee ID that was
+				issued before the PIV PersonID was issued.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Social Security Number Type Defined -->
+    <xs:simpleType name="SocialSecurityNumberType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{9}"></xs:pattern>
+            <xs:length value="9"></xs:length>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Visa Number Type Defined -->
+    <xs:simpleType name="VisaNumberType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]+"></xs:pattern>
+            <xs:maxLength value="15"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Alien Registration Number Type Defined -->
+    <xs:simpleType name="AlienRegistrationNumberType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]+"></xs:pattern>
+            <xs:maxLength value="9"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- ForeignNationalIdInfoType Defined -->
+    <xs:complexType name="ForeignNationalIdInfoType">
+        <xs:annotation>
+            <xs:documentation>
+				This type defines information gathered about a
+           		persons foreign national ID.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="IdNumber" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                		The ID number assigned to the person by the foreign country
+                	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="20"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="IssuingCountry" type="CountryCodeType" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                		Country code of the country that issued the ID
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- ForeignPlaceOfBirthInfoType Defined -->
+    <xs:complexType name="ForeignPlaceOfBirthInfoType">
+        <xs:annotation>
+            <xs:documentation>
+				This type defines information gathered about the place
+           		of birth for a foreign national.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="CityOfBirth" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                		City where the person was born
+                	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="CountryOfBirth" type="CountryCodeType" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                		Country code of the country where the person was born
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- FacialImageBinaryDataType Defined -->
+    <xs:simpleType name="FacialImageBinaryDataType">
+        <xs:annotation>
+            <xs:documentation>
+        		This data item should be populated with the base64
+        		encoded JPEG2000 facial image
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:base64Binary">
+		</xs:restriction>
+    </xs:simpleType>
+    <!-- FacialImageDataType Defined -->
+    <xs:complexType name="FacialImageDataType">
+        <xs:sequence>
+            <xs:element name="ImageType" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                   		The Image encoding type
+                   	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="JPEG">
+                            <xs:annotation>
+                                <xs:documentation>
+									Standard JPEG encoding.
+								</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="JPEG2000">
+                            <xs:annotation>
+                                <xs:documentation>
+									JPEG2000 encoding.
+								</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="ImageBinaryData" type="FacialImageBinaryDataType" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+		        		This element should be populated with the base64
+		        		encoded JPEG2000 facial image
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- TransactionHeaderType Defined -->
+    <xs:complexType name="TransactionHeaderType">
+        <xs:sequence>
+            <xs:element name="TransactionID" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                		Unique identifier specific to a transaction
+                		request/response pair Supports tracking,
+                		auditing, and billing as necessary For request
+                		transaction, sender must generate a unique
+                		value. To avoid collision with Transaction IDs
+                		of other senders, generated value must include
+                		the sending system's unique identifier.
+                	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation>
+							Unique identifier specific to a transaction
+							request/response pair Supports tracking,
+							auditing, and billing as necessary. For
+							request transaction, sender must generate a
+							unique value. To avoid collision with
+							Transaction IDs of other senders, generated
+							value must include the sending system's
+							unique identifier.
+						</xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="256"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="TransactionOrgIdentifier" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                		Organizational Identifier (OI) of the
+                		organization sending the transaction. Should be
+                		populated with [NIST 800-87] organization codes
+                	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation>
+							Organizational Identifier (OI) of the
+							organization sending the transaction. Must
+							be a valid [NIST 800-87] organization code.
+						</xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="4"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="SystemID" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                		Unique identifier of the system sending the
+                		transaction.
+                	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation>
+							Unique identifier of the system sending the
+							transaction.
+						</xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="256"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="FirstNameType">
+        <xs:annotation>
+            <xs:documentation>
+				The type defines the data type and constraints for a
+				first name.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="64"></xs:maxLength>
+            <xs:pattern value="[A-Za-z\-&apos;&quot;]+(\s?[A-Za-z\-&apos;&quot;]+)*"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="LastNameType">
+        <xs:annotation>
+            <xs:documentation>
+				The type defines the data type and constraints for a
+				last name.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="64"></xs:maxLength>
+            <xs:pattern value="[A-Za-z\-&apos;&quot;]+(\s?[A-Za-z\-&apos;&quot;]+)*"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MiddleNameType">
+        <xs:annotation>
+            <xs:documentation>
+				The type defines the data type and constraints for a
+				middle name.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="64"></xs:maxLength>
+            <xs:pattern value="[A-Za-z\-&apos;&quot;]+(\s?[A-Za-z\-&apos;&quot;]+)*"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PositionSensitivityType">
+        <xs:annotation>
+            <xs:documentation>
+				Define base type and constraints for Position
+				Sensitivity
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:int">
+            <xs:maxInclusive value="6"></xs:maxInclusive>
+            <xs:minInclusive value="1"></xs:minInclusive>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NameSuffixType">
+        <xs:annotation>
+            <xs:documentation>
+				Base type and constraints for a name suffix
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="20"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SOIType">
+        <xs:annotation>
+            <xs:documentation>
+				Define base type and constraints for SOI data
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="4"></xs:length>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SONType">
+        <xs:annotation>
+            <xs:documentation>
+				Define base type and constraints for SON data
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="4"></xs:length>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="OrganizationCodeType">
+        <xs:annotation>
+            <xs:documentation>
+				Organization code type definition (example data "HHS").
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"></xs:maxLength>
+            <xs:enumeration value="HHS">
+                <xs:annotation>
+                    <xs:documentation>Department of Health and Human Services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EXT">
+                <xs:annotation>
+                    <xs:documentation>External (Non-HHS) Department (e.g., DOD, DHS, etc.)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- OPDIV Codes Defined -->
+    <xs:simpleType name="OpdivCodeType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"></xs:maxLength>
+            <xs:enumeration value="AHRQ">
+                <xs:annotation>
+                    <xs:documentation>Agency for Healthcare Research and Quality</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ACF">
+                <xs:annotation>
+                    <xs:documentation>Administration for Children and Families</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ACL">
+                <xs:annotation>
+                    <xs:documentation>Administration for Community Living</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="CDC">
+                <xs:annotation>
+                    <xs:documentation>Centers for Disease Control and Prevention</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="FDA">
+                <xs:annotation>
+                    <xs:documentation>Food and Drug Administration</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="CMS">
+                <xs:annotation>
+                    <xs:documentation>Centers for Medicare &amp; Medicaid Services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="HRSA">
+                <xs:annotation>
+                    <xs:documentation>Health Resources and Services Administration</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SAMHSA">
+                <xs:annotation>
+                    <xs:documentation>Substance Abuse &amp; Mental Health Services Administration</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="OS">
+                <xs:annotation>
+                    <xs:documentation>Office of the Secretary</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="OIG">
+                <xs:annotation>
+                    <xs:documentation>Office of the Inspector General</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NIH">
+                <xs:annotation>
+                    <xs:documentation>National Institutes of Health</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="IHS">
+                <xs:annotation>
+                    <xs:documentation>Indian Health Service</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PSC">
+                <xs:annotation>
+                    <xs:documentation>Program Support Center</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- OPDIV Subgroup Codes Defined -->
+    <xs:simpleType name="OpdivSubgroupCodeType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"></xs:maxLength>
+            <xs:enumeration value="NONE">
+                <xs:annotation>
+                    <xs:documentation>Not a member of a special agency subgroup</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="FDA-SPECIAL">
+                <xs:annotation>
+                    <xs:documentation>FDA Special subgroup</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CostCenterType">
+        <xs:annotation>
+            <xs:documentation>
+        		Base type and constraints for cost center fields.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CANType">
+        <xs:annotation>
+            <xs:documentation>
+        		Base type and constraints for CAN fields.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="9"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ObligatingDocumentNumberType">
+        <xs:annotation>
+            <xs:documentation>
+        		Base type and constraints for Obligating Document Number fields.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="20"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SubAgencyType">
+        <xs:annotation>
+            <xs:documentation>
+        		Base type and constraints for SubAgency fields.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="FundsCertificationType">
+        <xs:annotation>
+            <xs:documentation>
+        		Base type and constraints for Funds Certification fields.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="EmailAddressType">
+        <xs:annotation>
+            <xs:documentation>
+        		Base type and constraints for email address fields.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="UPNType">
+        <xs:annotation>
+            <xs:documentation>
+        		Base type and constraints for active directory UPN fields.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ApplicantDnType">
+        <xs:annotation>
+            <xs:documentation>
+        		Base type and constraints for DN assigned to an applicant.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CityOfBirthType">
+        <xs:annotation>
+            <xs:documentation>
+        		Type and constraint definition for CityOfBirth fields
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PositionTitleType">
+        <xs:annotation>
+            <xs:documentation>
+				Type and constraint definition for Position Title fields
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BadgeDeliveryLocationType">
+        <xs:annotation>
+            <xs:documentation>
+				Type and constraint information for Badge Delivery
+				Location fields.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="75"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BadgeIssueFacilityType">
+        <xs:annotation>
+            <xs:documentation>
+				Type and constraint information for Badge issue Facility
+				fields.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="75"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="OPACType">
+        <xs:annotation>
+            <xs:documentation>
+				Define base type and constraints for OPAC
+				(Online Payment and Collection Agency Locator Codes).
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="8"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="ApplicantAlternateUIDType">
+        <xs:annotation>
+            <xs:documentation>
+				This type provides fields for documenting alternate user
+				ID (UID) information for an applicant.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="UID" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						The alternate user ID (UID)
+					</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="255"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="SystemCode" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                		A code defining the external system the UID is
+                		associated with
+                	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="64"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="EnrollmentTypeCodeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PIV-AutoProduceCard">
+                <xs:annotation>
+                    <xs:documentation>
+						PIV enrollment with automatic card production
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PIV">
+                <xs:annotation>
+                    <xs:documentation>
+						PIV enrollment with no automatic card production.  The
+						PIV card will be produced only when requested.
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="BkinvestigateOnly">
+                <xs:annotation>
+                    <xs:documentation>
+						Non PIV enrollment, Background investigation only.
+						No card can be produced with this type of enrollment.
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NonPIV-AutoProduceCard">
+                <xs:annotation>
+                    <xs:documentation>
+						Non PIV enrollment with automatic card production
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NonPIV">
+                <xs:annotation>
+                    <xs:documentation>
+						Non PIV enrollment with no automatic card production.  The
+						card will be produced only when requested.
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CardTypeCodeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PIV">
+                <xs:annotation>
+                    <xs:documentation>
+						PIV card type
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NON_PIV">
+                <xs:annotation>
+                    <xs:documentation>
+						NON-PIV card type
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EXT_PIV">
+                <xs:annotation>
+                    <xs:documentation>
+						External PIV card issued by another federal government agency
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EXT_PIV_I">
+                <xs:annotation>
+                    <xs:documentation>
+						External PIV Interopable card issued by a non federal government issuer
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="RLA">
+                <xs:annotation>
+                    <xs:documentation>
+						Restricted Local Access card type
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BoundCardTypeCodeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="EXT_PIV">
+                <xs:annotation>
+                    <xs:documentation>
+                        External PIV card issued by another federal government agency
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EXT_PIV_I">
+                <xs:annotation>
+                    <xs:documentation>
+                        External PIV interoperable card issued by a non federal government issuer
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TempCardIssueReasonCodeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="FORGOTTEN">
+                <xs:annotation>
+                    <xs:documentation>
+                        Temp card issued because HHS employee forgot PIV card
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="LSD">
+                <xs:annotation>
+                    <xs:documentation>
+                        Temp card issued because HHS employee's PIV card was either
+                        lost, stolen, or damaged.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CardAssociationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="FTE">
+                <xs:annotation>
+                    <xs:documentation>
+						Full Time Employee
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PHS">
+                <xs:annotation>
+                    <xs:documentation>
+						Public Health Services
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="CONTRACTOR">
+                <xs:annotation>
+                    <xs:documentation>
+						Contractor
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="AFFILIATE">
+                <xs:annotation>
+                    <xs:documentation>
+						Affiliate
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SCEP STUDENT">
+                <xs:annotation>
+                    <xs:documentation>
+						Student Career Experience Program
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="VOLUNTEER">
+                <xs:annotation>
+                    <xs:documentation>
+						Volunteer
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="MRC">
+                <xs:annotation>
+                    <xs:documentation>
+						Medical Reserve Corps
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NDMS">
+                <xs:annotation>
+                    <xs:documentation>
+						National Disaster Medical Service
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="STUDENT">
+                <xs:annotation>
+                    <xs:documentation>
+						Student
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="STEP STUDENT">
+                <xs:annotation>
+                    <xs:documentation>
+						Student Temporary Employment Program
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SSEP STUDENT">
+                <xs:annotation>
+                    <xs:documentation>
+						Summer Student Employment Program
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="VISITOR">
+                <xs:annotation>
+                    <xs:documentation>
+						Visitor
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="TENANT">
+                <xs:annotation>
+                    <xs:documentation>
+						Tenant
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SERVICE PROVIDER">
+                <xs:annotation>
+                    <xs:documentation>
+						Service Provider
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="TEMPORARY">
+                <xs:annotation>
+                    <xs:documentation>
+						Temporary
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="OSEP">
+                <xs:annotation>
+                    <xs:documentation>
+						Office of Security and Emergency Preparedness
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CardStatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Active">
+                <xs:annotation>
+                    <xs:documentation>
+						Card is currently active
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Suspended">
+                <xs:annotation>
+                    <xs:documentation>
+						Card is currently suspended
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Terminated">
+                <xs:annotation>
+                    <xs:documentation>
+						Card has been terminated
+		        	</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="FASCNDataFieldsType">
+        <xs:sequence>
+            <xs:element name="AgencyCode" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Agency Code</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="4"></xs:length>
+                        <xs:pattern value="\d{4}"></xs:pattern>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="SystemCode" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>System Code</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="4"></xs:length>
+                        <xs:pattern value="\d{4}"></xs:pattern>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="CredentialNumber" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						Credential Number
+					</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="6"></xs:length>
+                        <xs:pattern value="\d{6}"></xs:pattern>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="CredentialSeries" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						Credential Series
+					</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="1"></xs:length>
+                        <xs:pattern value="\d{1}"></xs:pattern>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="IndividualCredentialIssue" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						Individual Credential Issue
+					</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="1"></xs:length>
+                        <xs:pattern value="\d{1}"></xs:pattern>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="PersonIdentifier" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						Person Identifier
+					</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="10"></xs:length>
+                        <xs:pattern value="\d{10}"></xs:pattern>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="OrganizationalCategory" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						Organizational Category
+					</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="1"></xs:length>
+                        <xs:enumeration value="1">
+                            <xs:annotation>
+                                <xs:documentation>Federal Government Agency</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="2">
+                            <xs:annotation>
+                                <xs:documentation>State Government Agency</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="3">
+                            <xs:annotation>
+                                <xs:documentation>Commercial Enterprise</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="4">
+                            <xs:annotation>
+                                <xs:documentation>Foreign Government</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:pattern value="\d{1}"></xs:pattern>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="OrganizationalIdentifier" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						Organizational Identifier
+					</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="4"></xs:length>
+                        <xs:pattern value="\d{4}"></xs:pattern>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="PersonOrganizationAssociation" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						Person Organization Association
+					</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="1"></xs:length>
+                        <xs:pattern value="\d"></xs:pattern>
+                        <xs:enumeration value="1">
+                            <xs:annotation>
+                                <xs:documentation>Employee</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="2">
+                            <xs:annotation>
+                                <xs:documentation>Civil</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="3">
+                            <xs:annotation>
+                                <xs:documentation>Executive Staff</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="4">
+                            <xs:annotation>
+                                <xs:documentation>Uniformed Service</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="5">
+                            <xs:annotation>
+                                <xs:documentation>Contractor</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="6">
+                            <xs:annotation>
+                                <xs:documentation>Organizational Affiliate</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="7">
+                            <xs:annotation>
+                                <xs:documentation>Organizational Beneficiary</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="GUIDasStringType">
+        <xs:annotation>
+            <xs:documentation>
+				Globally Unique Identifier - as a string of hexidecimal
+				digits
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern
+				value="([0-9a-fA-F]){32}|([0]){16}">
+			</xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="CHUIDDataFieldsType">
+        <xs:annotation>
+            <xs:documentation>
+        		Type definition for Card Holder Unique ID data elements
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="FASCN" type="FASCNDataFieldsType" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Card FASC-N</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="GUID" type="GUIDasStringType" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Card GUID</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ExpirationDate" type="xs:date" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+						Card Expiration Date
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!--  Card History Type -->
+    <xs:complexType name="CardHistoryType">
+        <xs:annotation>
+            <xs:documentation>
+        		Type definition for Card History data elements
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="CHUID" type="CHUIDDataFieldsType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						Each CHUID element contains data fields which mirror the data fields 
+						in the CHUID of a PIV card.
+						If the person specified in the GetCardHistoryRequest
+						has any issued cards, one of these elements wil be 
+						returned for each card.
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="IssuedDate" type="xs:date" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+						The date the card was issued.
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="RevokedDate" type="xs:date" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+						The date the card was revoked.
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Status" type="CardStatusType" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						The card status
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CardHistoryListType">
+        <xs:annotation>
+            <xs:documentation>
+        		Type definition for a List of Card History data elements
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="CardInformation" type="CardHistoryType" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+					Each CardInformation element contains data related to a given instance
+					of a card's history. If the person specified in the GetCardHistoryRequest
+					has any issued cards, one of these elements will be returned for each card.
+				</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- HHS Employer Name Type Defined -->
+    <xs:simpleType name="EmployerNameType">
+        <xs:annotation>
+            <xs:documentation>
+				The name of an employer.  Can be the government or the name of a private
+				company.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="32"></xs:maxLength>
+            <xs:minLength value="1"></xs:minLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- HHS Work Location Code Type Defined -->
+    <xs:simpleType name="WorkLocationCodeType">
+        <xs:annotation>
+            <xs:documentation>
+				A code describing the primary work location for a person.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="24"></xs:maxLength>
+            <xs:minLength value="1"></xs:minLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- X509CertDerType Defined -->
+    <xs:simpleType name="X509CertDerType">
+        <xs:restriction base="xs:base64Binary">
+            <xs:maxLength value="5000"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Commisioned Corps Member Serial NUmber -->
+    <xs:simpleType name="CopsSerialNumberType">
+        <xs:annotation>
+            <xs:documentation>
+                A 5 digit employee ID assigneed to Commision Corps 
+                members by the COPS system.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{5}"></xs:pattern>
+            <xs:length value="5"></xs:length>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Commisioned Corps Member assignment Agency, set by COPS -->
+    <xs:simpleType name="CopsAgencyType">
+        <xs:annotation>
+            <xs:documentation>
+                The COPS Agency identifer indicating where a Commision
+                Corps Member is to be deployed.  The agency identifier
+                may be set by the COPS system to allow for auditing and
+                consistancy checking of COPS applicants within the SCMS.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
