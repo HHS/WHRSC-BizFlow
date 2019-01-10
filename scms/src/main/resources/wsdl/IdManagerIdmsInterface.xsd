@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/federated/idm/idmsInterface/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://hspd12.hhs.gov/federated/idm/idmsInterface/v1"
+	xmlns:tns="http://hspd12.hhs.gov/federated/idm/idmsInterface/v1"
+	xmlns:dtt="http://hspd12.deloitte.com/webservice/doc"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="IdManagerIdmsInterface"
+	version="1.0.2009-10-12"
+	xmlns:hhs="http://hspd12.hhs.gov/federated/enrollment/v1">
+	
+	<xs:import namespace="http://hspd12.hhs.gov/federated/enrollment/v1" schemaLocation="HHSCommonTypes.xsd"></xs:import>
+
+	<xs:annotation>
+		<xs:appinfo>
+			<dtt:schemaDocInclude dtt:file="HHSCommonTypes.xsd"/>
+		</xs:appinfo>
+	</xs:annotation>
+
+
+    <!-- CreateIdmIdentityRequest Element Defined -->
+    <xs:element name="CreateIdmIdentityRequest">
+        <xs:annotation>
+            <xs:documentation>
+                A document containing this element should be sent to the
+                IDM in order to add a new identity to the IDM.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+                        type="hhs:TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation><xs:documentation> 
+                        The standard transaction header.
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+                <xs:element name="PersonInfo" type="IdmPersonInfoType"  minOccurs="1">
+                    <xs:annotation><xs:documentation> 
+                        Personal information for the identity being created. 
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+                <xs:element name="IdentityOwner" type="IdentityOwnerType"  minOccurs="1">
+                    <xs:annotation><xs:documentation> 
+                        Primary identity owner information for the 
+                        identity being created. 
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- AddResponse Element Defined -->
+    <xs:element name="CreateIdmIdentityResponse">
+        <xs:annotation>
+            <xs:documentation>
+                In response to a "CreateIdmIdentityRequest", the IDM Service will
+                send this element to the requester so that the results
+                of the request can be retrieved.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>            
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A short code describing the results of the
+                            Create Idm Identity request.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation><xs:documentation> 
+                                    Indicates that the IDM identity was
+                                    created successfully.
+                                    </xs:documentation></xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation><xs:documentation> 
+                                    Indicates that an unexpected error occurred 
+                                    while trying to create the IDM identity.
+                                    </xs:documentation></xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- SearchIdmIdentityRequest Element Defined -->
+    <xs:element name="SearchIdmIdentityRequest">
+        <xs:annotation>
+            <xs:documentation>
+                A document containing this element should be sent to the
+                IDM in order to search for and retrieve information about
+                a IDM identity.
+                The caller must specify one or more of the Search* parameters. 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+                        type="hhs:TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation><xs:documentation> 
+                        The standard transaction header.
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+                <xs:element name="SearchHHSID" type="hhs:PersonIdType"  minOccurs="0">
+                    <xs:annotation><xs:documentation> 
+                        Search for IDM Identity based on HHSID. 
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+                <xs:element name="SearchUPN" type="hhs:UPNType"  minOccurs="0">
+                    <xs:annotation><xs:documentation> 
+                        Search for IDM Identity based on UPN. 
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+                <xs:element name="SearchPrimaryEmailAddress" type="hhs:EmailAddressType"  minOccurs="0">
+                    <xs:annotation><xs:documentation> 
+                        Search for IDM Identity based on primary email address. 
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+                <xs:element name="SearchAlternateEmailAddress" type="hhs:EmailAddressType"  minOccurs="0">
+                    <xs:annotation><xs:documentation> 
+                        Search for IDM Identity based on alternate email address. 
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+                <xs:element name="SearchOpdivLegacyID" type="hhs:OpdivEmployeeIDType"  minOccurs="0">
+                    <xs:annotation><xs:documentation> 
+                        Search for IDM Identity based on legacy OPDIV employee ID. 
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+                <xs:element name="ReturnIdmField" type="IdmDataFieldsEnumType"  minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation><xs:documentation> 
+                        One or more of these elements can be specified to request
+                        which IDM data fields should be returned if the IDM
+                        identity is found.
+                        </xs:documentation></xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- SearchIdmIdentityResponse Element Defined -->
+    <xs:element name="SearchIdmIdentityResponse">
+        <xs:annotation>
+            <xs:documentation>
+                In response to a "SearchIdmIdentityRequest", the IDM Service will
+                send this element to the requester so that the results
+                of the request can be retrieved.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>            
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A short code describing the results of the
+                            Search Idm Identity request.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation><xs:documentation> 
+                                    Indicates that the IDM identity was
+                                    found successfully.
+                                    </xs:documentation></xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotFound">
+                                <xs:annotation><xs:documentation> 
+                                    Indicates that the IDM identity was
+                                    not found.
+                                    </xs:documentation></xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation><xs:documentation> 
+                                    Indicates that an unexpected error occurred 
+                                    while trying to search for the IDM identity.
+                                    </xs:documentation></xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FieldValues" type="SearchIdmIdentityResponseFieldsType" 
+							minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Success" and the caller
+							included any ReturnIdmField elements in their
+							request, there will be one of these elements
+							for each ReturnIdmField the caller specified. 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- IdentityOwnerType Defined -->
+    <xs:complexType name="SearchIdmIdentityResponseFieldsType">
+        <xs:annotation>
+            <xs:documentation>
+                This Type defines the result type used in the 
+                SearchVimIdentityResponse element to return
+                One of these items will be returned for each
+                IDM identity field values requested. 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="FieldType" type="IdmDataFieldsEnumType" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The IDM identity field being returned
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="FieldStringValue" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        If the FieldType exists for the IDM identity, 
+                        this field will be present and contains the
+                        requested field value as a string.
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+
+    <!-- IdentityOwnerType Defined -->
+    <xs:complexType name="IdentityOwnerType">
+        <xs:annotation>
+            <xs:documentation>
+                This Type defines the data maintained about the owner of an 
+                identity in the IDM.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="OwningOrganization" type="hhs:OrganizationCodeType" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The owning organization (i.e. HHS)
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="OwningAgency" type="hhs:OpdivCodeType" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The owning Agency (i.e. FDA)
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="OwningSubGroup" type="hhs:OpdivSubgroupCodeType" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The Agency sub group
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- PersonInfoType Defined -->
+    <xs:complexType name="IdmPersonInfoType">
+        <xs:annotation>
+            <xs:documentation>
+                This Type defines the data items that are associated with a person
+                whose identity is managed by the IDM.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="EmployeeID" type="hhs:OpdivEmployeeIDType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        The person's Legacy Employee ID as assigned by their
+                        OPDIV (this is not a person's PI)
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="HHSID" type="hhs:PersonIdType" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The person's HHS ID.
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="FirstName" minOccurs="1" maxOccurs="1" type="hhs:FirstNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                        The person's first name
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="MiddleName" minOccurs="0" maxOccurs="1" type="hhs:MiddleNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                        The person's middle initial
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="LastName" minOccurs="1" maxOccurs="1" type="hhs:LastNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                        The person's last name
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="DOB" type="xs:date" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The person's date of birth
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="IdentityInfo">
+                <xs:complexType>
+                    <xs:choice>
+                        <xs:element name="SSNSuffix" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation> 
+                                    The suffix (last 4 digits) of person's 
+                                    social security number 
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                        		<xs:restriction base="xs:string">
+			                        <xs:pattern value="[0-9]{4}"></xs:pattern>
+			                        <xs:length value="4"></xs:length>
+		                        </xs:restriction>
+                            </xs:simpleType></xs:element>
+                        <xs:element name="VisaNumber" type="hhs:VisaNumberType" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation> 
+                                    Visa number of the person being inducted 
+                                </xs:documentation>
+                            </xs:annotation></xs:element>
+                        <xs:element name="ARN" type="hhs:AlienRegistrationNumberType" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation> 
+                                    Alien registration number of the person being inducted 
+                                </xs:documentation>
+                            </xs:annotation></xs:element> 
+                        <xs:element name="ForeignId" type="hhs:ForeignNationalIdInfoType" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation> 
+                                    Foreign ID information for the person being inducted 
+                                </xs:documentation>
+                            </xs:annotation></xs:element>
+                        <xs:element name="PlaceOfBirthType" minOccurs="1" maxOccurs="1">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="CityOfBirth" minOccurs="1" type="hhs:CityOfBirthType">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                The person's city of birth
+                                            </xs:documentation>
+                                        </xs:annotation></xs:element>
+                                    <xs:element name="CountryOfBirth" type="hhs:CountryCodeType" minOccurs="1" >
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                The person's country of birth (should be NCIC-2000?)
+                                            </xs:documentation>
+                                        </xs:annotation></xs:element>
+                                </xs:sequence>
+                            </xs:complexType></xs:element>
+                    </xs:choice>
+                </xs:complexType></xs:element>
+            <xs:element name="primaryEmailAddress" type="hhs:EmailAddressType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The person's primary email address
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="alternateEmailAddress" type="hhs:EmailAddressType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The person's alternate email address
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+            <xs:element name="UPN" type="hhs:UPNType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The person's UPN
+                    </xs:documentation>
+                </xs:annotation></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+	<xs:simpleType name="IdmDataFieldsEnumType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This is the enumeration of IDM data fields which may
+        		be maintained for a IDM identity.
+        	</xs:documentation>
+        </xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Prefix">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FirstName">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MiddleName">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LastName">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PersonID">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EmployeeID">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SSNSuffix">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DOB">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CityOfBirth">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CountryOfBirth">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CountryOfCitizenship">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VisaNumber">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ARN">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ForeignID">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AlternateEmailAddress">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PrimaryEmailAddress">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OPDIV">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PrimarySmtpEmailAddress">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UPN">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in IDM Identity
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+</xs:schema>

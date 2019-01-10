@@ -1,0 +1,231 @@
+<report xmlns="http://developer.cognos.com/schemas/report/14.2/"           useStyleVersion="11.4" expressionLocale="en-us">
+				
+				<drillBehavior/>
+				<layouts>
+					<layout>
+						<reportPages>
+							<page name="rptg_Appointment">
+								<style>
+									<defaultStyles>
+										<defaultStyle refStyle="pg"/>
+									</defaultStyles>
+								</style>
+								<pageBody>
+									<style>
+										<defaultStyles>
+											<defaultStyle refStyle="pb"/>
+										</defaultStyles>
+									</style>
+									<contents><list horizontalPagination="true" name="lst_ApptInfoCert" refQuery="qry_ApptInfoCert">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Request Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Request Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Vacancy Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Vacancy Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Announcement Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Announcement Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Request Type"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Request Type"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Type"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Type"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Vacancy Supervisory Position"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Vacancy Supervisory Position"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Review Sent Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Review Sent Date"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Review Returned Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Review Returned Date"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Send Tentative Offer Complete Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Send Tentative Offer Complete Date"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Send Official Offer Complete Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Send Official Offer Complete Date"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Request Security Clearance"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Request Security Clearance"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Type of Selection"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Type of Selection"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list><list horizontalPagination="true" name="lst_ApptInfoNewHire" refQuery="qry_ApptInfoNewHire">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="New Hire Request Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="New Hire Request Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="New Hire Vacancy Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="New Hire Vacancy Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="New Hire Position Description Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="New Hire Position Description Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="OF-306 Assigned in Onboarding Manager"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lm"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="OF-306 Assigned in Onboarding Manager"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="New Hire Projected Start Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="New Hire Projected Start Date"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list><list horizontalPagination="true" name="lst_Orientation" refQuery="qry_Orientation">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="New Hire Request Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="New Hire Request Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="New Hire Vacancy Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="New Hire Vacancy Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="New Hire Email"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="New Hire Email"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Send Official Offer Complete Date"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Send Official Offer Complete Date"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list><list horizontalPagination="true" name="lst_PayPlan" refQuery="qry_PayPlan">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Request Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Request Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Vacancy Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Vacancy Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Announcement Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Announcement Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Vacancy Pay Plan"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Vacancy Pay Plan"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list><list horizontalPagination="true" name="lst_Position" refQuery="qry_Position">
+			
+			
+			
+			<noDataHandler>
+				<contents>
+					<block>
+						<contents>
+							<textItem>
+								<dataSource>
+									<staticValue>No Data Available</staticValue>
+								</dataSource>
+								<style>
+									<CSS value="padding:10px 18px;"/>
+								</style>
+							</textItem>
+						</contents>
+					</block>
+				</contents>
+			</noDataHandler>
+			<style>
+				<CSS value="border-collapse:collapse"/>
+				<defaultStyles>
+					<defaultStyle refStyle="ls"/>
+				</defaultStyles>
+			</style>
+		<listColumns><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Request Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Request Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Vacancy Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Vacancy Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Announcement Number"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Announcement Number"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Announcement Appointment Type"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Announcement Appointment Type"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Vacancy USAJOBS Job Title"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Vacancy USAJOBS Job Title"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Filter Series"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Filter Series"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Filter Grade"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Filter Grade"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Announcement Promotion Potential"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Announcement Promotion Potential"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Filter Location Description"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Filter Location Description"/></dataSource></textItem></contents></listColumnBody></listColumn><listColumn><listColumnTitle><style><defaultStyles><defaultStyle refStyle="lt"/></defaultStyles></style><contents><textItem><dataSource><dataItemLabel refDataItem="Certificate Filter Location Code"/></dataSource></textItem></contents></listColumnTitle><listColumnBody><style><defaultStyles><defaultStyle refStyle="lc"/></defaultStyles></style><contents><textItem><dataSource><dataItemValue refDataItem="Certificate Filter Location Code"/></dataSource></textItem></contents></listColumnBody></listColumn></listColumns></list></contents>
+								</pageBody>
+							</page>
+						</reportPages>
+					<promptPages><page name="prmpg_Appointment">
+			
+			<pageBody>
+				<contents><table><style><defaultStyles><defaultStyle refStyle="tb"/></defaultStyles><CSS value="border-collapse:collapse;width:100%"/></style><tableRows><tableRow><tableCells><tableCell><contents><textItem><dataSource><staticValue>Please enter a request number (Required):</staticValue></dataSource></textItem></contents></tableCell></tableCells></tableRow><tableRow><tableCells><tableCell><contents><textBox parameter="parm_RequestNumber"/></contents></tableCell></tableCells></tableRow></tableRows></table></contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="py"/>
+					</defaultStyles>
+				</style>
+			</pageBody>
+			<pageFooter>
+				<contents>
+					<promptButton type="cancel">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+					<promptButton type="back">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+					<promptButton type="next">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+					<promptButton type="finish">
+						<contents/>
+						<style>
+							<defaultStyles>
+								<defaultStyle refStyle="bp"/>
+							</defaultStyles>
+						</style>
+					</promptButton>
+				</contents>
+				<style>
+					<defaultStyles>
+						<defaultStyle refStyle="fp"/>
+					</defaultStyles>
+				</style>
+			</pageFooter>
+			<style>
+				<defaultStyles>
+					<defaultStyle refStyle="pp"/>
+				</defaultStyles>
+			</style>
+		</page></promptPages></layout>
+				</layouts>
+			<XMLAttributes><XMLAttribute output="no" name="RS_CreateExtendedDataItems" value="true"/><XMLAttribute output="no" name="RS_modelModificationTime" value="2018-11-22T01:09:29.415Z"/><XMLAttribute output="no" name="listSeparator" value=","/></XMLAttributes><reportName>WHRSC Appointment Report</reportName><modelPath>/content/folder[@name=&apos;USA Staffing Packages and Folders&apos;]/package[@name=&apos;Staffing Reports&apos;]/model[@name=&apos;model&apos;]</modelPath><queries><query name="qry_Orientation">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="New Hire Email"><expression>[New Hires].[New Hire].[New Hire Email]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="6"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Send Official Offer Complete Date" label="Date Official Offer Letter Sent"><expression>[New Hires].[New Hire Task].[Send Official Offer Complete Date]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="New Hire Vacancy Number" label="Vacancy Identification Number"><expression>[New Hires].[New Hire Vacancy].[New Hire Vacancy Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="1"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="New Hire Request Number" label="Request Number"><expression>[New Hires].[New Hire Request].[New Hire Request Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[New Hires].[New Hire Request].[New Hire Request Number]= ?parm_RequestNumber?</filterExpression></detailFilter></detailFilters></query><query name="qry_ApptInfoCert">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="Certificate Announcement Number" label="Announcement Number"><expression>[Certificates].[Certificate Announcement].[Certificate Announcement Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Request Security Clearance" label="Clearance Level Required for Position"><expression>[Certificates].[Certificate Request].[Certificate Request Security Clearance]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Send Tentative Offer Complete Date" label="Date of Tentative Job Offer"><expression>[Certificates].[Certificate Selectee Request Tasks].[Send Tentative Offer Complete Date]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Review Returned Date" label="Date of Hiring Decision in HR"><expression>minimum([Certificates].[Certificate Review].[Certificate Review Returned Date])</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Review Sent Date" label="Date Cert Sent to Selecting Official"><expression>minimum([Certificates].[Certificate Review].[Certificate Review Sent Date])</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Vacancy Supervisory Position" label="Supervisory Position"><expression>[Certificates].[Certificate Vacancy].[Certificate Vacancy Supervisory Position]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Announcement Promotion Potential"><expression>[Certificates].[Certificate Announcement].[Certificate Announcement Promotion Potential]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Filter Location Description"><expression>[Certificates].[Certificate Filters].[Certificate Filter Location Description]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Type"><expression>[Certificates].[Certificate].[Certificate Type]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Request Type" label="Relationship to Recruitment Action"><expression>[Certificates].[Certificate Request].[Certificate Request Type]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Vacancy Number" label="Vacancy Identification Number"><expression>[Certificates].[Certificate Vacancy].[Certificate Vacancy Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="1"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Number"><expression>[Certificates].[Certificate].[Certificate Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Send Official Offer Complete Date" label="Date of Official Job Offer"><expression>[Certificates].[Certificate Selectee Request Tasks].[Send Official Offer Complete Date]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem name="Type of Selection"><expression>case when [Certificate Vacancy Number] is not null then &apos;Competitive&apos; else &apos;Non-Competitive&apos; end</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="3"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Vacancy USAJOBS Job Title"><expression>[Certificates].[Certificate Vacancy].[Certificate Vacancy USAJOBS Job Title]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Filter Series1"><expression>[Certificates].[Certificate Series Filter].[Certificate Filter Series]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Filter Grade1"><expression>[Certificates].[Certificate Filter].[Certificate Filter Grade]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Filter Location Code1"><expression>[Certificates].[Certificate Filters].[Certificate Filter Location Code]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Request Number" label="Request Number"><expression>[Certificates].[Certificate Request].[Certificate Request Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Application Return Status"><expression>[Certificates].[Certificate Applications].[Certificate Application Return Status]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[Certificates].[Certificate Request].[Certificate Request Number]= ?parm_RequestNumber?</filterExpression></detailFilter><detailFilter><filterExpression>[Certificate Application Return Status]= &apos;Hired&apos;</filterExpression></detailFilter></detailFilters></query><query name="qry_ApptInfoNewHire">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="New Hire Projected Start Date" label="EOD"><expression>[New Hires].[New Hire].[New Hire Projected Start Date]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="7"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="New Hire Form Number" label="OF-306 Assigned in Onboarding Manager"><expression>[New Hires].[New Hire Forms].[New Hire Form Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="New Hire Request Number" label="Request Number"><expression>[New Hires].[New Hire Request].[New Hire Request Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="New Hire Vacancy Number" label="Vacancy Identification Number"><expression>[New Hires].[New Hire Vacancy].[New Hire Vacancy Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="1"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem name="OF-306 Assigned in Onboarding Manager"><expression>case when [New Hire Form Number]=&apos;OF 306&apos; then &apos;Yes&apos; else &apos;No&apos; end</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="3"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="New Hire Position Description Number" label="Job Code"><expression>[New Hires].[New Hire].[New Hire Position Description Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[New Hires].[New Hire Request].[New Hire Request Number] = ?parm_RequestNumber?</filterExpression></detailFilter></detailFilters></query><query name="qry_PayPlan">
+			<source>
+				<model/>
+			</source>
+			<selection><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Pay Plan" label="Pay Plan"><expression>[Applications].[Vacancy Position Descriptions].[Vacancy Pay Plan]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Vacancy Number" label="Vacancy Identification Number"><expression>[Applications].[Vacancy].[Vacancy Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="1"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Request Number"><expression>[Applications].[Request].[Request Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Announcement Number"><expression>[Applications].[Announcement].[Announcement Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem></selection>
+		<detailFilters><detailFilter><filterExpression>[Applications].[Request].[Request Number] = ?parm_RequestNumber?</filterExpression></detailFilter></detailFilters></query><query name="qry_Position"><source><model/></source><selection><dataItem aggregate="none" rollupAggregate="none" name="Certificate Filter Location Code" label="Duty Station Code"><expression>[Certificates].[Certificate Location Filters].[Certificate Filter Location Code]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Filter Location Description" label="Duty Station"><expression>[Certificates].[Certificate Location Filters].[Certificate Filter Location Description]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Request Number" label="Request Number"><expression>[Certificates].[Certificate Request].[Certificate Request Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Vacancy Number" label="Vacancy Identification Number"><expression>[Certificates].[Certificate Vacancy].[Certificate Vacancy Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="1"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Announcement Number" label="Announcement Number"><expression>[Certificates].[Certificate Announcement].[Certificate Announcement Number]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Filter Grade" label="Grade"><expression>[Certificates].[Certificate Filter].[Certificate Filter Grade]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Filter Series" label="Series"><expression>[Certificates].[Certificate Series Filter].[Certificate Filter Series]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Announcement Promotion Potential" label="Full Performance Level"><expression>[Certificates].[Certificate Announcement].[Certificate Announcement Promotion Potential]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Vacancy USAJOBS Job Title" label="Position Title"><expression>[Certificates].[Certificate Vacancy].[Certificate Vacancy USAJOBS Job Title]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="0"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Announcement Appointment Type"><expression>[Certificates].[Certificate Announcement Appointment Types].[Certificate Announcement Appointment Type]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Send Official Offer Complete Date"><expression>[Certificates].[Certificate Selectee Request Tasks].[Send Official Offer Complete Date]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Send Tentative Offer Complete Date"><expression>[Certificates].[Certificate Selectee Request Tasks].[Send Tentative Offer Complete Date]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="4"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem><dataItem aggregate="none" rollupAggregate="none" name="Certificate Application Return Status"><expression>[Certificates].[Certificate Applications].[Certificate Application Return Status]</expression><XMLAttributes><XMLAttribute output="no" name="RS_dataType" value="3"/><XMLAttribute output="no" name="RS_dataUsage" value="attribute"/></XMLAttributes></dataItem></selection><detailFilters><detailFilter><filterExpression>[Certificates].[Certificate Request].[Certificate Request Number]= ?parm_RequestNumber?</filterExpression></detailFilter><detailFilter><filterExpression>[Certificate Application Return Status] = &apos;Hired&apos;</filterExpression></detailFilter></detailFilters></query></queries></report>

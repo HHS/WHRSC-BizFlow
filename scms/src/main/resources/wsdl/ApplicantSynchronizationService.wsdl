@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions name="ApplicantSynchronizationService"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://ws.bearingpoint.com/idms/sync/applicant/v1"
+  xmlns:bp="http://hspd12.hhs.gov/federated/enrollment/v1"
+  xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+  targetNamespace="http://ws.bearingpoint.com/idms/sync/applicant/v1"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+  
+  <documentation>
+  	<bpd:modDate>2008-02-12</bpd:modDate>
+  </documentation>
+  <types>
+    <xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+		xmlns:tns="http://hspd12.hhs.gov/federated/enrollment/v1"
+		elementFormDefault="qualified" attributeFormDefault="unqualified"
+		xmlns:hhs="http://hspd12.hhs.gov/federated/enrollment/v1">
+
+		<xs:include schemaLocation="ApplicantSynchronization.xsd"></xs:include>
+		<xs:annotation>
+			<xs:appinfo>
+				<bpd:schemaDocInclude bpd:file="ApplicantSynchronization.xsd"/>
+				<bpd:schemaDocInclude bpd:file="HHSBulkLoadSchema.xsd"/>
+				<bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd"/>
+			</xs:appinfo>
+		</xs:annotation>
+			
+    </xs:schema>
+  </types>
+  
+  <message name="SyncGetApplicantDataHashSoapIn">
+    <part name="request" element="bp:SyncGetApplicantDataHashRequest"/>
+  </message>
+  <message name="SyncGetApplicantDataHashSoapOut">
+    <part name="result" element="bp:SyncGetApplicantDataHashResponse"/>
+  </message>
+  <message name="SyncGetApplicantInfoHashSoapIn">
+    <part name="request" element="bp:SyncGetApplicantInfoHashRequest"/>
+  </message>
+  <message name="SyncGetApplicantInfoHashSoapOut">
+    <part name="result" element="bp:SyncGetApplicantInfoHashResponse"/>
+  </message>
+  <message name="SyncGetApplicantDataDiffSoapIn">
+    <part name="request" element="bp:SyncGetApplicantDataDiffRequest"/>
+  </message>
+  <message name="SyncGetApplicantDataDiffSoapOut">
+    <part name="result" element="bp:SyncGetApplicantDataDiffResponse"/>
+  </message>
+  <message name="SyncSetOpdivHashedFieldsSoapIn">
+    <part name="request" element="bp:SyncSetOpdivHashedFieldsRequest"/>
+  </message>
+  <message name="SyncSetOpdivHashedFieldsSoapOut">
+    <part name="result" element="bp:SyncSetOpdivHashedFieldsResponse"/>
+  </message>
+
+
+  <portType name="ApplicantSynchronizationEndpoint">
+    <operation name="SyncGetApplicantDataHash">
+      <input message="tns:SyncGetApplicantDataHashSoapIn"/>
+      <output message="tns:SyncGetApplicantDataHashSoapOut"/>
+    </operation>
+    <operation name="SyncGetApplicantInfoHash">
+      <input message="tns:SyncGetApplicantInfoHashSoapIn"/>
+      <output message="tns:SyncGetApplicantInfoHashSoapOut"/>
+    </operation>
+    <operation name="SyncGetApplicantDataDiff">
+      <input message="tns:SyncGetApplicantDataDiffSoapIn"/>
+      <output message="tns:SyncGetApplicantDataDiffSoapOut"/>
+    </operation>
+    <operation name="SyncSetOpdivHashedFields">
+      <input message="tns:SyncSetOpdivHashedFieldsSoapIn"/>
+      <output message="tns:SyncSetOpdivHashedFieldsSoapOut"/>
+    </operation>
+  </portType>
+
+
+  <binding name="ApplicantSynchronizationEndpointBinding" type="tns:ApplicantSynchronizationEndpoint">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="SyncGetApplicantDataHash">
+      <soap:operation soapAction="http://idms.bearingpoint.com/SubscribeIdmsEvents" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="SyncGetApplicantInfoHash">
+      <soap:operation soapAction="http://idms.bearingpoint.com/UnSubscribeIdmsEvents" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="SyncGetApplicantDataDiff">
+      <soap:operation soapAction="http://idms.bearingpoint.com/QuerySubscribedIdmsEvents" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="SyncSetOpdivHashedFields">
+      <soap:operation soapAction="http://idms.bearingpoint.com/QuerySubscribedIdmsEvents" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+  </binding>
+  
+  <service name="ApplicantSynchronizationService">
+    <documentation>
+    	Client Side IDMS Applicant Synchronization Web Services
+	</documentation>
+    <port name="ApplicantSynchronizationEndpointPort" 
+			binding="tns:ApplicantSynchronizationEndpointBinding">
+      <soap:address location="http://REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>

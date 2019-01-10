@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:tns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="FacilityInterface" version="1.0.2007-10-01">
+
+	<xs:include schemaLocation="HHSCommonTypes.xsd"></xs:include>
+
+	<xs:annotation>
+		<xs:appinfo>
+			<bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd"/>
+		</xs:appinfo>
+	</xs:annotation>
+
+
+	<xs:simpleType name="CHUIDType">
+		<xs:annotation>
+			<xs:documentation>
+				Type definition of a card holder unique ID
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:base64Binary">
+		</xs:restriction>
+	</xs:simpleType>
+
+
+
+
+	<!-- CheckCardRequest Element Defined -->
+	<xs:element name="CheckCardRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element will be sent to the
+        		IDMS to request that the IDMS validate a given PIV card.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+					type="TransactionHeaderType" minOccurs="1" />
+				<xs:element name="CHUID"
+					type="CHUIDType" minOccurs="1" >
+					<xs:annotation>
+						<xs:documentation>
+							The CHUID of the card to be checked.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- CheckCardResponse Element Defined -->
+	<xs:element name="CheckCardResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "CheckCardRequest", the IDMS 
+        		will send this element to the requester so that results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The card has been successfully verified and is valid.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Not-Valid">
+								<xs:annotation><xs:documentation>
+										The card is not valid
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<!-- SubscribeCardEventsRequest Element Defined -->
+	<xs:element name="SubscribeCardEventsRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		IDMS to request that the IDMS notify the requester if there
+        		are any changes in the status of the PIV card with the given CHUID.<br/><br/>
+        		The notifications will be sent to the requester based on information
+        		in the TransactionHeader element.<br/><br/>
+        		The requester will be notified via the "CardStateChange" element of 
+        		the "IDMSEventNotify" service as defined in "NedNotification.xsd".
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+					type="TransactionHeaderType" minOccurs="1" />
+				<xs:element name="CHUID" type="CHUIDType"
+					minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							The CHUID of the card to be monitored.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="NotifyURL" type="xs:string" maxOccurs="1" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Normally event notification is delivered to
+							the URL configured for the SystemID given in
+							the transaction header. If present, this
+							attribute allows the caller to specify an
+							alternate URL to use for delivering the card
+							notification events.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- SubscribeCardEventsResponse Element Defined -->
+	<xs:element name="SubscribeCardEventsResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "SubscribeCardEventsRequest", the IDMS 
+        		will send this element to the requester so that results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The card has been successfully subscribed for monitoring.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Not-Found">
+								<xs:annotation><xs:documentation>
+										The request failed because a card with the given CHUID does not exist
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- UnSubscribeCardEventsRequest Element Defined -->
+	<xs:element name="UnSubscribeCardEventsRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element will be sent to the
+        		IDMS to request that the IDMS STOP notifying the requester
+        		concerning changes in the status of the PIV card with the given CHUID.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+					type="TransactionHeaderType" minOccurs="1" />
+				<xs:element name="CHUID"
+					type="CHUIDType" minOccurs="1" >
+					<xs:annotation>
+						<xs:documentation>
+							The CHUID of the card to stop monitoring.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- UnSubscribeCardEventsResponse Element Defined -->
+	<xs:element name="UnSubscribeCardEventsResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "UnSubscribeCardEventsRequest", the IDMS 
+        		will send this element to the requester so that results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The card has been successfully unsubscribed for monitoring.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Not-Found">
+								<xs:annotation><xs:documentation>
+										The request failed because a card with the given CHUID does not exist
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+</xs:schema>

@@ -8,18 +8,16 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.springframework.beans.factory.annotation.Value;
 
-import gov.hhs.induction.schemas.AffiliationCodeType;
-import gov.hhs.induction.schemas.CountryCodeType;
-import gov.hhs.induction.schemas.CredentialCategoryType;
-import gov.hhs.induction.schemas.OpdivCodeType;
-import gov.hhs.induction.schemas.OrganizationCodeType;
-import gov.hhs.induction.schemas.YesNoCodeType;
+import gov.hhs.induction.schema.CountryCodeType;
+import gov.hhs.induction.schema.CredentialCategoryType;
+import gov.hhs.induction.schema.OpdivCodeType;
+import gov.hhs.induction.schema.OrganizationCodeType;
+import gov.hhs.induction.schema.YesNoCodeType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InductionRequest")
 public class InductionRequest {
 	
-	//@XmlElement(name = "PersonSponsored")
 	@Value("${request.personSponsored}")
     private String personSponsored;
     @XmlElement(name = "FirstName", required = true)
@@ -39,14 +37,9 @@ public class InductionRequest {
     private String foreignIDIssuingCountry;   
     @XmlElement(name = "DOB", required = true)
     @XmlSchemaType(name = "date")
-    //private XMLGregorianCalendar DateOfBirth;
     private String DateOfBirth;
-    //@XmlElement(name = "EmergencyResponder")
-    //@XmlSchemaType(name = "string")
     @Value("${request.emergencyResponder}")
     private String emergencyResponder;
-    //@XmlElement(name = "Organization")
-    //@XmlSchemaType(name = "string")
     @Value("${request.organization}")
     private String organization;
     @XmlElement(name = "OPDIV", required = true)
@@ -55,17 +48,11 @@ public class InductionRequest {
     @XmlElement(name = "AffiliationCode", required = true)
     @XmlSchemaType(name = "string")
     private String affiliationCode;
-    //@XmlElement(name = "CredentialCategory")
-    //@XmlSchemaType(name = "string")
     @Value("${request.credentialCategory}")
     private String credentialCategory;
     
 	public InductionRequest() {
 		init();
-		/*this.personSponsored = "${request.personSponsored}";
-		this.emergencyResponder = "${request.emergencyResponder}";
-		this.organization = "${request.organization}";
-		this.credentialCategory = "${request.credentialCategory}";*/
 		this.firstName = "";
 		this.lastName = "";
 		this.ssn = "";
@@ -157,9 +144,6 @@ public class InductionRequest {
 	public void setForeignIDIssuingCountry(String foreignIDIssuingCountry) {
 		this.foreignIDIssuingCountry = foreignIDIssuingCountry;
 	}
-	/*public XMLGregorianCalendar getDateOfBirth() {
-		return DateOfBirth;
-	}*/
 	public String getDateOfBirth() {
 		return DateOfBirth;
 	}
@@ -184,11 +168,11 @@ public class InductionRequest {
 	public void setOpdiv(OpdivCodeType opdiv) {
 		this.opdiv = opdiv.name();
 	}
-	public AffiliationCodeType getAffiliationCode() {
-		return AffiliationCodeType.valueOf(affiliationCode);
+	public String getAffiliationCode() {
+		return affiliationCode;
 	}
-	public void setAffiliationCode(AffiliationCodeType affiliationCode) {
-		this.affiliationCode = affiliationCode.name();
+	public void setAffiliationCode(String affiliationCode) {
+		this.affiliationCode = affiliationCode;
 	}
 	public CredentialCategoryType getCredentialCategory() {
 		return CredentialCategoryType.valueOf(credentialCategory);

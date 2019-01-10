@@ -1,0 +1,1345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:tns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="ApplicantSynchronization" version="1.0.2007-10-01">
+
+
+	<xs:include schemaLocation="HHSBulkLoadSchema.xsd"></xs:include>
+	<xs:annotation>
+		<xs:appinfo>
+			<bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd"/>
+			<bpd:schemaDocInclude bpd:file="HHSBulkLoadSchema.xsd"/>
+		</xs:appinfo>
+	</xs:annotation>
+
+	<xs:annotation><xs:appinfo>
+		<bpd:apiIntroductionDoc xmlns="http://www.w3.org/1999/xhtml">
+			<br/>
+			<div align="center"><div class="apiIntroductionDoc">
+				<div class="apiIntroductionDoc_title">
+					Applicant Data Hash Generation
+				</div>
+				An Applicant's data hash is a hexidecimal string representation 
+				of the MD5 hash of selected Applicant field values.  Each OPDIV can
+				define which Applicant Data Fields will be used to calculate the hash.
+				
+				The IDMS calculates an Applicant's Data hash value as follows:<br/><br/>
+				1. The Applicant's Organization and OPDIV attributes are used to 
+				retrieve the set of Applicant Data Fields to be used for
+				calculating the hash.<br/>
+				2. For each field returned in step 1, the corresponding field value 
+				ia retrieved from the Applicant's data.  The value (if present)
+				is then converted into a UTF-8 string and digested into the hash.<br/>
+				3. When all field values have been digested into the hash, the 
+				hash value bytes are converted into a string containing the
+				hexidecimal equivalent of the hash bytes.
+				<br/><br/>
+				The table below describes how common field data types are 
+				processed before being digested into the hash. 
+				For details on how individual Applicant data fields will
+				be handled when generating the Applicant data hash, see
+				the documentation for 
+				<a href="#typedef_SyncApplicantDataFieldsEnumType">
+				SyncApplicantDataFieldsEnumType</a>. 
+			</div></div>
+		</bpd:apiIntroductionDoc>
+	</xs:appinfo></xs:annotation>
+	
+	<xs:simpleType name="SyncApplicantDataFieldsEnumType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This type represents a range of PIV Person Identifier
+        		(PI) values.  The range is assumed to be in ascending
+        		numeric order.
+        	</xs:documentation>
+        </xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:annotation>
+				<xs:appinfo>
+					<bpd:extraEnumInfoHeader>
+						Data Hash Transformation
+					</bpd:extraEnumInfoHeader>
+				</xs:appinfo>
+			</xs:annotation>
+			<xs:enumeration value="Prefix">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FirstName">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string field processing except that the
+			        	field value is converted to upper case before 
+			        	processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MiddleName">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string field processing except that the
+			        	field value is converted to upper case before 
+			        	processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LastName">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string field processing except that the
+			        	field value is converted to upper case before 
+			        	processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GenerationQualifier">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NameSuffix">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PersonID">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EmployeeID">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SSN">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DOB">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard date value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CityOfBirth">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="StateOfBirth">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CountryOfBirth">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CountryOfCitizenship">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VisaNumber">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ARN">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ForeignID">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo xmlns="http://www.w3.org/1999/xhtml">
+			            The hash value for this compound field is calculated 
+			            as follows:<br/>
+			        	First, ForeignID.IdNumber is processed as a standard
+			        	string field.<br/>
+			        	Then ForeignID.IssuingCountry is
+			        	processed as a standard enumerated value field.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PositionTitle">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PositionSensitivity">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard integer value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EmergencyResponder">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CredentialCategory">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AlternateEmailAddress">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Organization">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OPDIV">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AffiliationCode">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="WorkPhone">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="WorkPhoneExtension">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CostCenter">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CAN">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SubAgency">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FundsCertification">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SponsorshipStatus">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SponsorPI">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SponsorDate">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard date value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="InductorPI">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="InductorEmail">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SACAdjudicationStatus">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SACAdjudicatorPI">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SACAdjudicationDate">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard date value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BkinvestAdjudicationStatus">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BkinvestType">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BkinvestAdjudicatorPI">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BkinvestAdjudicationDate">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard date value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PrimarySmtpEmailAddress">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UPN">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BadgeExpDate">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard date value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IssuingAuthority">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PropertyPassCodes">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo xmlns="http://www.w3.org/1999/xhtml">
+				        If there are no PropertyPassCodes values for the Applicant, then
+			        	nothing is digested into the hash. <br/>
+			        	If there are PropertyPassCodes values for the Applicant, then
+			        	the list of PropertyPassCodes enumeration values are 
+			        	converted into a list of UTF-8 strings loaded with the 
+			        	enumerated values as text.
+			        	The list is then sorted in ascending order and each
+			        	item in the list is then processed as a standard string
+			        	field.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SecAccessCodes">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard enumerated value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SOI">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SON">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PivProcessFlowCode">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard string value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EarliestCardIssueDate">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo>
+			        	Standard date value field processing.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AlternateUID">
+				<xs:annotation>
+					<xs:documentation>
+						Matches corresponding field in InductionDataType
+					</xs:documentation>
+			        <xs:appinfo><bpd:extraEnumInfo xmlns="http://www.w3.org/1999/xhtml">
+			        	If there are no AlternateUID values for the Applicant, then
+			        	nothing is digested into the hash.<br/>
+			        	If there are AlternateUID values for the Applicant, the values 
+			        	are sorted in ascending order by AlternateUID.SystemCode.
+			        	Then for each AlternateUID, the AlternateUID.SystemCode
+			        	field is processed as a standard string field followed by
+			        	processing AlternateUID.UID as a standard string field.
+		        	</bpd:extraEnumInfo></xs:appinfo>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="PersonIdRangeType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This type represents a range of PIV Person Identifier
+        		(PI) values.  The range is assumed to be in ascending
+        		numeric order.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+			<xs:element name="FirstPI" type="PersonIdType" maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						This element sets the first PI (inclusive) of the
+						range of person identifiers..
+					</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element name="LastPI" type="PersonIdType" maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						This element sets the last PI (inclusive) of the
+						range of person identifiers..
+					</xs:documentation>
+				</xs:annotation></xs:element>
+        </xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="SyncApplicantDataHashType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This type defines the data returned for each Applicant 
+        		processed by the SyncGetApplicantDataHashRequest.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+			<xs:element name="PI" type="PersonIdType" maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The PI of the person whose hash data is 
+						being reported
+					</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element name="PersonIdFound" type="xs:boolean" maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						This element indicates if a person could be found in the
+						IDMS with the PI associated with this
+						SyncApplicantDataHashType element.
+					</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element name="Hash" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The MD5 hash of the person's data.  Note that this element
+						will not be present if the PI associated with this 
+						SyncApplicantDataHashType element does not exist in the IDMS.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+        </xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="SyncApplicantInfoHashType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This type defines the data returned for each slice 
+        		processed by the SyncGetApplicantInfoHashRequest.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+	        <xs:element name="PersonIdRange" type="PersonIdRangeType" minOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>
+						This element contains the range of PersonIds covered by this
+						instance of the SyncApplicantPIHashType.
+					</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element name="NumberFound" type="xs:integer" maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The number of Applicants found whose PI's
+						were included in the hash.
+					</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element name="PersonIdHash" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						If the number of records found (NumberFound) is greater
+						than 0, this element will be included and it will contain
+						the MD5 hash of the found PI's.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PersonDataHashHash" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						If the number of records found (NumberFound) is greater
+						than 0, this element will be included and it will contain
+						the MD5 hash of all of the Applicant data hash values 
+						found in this slice.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+        </xs:sequence>
+	</xs:complexType>
+
+
+
+	<!-- SyncGetApplicantDataHashRequest Element Defined -->
+	<xs:element name="SyncGetApplicantDataHashRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element will be sent to the
+        		IDMS to request that the IDMS search for all Applicants with a
+        		PI that matches the specified search criteria.  For each Applicant found,
+        		the IDMS will return the Applicant's PI and an MD5 hash of
+        		the applicant's data.  Note that the results are guaranteed to
+        		be in ascending PI order.
+        		NOTE: The caller must specify either a SearchPersonIdRange element
+        		or 1 or more SearchPersonId elements for the command to complete
+        		successfully.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SearchOPDIV" type="OpdivCodeType" minOccurs="1" >
+					<xs:annotation>
+						<xs:documentation>
+							If present, this element limits the results to Applicants 
+							in the given OPDIV.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="SearchPersonIdRange" type="PersonIdRangeType" minOccurs="0" >
+					<xs:annotation>
+						<xs:documentation>
+							This element sets the range of  PersonIds for which to 
+							retrieve Applicant PI's and their associated data hash.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="SearchPersonId"
+					type="PersonIdType" minOccurs="0" maxOccurs="1000" >
+					<xs:annotation>
+						<xs:documentation>
+							One or more of these elements may be included to request
+							hash data for a given set of PIV Person IDs.  Note that it is
+							not an error to specify a PI that does not exist in the IDMS.
+							The data returned for each PI will indicate if that PI does
+							not exist.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- SyncGetApplicantDataHashResponse Element Defined -->
+	<xs:element name="SyncGetApplicantDataHashResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "SyncGetApplicantDataHashRequest", the IDMS 
+        		will send this element to the requester so that results
+        		of the request can be retrieved.
+        		Note that if the ResultCode is Success or PartialSuccess, 
+        		the resulting ApplicantDataHash elements are guaranteed to
+        		be in ascending PI order.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										Hash values have been successfully calculated for all Applicants with a
+										PI in the requested range.  The hash values can be found in the
+										ApplicantDataHash element(s) of this response.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="PartialSuccess">
+								<xs:annotation><xs:documentation>
+										Hash values have been successfully calculated for the first 1000 
+										Applicants with a PI in the requested range.  These 1000 hash values
+										can be found in the ApplicantDataHash element(s) of this response.
+										Since results are sent in ascending PI order, another
+										request with a SearchFirstPI set to one greater than the highest PI 
+										returned by this request can be used to fetch more results.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Fail-UpdateInProgress">
+								<xs:annotation><xs:documentation>
+										The request failed because a bulk data update operation is in 
+										progress on the IDMS.  Please try the request later.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ApplicantDataHash"
+					type="SyncApplicantDataHashType" minOccurs="0" maxOccurs="1000">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Success" there will be 1 or more of
+							these elements returned to the requester.  They contain the
+							PI and a MD5 hash of the person's data.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<!-- SyncGetApplicantInfoHashRequest Element Defined -->
+	<xs:element name="SyncGetApplicantInfoHashRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		IDMS to request that the IDMS search for all Applicants with a
+        		PI in the given range and compute the hash of the matched PI
+        		values and a hash of the individual data hash for each Applicant.  
+        		For each Applicant found, the IDMS will append the PI into
+        		into a buffer.  When all PI's have been 
+        		accumulated into the buffer, a MD5 hash of the buffer contents
+        		will be calculated and returned to the caller.
+        		Additionally, for each Applicant found, the IDMS will append the
+        		Applicant's data hash value into a buffer.  When all Applicant
+        		data hashes have been accumulated into the buffer, a MD5 hash 
+        		of the buffer contents will be calculated and returned to the 
+        		caller.  This operation can be used to detect missing or 
+        		extra applicants on either system.  And it can also be 
+        		used to quickly check if Applicant data is in sync for a block
+        		of Applicants.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SearchOPDIV" type="OpdivCodeType" minOccurs="0" >
+					<xs:annotation>
+						<xs:documentation>
+							If present, this element limits the results to Applicants 
+							in the given OPDIV.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="SearchPersonIdRange"
+					type="PersonIdRangeType" minOccurs="1" >
+					<xs:annotation>
+						<xs:documentation>
+							This element sets the PI range for which Applicant PI's
+							should be hashed.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="ResultSlices" minOccurs="0" default="1" >
+					<xs:annotation>
+						<xs:documentation>
+							By default all PI values in the
+							SearchPersonIdRange are accumulated into one
+							buffer and then 1 hash value is computed. If
+							this element is specified and has a value
+							greater then 1, the range of possible PI
+							values in the SearchPersonIdRange will be
+							divided into the number of chunks specified
+							in this element. A hash
+							value will be computed and returned for each
+							chunk. In many circumstances having the
+							SearchPersonIdRange divided into multiple
+							chunks helps narrow down which PI values do
+							not exist on both systems or have data that
+							is not in sync.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1"></xs:minInclusive>
+							<xs:maxInclusive value="1000"></xs:maxInclusive>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- SyncGetApplicantInfoHashResponse Element Defined -->
+	<xs:element name="SyncGetApplicantInfoHashResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "SyncGetApplicantInfoHashRequest", the IDMS 
+        		will send this element to the requester so that results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The notification was processed successfully by the external system.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Fail-UpdateInProgress">
+								<xs:annotation><xs:documentation>
+										The request failed because a bulk data update operation is in 
+										progress on the IDMS.  Please try the request later.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="HashData"
+					type="SyncApplicantInfoHashType" minOccurs="0" maxOccurs="1000">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Success" one or more of these elements 
+							will be present.
+							Each element contains the hash of the found applicant PI's, their data hash and 
+							a count of how many applicants were found.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- SyncGetApplicantDataDiffRequest Element Defined -->
+	<xs:element name="SyncGetApplicantDataDiffRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		IDMS to request that the IDMS do a field by field comparison
+        		of the given Applicant data with the Applicant data the
+        		IDMS has on file.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ApplicantData"
+					type="InductionDataType" minOccurs="1" maxOccurs="100" >
+					<xs:annotation>
+						<xs:documentation>
+							One or more of these elements should be included in the request.
+							Each element should be loaded with the remote system's
+							version of the data.
+							IMPORTANT: The PersonID field of this element MUST be present
+							and must be loaded with the PI of an Applicant that exists
+							on the IDMS.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<xs:complexType name="ApplicantFieldDifferenceType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This Type defines the data elements describing the results for 
+        		an attempt to compare the field values for two applicants.  Typically
+        		one of the Applicants will be on the IDMS and the other Applicant
+        		will be on a remote system.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+			<xs:element name="FieldDifference" type="SyncApplicantDataFieldsEnumType"  minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						This element indicates in which field the difference occurred.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IdmsFieldValue" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						If present, this element gives the field value on the IDMS.
+						Note that all field values will be converted to strings.
+						If this element is not present, then the field value is
+						not assigned (null) on the IDMS.
+					</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element name="CompareFieldValue" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						If present, this element gives the field value on the Applicant 
+						given for comparison (the remote Applicant).
+						Note that all field values will be converted to strings.
+						If this element is not present, then the field value is
+						not assigned (null) on the Applicant given for 
+						comparison (the remote Applicant).
+					</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="SyncGetApplicantDataDiffResultType">
+        <xs:annotation>
+        	<xs:documentation>
+        		This Type defines the data elements describing the results for 
+        		an attempt to compare the field values for two applicants.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+			<xs:element name="ResultCode" minOccurs="1">
+                   <xs:annotation>
+                   	<xs:documentation>
+                   		A short code describing the results of the
+                   		induction request.
+                   	</xs:documentation>
+                   </xs:annotation>
+                   <xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Success-Same" >
+							<xs:annotation><xs:documentation>
+								The compare succeeded and the two Applicants had
+								identical field values.
+							</xs:documentation></xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="Success-Different" >
+							<xs:annotation><xs:documentation>
+								The compare succeeded see the Differences elements
+								below for any differences between the two Applicants.
+							</xs:documentation></xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="NotFound">
+							<xs:annotation><xs:documentation>
+								There was no corresponding Applicant on the IDMS (i.e. an
+								applicant with the same PI could not be found).
+							</xs:documentation></xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="Failed">
+							<xs:annotation><xs:documentation>
+								The comparison failed due to an internal error
+							</xs:documentation></xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FieldDifference" type="ApplicantFieldDifferenceType"  minOccurs="0" maxOccurs="100">
+				<xs:annotation>
+					<xs:documentation>
+						If "ResultCode" is "Success-Different", one or more of these elements
+						 will be present.  Each element details the difference in values for a
+						 given field on the two Applicants.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						If the ResultCode is "Failed", this field
+						may contain some extra information which may
+						be helpful in diagnosing the reason for the
+						rejection. Note that the information in this
+						field is not intended to be useful to the
+						average user but is intended to help
+						advanced users or help desk personal debug
+						the problem.
+					</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+
+	<!-- SyncGetApplicantDataDiffResponse Element Defined -->
+	<xs:element name="SyncGetApplicantDataDiffResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "SyncGetApplicantDataDiffRequest", the IDMS 
+        		will send this element to the requester so that results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The requested Applicant comparison(s) have been executed.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Fail-UpdateInProgress">
+								<xs:annotation><xs:documentation>
+										The request failed because a bulk data update operation is in 
+										progress on the IDMS.  Please try the request later.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ApplicantDiffResult"
+					type="SyncGetApplicantDataDiffResultType" minOccurs="0" maxOccurs="100">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Success" there will be 1 or more of
+							these elements returned to the requester.  They contain the
+							comparison results (or differences) for each Applicant provided 
+							in the SyncGetApplicantDataDiffRequest.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- SyncSetOpdivHashedFieldsRequest Element Defined -->
+	<xs:element name="SyncSetOpdivHashedFieldsRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		IDMS to request that the IDMS use a given set of fields when
+        		computing the Applicant data hash for Applicants in the given OPDIV.
+        		This request allows each OPDIV to have their own set of Applicant
+        		data fields designated for use in Applicant synchronization operations.
+        		IMPORTANT: This method will return quickly if the parameters are valid.
+        		However, changing the fields to be hashed for a given OPDIV will cause
+        		the IDMS to kick of a background task to recompute the hash values for 
+        		all Applicants in the OPDIV.  This background task may take some time 
+        		to complete.  While the background update task is running, requests
+        		for synchronization related services targeting the OPDIV will fail with
+        		a Fail-UpdateInProgress error.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TargetOPDIV" type="OpdivCodeType" minOccurs="1" >
+					<xs:annotation>
+						<xs:documentation>
+							This element designates the OPDIV to be targeted by 
+							this request.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="ApplicantDataField"
+					type="SyncApplicantDataFieldsEnumType" minOccurs="1" maxOccurs="100" >
+					<xs:annotation>
+						<xs:documentation>
+							One or more of these elements will be included in the
+							request to define which fields will be used to compute the 
+							Applicant data hash.  Note that the order in which these
+							fields are given is significant.  The Applicant data fields
+							will be hashed in the same order as the ApplicantDataField
+							elements specified in this request.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- SyncSetOpdivHashedFieldsResponse Element Defined -->
+	<xs:element name="SyncSetOpdivHashedFieldsResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "SyncSetOpdivHashedFieldsRequest", the IDMS 
+        		will send this element to the requester so that results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The hashed field values were successfully set for the OPDIV.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Fail-UpdateInProgress">
+								<xs:annotation><xs:documentation>
+										The request failed because a bulk data update operation is in 
+										progress on the IDMS.  Please try the request later.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:tns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="FacilityInterface" version="1.0.2007-10-01">
+
+	<xs:include schemaLocation="HHSCommonTypes.xsd"></xs:include>
+
+	<xs:annotation>
+		<xs:appinfo>
+			<bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd"/>
+		</xs:appinfo>
+	</xs:annotation>
+
+	<xs:simpleType name="EventNotifyURLType">
+        <xs:annotation>
+        	<xs:documentation>
+        		Definition of a web service URL to receive notification events.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+			<xs:maxLength value="255"></xs:maxLength>
+			<xs:minLength value="4"></xs:minLength>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- OPDIV Codes Defined -->
+	<xs:simpleType name="IdmsEventNotifyType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="40"></xs:maxLength>
+			<xs:enumeration value="CardReady"><xs:annotation><xs:documentation>Card ready for issuance</xs:documentation></xs:annotation></xs:enumeration>
+			<xs:enumeration value="CardStateChanged"><xs:annotation><xs:documentation>Card state changed</xs:documentation></xs:annotation></xs:enumeration>
+			<xs:enumeration value="ApplicantDataChanged"><xs:annotation><xs:documentation>Applicant data changed</xs:documentation></xs:annotation></xs:enumeration>
+			<xs:enumeration value="EnrollmentCompleted"><xs:annotation><xs:documentation>Enrollment completed</xs:documentation></xs:annotation></xs:enumeration>
+			<xs:enumeration value="ApplicantInfoSentToOPM"><xs:annotation><xs:documentation>Applicant info has been sent to OPM for review</xs:documentation></xs:annotation></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- SubscribeIdmsEventsRequest Element Defined -->
+	<xs:element name="SubscribeIdmsEventsRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		IDMS to request that the IDMS notify the requester when
+        		the specified IDMS event type occurs.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="eventType" type="IdmsEventNotifyType"
+						minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							This element specifies which event type the caller
+							wants to subscribed to.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+		    <xs:element name="agencyAcronym" type="OpdivCodeType" minOccurs="1" >
+					<xs:annotation>
+						<xs:documentation>
+							This element specifies the agency associated to the event
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="NotifyURL" type="EventNotifyURLType" maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							This attribute specifies the URL of the web service endpoint 
+							to be notified when the specified IDMS event type occurs.  Note that 
+							the web service endpoint URL and not the web service WSDL URL should be
+							provided in this field.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- SubscribeIdmsEventsResponse Element Defined -->
+	<xs:element name="SubscribeIdmsEventsResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "SubscribeIdmsEventsRequest", the IDMS 
+        		will send this element to the requester so that results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The specified events have been successfully subscribed to.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- UnSubscribeIdmsEventsRequest Element Defined -->
+	<xs:element name="UnSubscribeIdmsEventsRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element will be sent to the
+        		IDMS to request that the IDMS STOP notifying the specified
+        		NotifyURL of the specified IDMS events.
+        		It is not an error to request to be unsubscribed from a specific event 
+        		to which the specified NotifyURL was not subscribed.  Such requests
+        		will be ignored without returning an error indication.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+					type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="eventType" type="IdmsEventNotifyType"
+						minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If this element is present it defines which event type
+							should be unsubscribed from the given NotifyURL.
+							If this element is NOT present, all event types for 
+							the given NotifyURL will be unsubscribed.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+		    <xs:element name="agencyAcronym" type="OpdivCodeType" minOccurs="1" >
+					<xs:annotation>
+						<xs:documentation>
+							This element specifies the agency associated to the event
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="NotifyURL" type="EventNotifyURLType" maxOccurs="1" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							This attribute specifies the URL of the web service endpoint 
+							to be unsubscribed from the specified IDMS event type(s).
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- UnSubscribeIdmsEventsResponse Element Defined -->
+	<xs:element name="UnSubscribeIdmsEventsResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "UnSubscribeIdmsEventsRequest", the IDMS 
+        		will send this element to the requester so that results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The specified events have been successfully unsubscribed.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="NoEventsForNotifyURL">
+								<xs:annotation><xs:documentation>
+										There are no events specified for the given
+										value of NotifyURL.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- EventSubscriptionInfoType Defined -->
+	<xs:complexType name="EventSubscriptionInfoType">
+		<xs:annotation>
+			<xs:documentation>
+				This type defines information which may be retrieved for an IDMS 
+				event subscription.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EventSubscriptionId" minOccurs="1">
+                <xs:annotation>
+                	<xs:documentation>
+                		The system assigned ID for this event subscription
+                	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EventNotifyType" type="IdmsEventNotifyType"
+				minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						This element indicates the type of IDMS event for
+						this event subscription.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		    <xs:element name="agencyAcronym" type="OpdivCodeType" minOccurs="1" >
+					<xs:annotation>
+						<xs:documentation>
+							This element specifies the agency associated to the event
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			<xs:element name="NotifyURL" type="EventNotifyURLType" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						This element specifies the URL of the web service endpoint
+						to be notified for this event subscription.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<!-- QuerySubscribedIdmsEventsRequest Element Defined -->
+	<xs:element name="QuerySubscribedIdmsEventsRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to the
+        		IDMS to request a list of IDMS event type subscriptions
+        		that meet the given criteria.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+					type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EventNotifyType" type="IdmsEventNotifyType"
+						minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If present, this element specifies which event type should
+							be used to filter the subscriptions returned by this request..
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="agencyAcronym" type="OpdivCodeType" minOccurs="1" >
+					<xs:annotation>
+						<xs:documentation>
+							This element specifies the agency associated to the event
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="NotifyURL" type="EventNotifyURLType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If present, this element specifies the NotifyURL used to 
+							filter subscriptions returned by this request.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+	<!-- QuerySubscribedIdmsEventsResponse Element Defined -->
+	<xs:element name="QuerySubscribedIdmsEventsResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "QuerySubscribedIdmsEventsRequest", the IDMS 
+        		will send this element to the requester so that results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The specified events have been successfully unsubscribed.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="MatchedEventInfo" type="EventSubscriptionInfoType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Success", one or more of these 
+							elements may be present.  One MatchedEventInfo element wil 
+							be sent for each matched IDMS event subscription.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

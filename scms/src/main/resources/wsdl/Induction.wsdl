@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:bp="http://hspd12.hhs.gov/federated/enrollment/v1" xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.bearingpoint.com/idms/induction/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="InductionService" targetNamespace="http://ws.bearingpoint.com/idms/induction/v1">
+    <types>
+        <xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1" xmlns:hhs="http://hspd12.hhs.gov/federated/enrollment/v1" xmlns:tns="http://hspd12.hhs.gov/federated/enrollment/v1" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:include schemaLocation="http://158.74.64.218:8080/pivws/wsdl/v1/InductionService/HHSBulkLoadSchema.xsd"/>
+            <xs:annotation>
+                <xs:appinfo>
+                    <bpd:schemaDocInclude bpd:file="HHSBulkLoadSchema.xsd"/>
+                    <bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd"/>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:schema>
+    </types>
+    <message name="InductPersonSoapIn">
+        <part element="bp:InductPersonRequest" name="request"/>
+    </message>
+    <message name="InductPersonIncSoapIn">
+        <part element="bp:InductPersonIncRequest" name="request"/>
+    </message>
+    <message name="InductPersonSoapOut">
+        <part element="bp:InductPersonResponse" name="result"/>
+    </message>
+    <message name="GetApplicantProcessingStateSoapIn">
+        <part element="bp:GetApplicantProcessingStateRequest" name="request"/>
+    </message>
+    <message name="GetApplicantProcessingStateSoapOut">
+        <part element="bp:GetApplicantProcessingStateResponse" name="result"/>
+    </message>
+    <message name="MatchPersonSoapIn">
+        <part element="bp:MatchPersonRequest" name="request"/>
+    </message>
+    <message name="MatchPersonSoapOut">
+        <part element="bp:MatchPersonResponse" name="result"/>
+    </message>
+    <message name="ReadFacialImageSoapIn">
+        <part element="bp:ReadFacialImageRequest" name="request"/>
+    </message>
+    <message name="ReadFacialImageSoapOut">
+        <part element="bp:ReadFacialImageResponse" name="result"/>
+    </message>
+    <message name="ReadInductionDataSoapIn">
+        <part element="bp:ReadInductionDataRequest" name="request"/>
+    </message>
+    <message name="ReadInductionDataSoapOut">
+        <part element="bp:ReadInductionDataResponse" name="result"/>
+    </message>
+    <message name="ReservePersonIdentifierSoapIn">
+        <part element="bp:ReservePersonIdentifierRequest" name="request"/>
+    </message>
+    <message name="ReservePersonIdentifierSoapOut">
+        <part element="bp:ReservePersonIdentifierResponse" name="result"/>
+    </message>
+    <message name="UpdateInductionDataSoapIn">
+        <part element="bp:UpdateInductionDataRequest" name="request"/>
+    </message>
+    <message name="UpdateInductionDataSoapOut">
+        <part element="bp:UpdateInductionDataResponse" name="result"/>
+    </message>
+    <message name="DeactivateApplicantSoapIn">
+        <part element="bp:DeactivateApplicantRequest" name="request"/>
+    </message>
+    <message name="DeactivateApplicantSoapOut">
+        <part element="bp:DeactivateApplicantResponse" name="result"/>
+    </message>
+    <message name="GetHHSIDSoapIn">
+        <part element="bp:GetHHSIDRequest" name="request"/>
+    </message>
+    <message name="GetHHSIDSoapOut">
+        <part element="bp:GetHHSIDResponse" name="result"/>
+    </message>
+    <message name="RegisterCopsApplicantSoapIn">
+        <part element="bp:RegisterCopsApplicantRequest" name="request"/>
+    </message>
+    <message name="RegisterCopsApplicantSoapOut">
+        <part element="bp:RegisterCopsApplicantResponse" name="result"/>
+    </message>
+    <message name="UnregisterCopsApplicantSoapIn">
+        <part element="bp:UnregisterCopsApplicantRequest" name="request"/>
+    </message>
+    <message name="UnregisterCopsApplicantSoapOut">
+        <part element="bp:UnregisterCopsApplicantResponse" name="result"/>
+    </message>
+    <message name="CheckCopsRegistrationStatusSoapIn">
+        <part element="bp:CheckCopsRegistrationStatusRequest" name="request"/>
+    </message>
+    <message name="CheckCopsRegistrationStatusSoapOut">
+        <part element="bp:CheckCopsRegistrationStatusResponse" name="result"/>
+    </message>
+    <portType name="InductionEndpoint">
+        <operation name="InductPerson">
+            <input message="tns:InductPersonSoapIn"/>
+            <output message="tns:InductPersonSoapOut"/>
+        </operation>
+        <operation name="InductPersonInc">
+            <input message="tns:InductPersonIncSoapIn"/>
+            <output message="tns:InductPersonSoapOut"/>
+        </operation>
+        <operation name="GetApplicantProcessingState">
+            <input message="tns:GetApplicantProcessingStateSoapIn"/>
+            <output message="tns:GetApplicantProcessingStateSoapOut"/>
+        </operation>
+        <operation name="MatchPerson">
+            <input message="tns:MatchPersonSoapIn"/>
+            <output message="tns:MatchPersonSoapOut"/>
+        </operation>
+        <operation name="ReadFacialImage">
+            <input message="tns:ReadFacialImageSoapIn"/>
+            <output message="tns:ReadFacialImageSoapOut"/>
+        </operation>
+        <operation name="ReadInductionData">
+            <input message="tns:ReadInductionDataSoapIn"/>
+            <output message="tns:ReadInductionDataSoapOut"/>
+        </operation>
+        <operation name="ReservePersonIdentifier">
+            <input message="tns:ReservePersonIdentifierSoapIn"/>
+            <output message="tns:ReservePersonIdentifierSoapOut"/>
+        </operation>
+        <operation name="UpdateInductionData">
+            <input message="tns:UpdateInductionDataSoapIn"/>
+            <output message="tns:UpdateInductionDataSoapOut"/>
+        </operation>
+        <operation name="DeactivateApplicant">
+            <input message="tns:DeactivateApplicantSoapIn"/>
+            <output message="tns:DeactivateApplicantSoapOut"/>
+        </operation>
+        <operation name="GetHHSID">
+            <input message="tns:GetHHSIDSoapIn"/>
+            <output message="tns:GetHHSIDSoapOut"/>
+        </operation>
+        <operation name="RegisterCopsApplicant">
+            <input message="tns:RegisterCopsApplicantSoapIn"/>
+            <output message="tns:RegisterCopsApplicantSoapOut"/>
+        </operation>
+        <operation name="UnregisterCopsApplicant">
+            <input message="tns:UnregisterCopsApplicantSoapIn"/>
+            <output message="tns:UnregisterCopsApplicantSoapOut"/>
+        </operation>
+        <operation name="CheckCopsRegistrationStatus">
+            <input message="tns:CheckCopsRegistrationStatusSoapIn"/>
+            <output message="tns:CheckCopsRegistrationStatusSoapOut"/>
+        </operation>
+    </portType>
+    <binding name="InductionEndpointBinding" type="tns:InductionEndpoint">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="InductPerson">
+            <soap:operation soapAction="http://idms.bearingpoint.com/InductPerson" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="InductPersonInc">
+            <soap:operation soapAction="http://idms.bearingpoint.com/InductPersonInc" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="GetApplicantProcessingState">
+            <soap:operation soapAction="http://idms.bearingpoint.com/GetApplicantProcessingState" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="MatchPerson">
+            <soap:operation soapAction="http://idms.bearingpoint.com/MatchPerson" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="ReadFacialImage">
+            <soap:operation soapAction="http://idms.bearingpoint.com/ReadFacialImage" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="ReadInductionData">
+            <soap:operation soapAction="http://idms.bearingpoint.com/ReadInductionData" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="ReservePersonIdentifier">
+            <soap:operation soapAction="http://idms.bearingpoint.com/ReservePersonIdentifier" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="UpdateInductionData">
+            <soap:operation soapAction="http://idms.bearingpoint.com/UpdateInductionData" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="DeactivateApplicant">
+            <soap:operation soapAction="http://idms.bearingpoint.com/DeactivateApplicant" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="GetHHSID">
+            <soap:operation soapAction="http://idms.bearingpoint.com/GetHHSID" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="RegisterCopsApplicant">
+            <soap:operation soapAction="http://idms.bearingpoint.com/RegisterCopsApplicant" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="UnregisterCopsApplicant">
+            <soap:operation soapAction="http://idms.bearingpoint.com/UnregisterCopsApplicant" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="CheckCopsRegistrationStatus">
+            <soap:operation soapAction="http://idms.bearingpoint.com/CheckCopsRegistrationStatus" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="InductionService">
+        <documentation>
+    	IDMS Induction Web Services
+	</documentation>
+        <port binding="tns:InductionEndpointBinding" name="InductionEndpointPort">
+            <soap:address location="https://REPLACE_WITH_ACTUAL_URL"/>
+        </port>
+    </service>
+</definitions>

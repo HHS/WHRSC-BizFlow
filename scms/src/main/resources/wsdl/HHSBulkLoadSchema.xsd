@@ -1,0 +1,3248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:tns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="HHSBulkLoadSchema" version="1.1.2008-07-10">
+    <xs:include schemaLocation="HHSCommonTypes.xsd"></xs:include>
+    <xs:annotation>
+        <xs:appinfo>
+            <bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd"/>
+            <bpd:schemaDocInclude bpd:file="CommonEnumerations.xsd"/>
+        </xs:appinfo>
+    </xs:annotation>
+    <!-- HHSInductPersonRequiredDataType Defined -->
+    <xs:complexType name="HHSInductPersonRequiredDataType">
+        <xs:annotation>
+            <xs:documentation>
+        		This Type defines the required data items which may be 
+        		included in a Induct Person request.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="PersonSponsored" minOccurs="1" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>
+                		This field indicates if the person being inducted is also
+                		sponsored.  If this element is set to "true" then information
+                		about the sponsor must also be provided in the 
+                		HHSInductPersonOptionalDataType element.
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmployeeID" type="OpdivEmployeeIDType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's Employee ID as assigned by their
+        				OPDIV (this is not a person's PI)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FirstName" minOccurs="1" type="FirstNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's first name
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LastName" minOccurs="1" type="LastNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's last name
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PersonID" type="PersonIdType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                		If present, this element sets the PI for the person to be inducted.
+                		If this element is omitted, the IDMS will assign a PI to the
+                		person being inducted.
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="IdentificationInfo" type="IdentificationInformationType"
+        		minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's identification information (
+        				such as social security number or ARN)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DOB" type="xs:date" minOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's date of birth
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CountryOfCitizenship"
+        		type="CountryCodeType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's country of citizenship (should be
+        				NCIC 2000?)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PositionSensitivity" minOccurs="0"
+        		type="PositionSensitivityType" maxOccurs="1" default="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				PositionSensitivity
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmergencyResponder"
+        		type="YesNoCodeType" minOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>
+        				Indicates if person is a federal emergency
+        				responder
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Organization" minOccurs="1" type="OrganizationCodeType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The organization sponsoring the person
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OPDIV" type="OpdivCodeType"
+        		minOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The OPDIV sponsoring the person
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AffiliationCode"
+        		type="AffiliationCodeType" minOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>
+        				Affiliation code
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CAN" minOccurs="0" maxOccurs="1" type="CANType">
+                <xs:annotation>
+                    <xs:documentation>CAN</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PrimarySmtpEmailAddress" minOccurs="0" maxOccurs="1" 
+        			type="EmailAddressType">
+                <xs:annotation>
+                    <xs:documentation>
+                		Primary Email Address
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="UPN" minOccurs="0" maxOccurs="1" type="UPNType">
+                <xs:annotation>
+                    <xs:documentation>
+                		Active Directory UPN
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="IssuingAuthority" type="IssuingAuthorityCodeType"
+        			 minOccurs="0" maxOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>
+        				Issuing Authority. IMPORTANT: This field has been deprecated
+                        Any data saved with this field will be ignored by the system
+                        If you need to update the issuing authority then update the 
+                        OPDIV field. The correct issuing authority will be set
+                        based on the entered OPDIV field
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CredentialCategory"
+        		type="CredentialCategoryType" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				Used to determine color bar (Zone 15) on PIV
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ComponentCode"
+        		type="ComponentCodeType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				Component code (CMS OpDiv Only)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- HHSInductPersonOptionalDataType Defined -->
+    <xs:complexType name="HHSInductPersonOptionalDataType">
+        <xs:annotation>
+            <xs:documentation>
+        		This Type defines the optional data items which may be 
+        		included in an Induct Person request.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Prefix" type="NamePrefixType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's name prefix
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MiddleName" maxOccurs="1" minOccurs="0"
+        		type="MiddleNameType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's middle name
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="GenerationQualifier"
+        		type="NameGenerationQualifierType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's generational qualifier
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="NameSuffix" minOccurs="0"
+        		type="NameSuffixType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's name suffix such as "Esq."
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CityOfBirth" minOccurs="0"
+        		type="CityOfBirthType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's city of birth
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="StateOfBirth" type="StateCodeType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's state of birth
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CountryOfBirth" type="CountryCodeType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's country of birth (should be
+        				NCIC-2000?)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="VisaNumber" type="VisaNumberType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's Visa number
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ARN" type="AlienRegistrationNumberType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's Alien Registration Number
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ForeignID" type="ForeignNationalIdInfoType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's Foreign National ID information
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PositionTitle" minOccurs="0"
+        		type="PositionTitleType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's Position Title
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AlternateEmailAddress" minOccurs="0"
+        		type="EmailAddressType">
+                <xs:annotation>
+                    <xs:documentation>
+        				Alternate email address
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="WorkPhone" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Work Phone</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="30"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="WorkPhoneExtension" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				Work phone extension
+        			</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="8"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="CostCenter" minOccurs="0" type="CostCenterType">
+                <xs:annotation>
+                    <xs:documentation>Cost Center</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SubAgency" minOccurs="0" type="SubAgencyType">
+                <xs:annotation>
+                    <xs:documentation>Sub-agency</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FundsCertification" minOccurs="0" type="FundsCertificationType">
+                <xs:annotation>
+                    <xs:documentation>
+                		Funds Certification
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SponsorshipStatus"
+        		type="StatusCodeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				Sponsorship Status
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SponsorPI" type="PersonIdType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Sponsor PI</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SponsorDate" type="xs:date"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Sponsor Date</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="InductorPI" type="PersonIdType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Inductor PI</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="InductorEmail" minOccurs="0"
+        		type="EmailAddressType">
+                <xs:annotation>
+                    <xs:documentation>Inductor Email</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SACAdjudicationStatus"
+        		type="AdjudicationStatusCodeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				If this field is present it provides the 
+        				SAC Adjudication Status. 
+        				Possible values are (NA, R, P or C)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SACAdjudicatorPI" type="PersonIdType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>SAC Adjudicator PI</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SACAdjudicationDate" type="xs:date"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				SAC Adjudication Date
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BkinvestAdjudicationStatus"
+        		type="AdjudicationStatusCodeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				If this field is present it provides the 
+        				background check Adjudication Status. 
+        				Possible values are (NA, R, P or C)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BkinvestType"
+        		type="PersonInvestigationCodeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				Type of background investigation
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BkinvestAdjudicatorPI" type="PersonIdType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>background check Adjudicator PI</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BkinvestAdjudicationDate" type="xs:date"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				background check Adjudication Date
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BadgeExpDate" type="xs:date"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				Badge expiration date. Note that a default badge
+        				expiration date will be calculated by the IDMS
+        				if a badge expiration date is not specified.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PropertyPassCodes"
+        		type="PropertyPassCodeType" minOccurs="0" maxOccurs="2">
+                <xs:annotation>
+                    <xs:documentation>
+        				Property pass codes - Appears in Zone 4 Front
+        				PIV (NIH will not use)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SecAccessCodes"
+        		type="SecurityAccessCodeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				Security access codes - Appears in Zone 5 From
+        				PIV (NIH will not use)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SOI" minOccurs="0" type="SOIType">
+                <xs:annotation>
+                    <xs:documentation>
+        				A 4 digit code assigned by OPM signifying a specific 
+        				source for an enrollment record and where background 
+        				check notifications should be sent.
+                        <br/>
+        				If set, this value will probably be overridden
+						by the enrollment package.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SON" minOccurs="0" type="SONType">
+                <xs:annotation>
+                    <xs:documentation>
+        				This field has different semantics depending on the value of 
+                		the PositionSensitivity field.
+                        <br/>
+                		If PositionSensitivity is 1 and this field is specified,
+                		it will supersede the value of the "SON" field in the 
+                		enrollment package.
+                        <br/>
+                		If PositionSensitivity is greater than 1, then this field must
+                		be set (becomes mandatory) and will supersede by value of the 
+                		"SON" field in the enrollment package.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EnrollmentType" type="EnrollmentTypeCodeType"
+        		minOccurs="0" maxOccurs="1" default="PIV-AutoProduceCard">
+                <xs:annotation>
+                    <xs:documentation>
+        				IMPORTANT: This field has been DEPRECATED. It is still
+        			    part of the wsdl for backward compatibility. However, it will
+        			    be removed from the system in the near future.
+        			    Please use the CardTypeCode, BkInvestigateOnly, AutoProduceCard and/or
+        			    the CardAssociationType fields to determine the type of enrollment.
+                        Also, the request will be rejected if an enrollmentType,
+                        CardType, KIkInvestigateOnly, CardAssocationType and/or
+                        AutoProduceCard are defined in the same request.
+        			    
+        			    If this element is specified, it determines if a
+        				card will be issued for the person being
+        				inducted.
+        				If this element is not specified, it defaults to
+        				AutoProduceCard.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PivProcessFlowCode" minOccurs="0"
+        		maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				If this element is specified, it determines
+        				which PIV card issuance process flow will be
+        				followed. If the element is omitted, the default
+        				PIV card issuance process flow will be used.
+        			</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="1"></xs:minLength>
+                        <xs:maxLength value="20"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="EarliestCardIssueDate" type="xs:date"
+        		minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				If this element is specified, it determines the
+        				earliest date on which the PIV card may be
+        				issued.
+                        <br/>
+        				if this element is not specified, the system issues 
+        				the card on the earliest possible date.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AlternateUID" type="ApplicantAlternateUIDType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+        				Alternate user ID (UID) for the Applicant on an
+        				external system.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OPAC" minOccurs="0" type="OPACType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The OPAC (Online Payment and Collection Agency Locator Codes)
+        				code for this Applicant.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BkInvestigateOnly" minOccurs="0" type="xs:boolean" default="false">
+                <xs:annotation>
+                    <xs:documentation>
+                		This field indicates if the person being inducted is only
+                		going to have a background investigation and no card
+                		is going to be created for the user. IMPORTANT: If this field
+                		is checked then do not set any Card Type in the CardTypeCode field
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CardTypeCode" type="CardTypeCodeType"
+        		minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				Determines the card type associated to the user. If
+        				NON_PIV is selected, the Card Association field is required
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CardAssociation" type="CardAssociationType"
+        		minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				Determines the card type association for card types other than PIV.
+        				This field is required only if the card type is other than PIV.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AutoProduceCard" minOccurs="0" type="xs:boolean" default="true">
+                <xs:annotation>
+                    <xs:documentation>
+                		This field indicates if card will be auto produced after
+                		the applicant is adjudicated
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ObligatingDocumentNumber" minOccurs="0" maxOccurs="1" type="ObligatingDocumentNumberType">
+                <xs:annotation>
+                    <xs:documentation>Obligating Document Number</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CopsAgency" type="CopsAgencyType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The COPS Agency identifer indicating where a Commision
+                        Corps Member is to be deployed.  The agency identifier
+                        may be set by the COPS system to allow for auditing and
+                        consistancy checking of COPS applicants within the SCMS.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- InductionDataType Defined -->
+    <xs:complexType name="InductionDataType">
+        <xs:annotation>
+            <xs:documentation>
+        		This Type defines the data items associated with a
+        		Induct Person request.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Prefix" type="NamePrefixType"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's name prefix
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FirstName" minOccurs="0" maxOccurs="1" type="FirstNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's first name
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MiddleName" type="MiddleNameType" maxOccurs="1" 
+        	       minOccurs="0" nillable="true">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's middle initial or name.
+                		If an UpdateInductionDataRequest is received where this 
+                        element contains the xs:nil attribute with the value true,
+                        then any existing middle name associated with the Applicant being 
+                        updated will be cleared.
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LastName" minOccurs="0" maxOccurs="1" type="LastNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's last name
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="GenerationQualifier"
+        		type="NameGenerationQualifierType" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's generational qualifier
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="NameSuffix" minOccurs="0" type="NameSuffixType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's name suffix such as "Esq."
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PersonID" type="PersonIdType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                		If present, this element sets the PI for the person to be inducted.
+                		If this element is omitted, the IDMS will assign a PI to the
+                		person being inducted.
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmployeeID" type="OpdivEmployeeIDType" minOccurs="0"
+        	       nillable="true">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's Employee ID as assigned by their
+        				OPDIV (this is not a person's PI)
+        				If an UpdateInductionDataRequest is received where this 
+        				element contains the xs:nil attribute with the value true,
+        				then any existing EmployeeID associated with the Applicant being 
+        				updated will be cleared.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SSN" type="SocialSecurityNumberType"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's social security number
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DOB" type="xs:date" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's date of birth
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CityOfBirth" minOccurs="0" type="CityOfBirthType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's city of birth
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="StateOfBirth" type="StateCodeType"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's state of birth
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CountryOfBirth" type="CountryCodeType"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's country of birth (should be
+        				NCIC-2000?)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CountryOfCitizenship"
+        		type="CountryCodeType" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's country of citizenship (should be
+        				NCIC 2000?)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="VisaNumber" type="VisaNumberType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's Visa number
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ARN" type="AlienRegistrationNumberType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's Alien Registration Number
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ForeignID" type="ForeignNationalIdInfoType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's Foreign National ID information
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PositionTitle" minOccurs="0" type="PositionTitleType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's Position Title
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PositionSensitivity" minOccurs="0"
+        		type="PositionSensitivityType" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				PositionSensitivity
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmergencyResponder"
+        		type="YesNoCodeType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				Indicates if person is a federal emergency
+        				responder
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CredentialCategory"
+        		type="CredentialCategoryType" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				Credential category - Used to determine color bar (Zone 15) on PIV
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AlternateEmailAddress" minOccurs="0" type="EmailAddressType">
+                <xs:annotation>
+                    <xs:documentation>
+                		Alternate email address
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Organization" minOccurs="0" maxOccurs="1" type="OrganizationCodeType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The organization sponsoring the person
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OPDIV" type="OpdivCodeType"
+        		minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				The OPDIV sponsoring the person
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AffiliationCode"
+        		type="AffiliationCodeType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				Affiliation code
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="WorkPhone" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Work Phone</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="30"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="WorkPhoneExtension" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                		Work phone extension
+                	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="8"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="CostCenter" minOccurs="0" maxOccurs="1" type="CostCenterType">
+                <xs:annotation>
+                    <xs:documentation>Cost Center</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CAN" minOccurs="0" maxOccurs="1" type="CANType">
+                <xs:annotation>
+                    <xs:documentation>CAN</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SubAgency" minOccurs="0" maxOccurs="1" type="SubAgencyType">
+                <xs:annotation>
+                    <xs:documentation>Sub-agency</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FundsCertification" minOccurs="0" maxOccurs="1" type="FundsCertificationType">
+                <xs:annotation>
+                    <xs:documentation>
+                		Funds Certification
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SponsorshipStatus"
+        		type="StatusCodeType" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				Sponsorship Status
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SponsorPI" type="PersonIdType"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>Sponsor PI</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SponsorDate" type="xs:date" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>Sponsor Date</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="InductorPI" type="PersonIdType"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>Inductor PI</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="InductorEmail" minOccurs="0" type="EmailAddressType">
+                <xs:annotation>
+                    <xs:documentation>Inductor Email</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SACAdjudicationStatus"
+        		type="AdjudicationStatusCodeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				If this field is present it provides the 
+        				SAC Adjudication Status. 
+        				Possible values are (NA, R, P or C)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SACAdjudicatorPI" type="PersonIdType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>SAC Adjudicator PI</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SACAdjudicationDate" type="xs:date"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				SAC Adjudication Date
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BkinvestAdjudicationStatus"
+        		type="AdjudicationStatusCodeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				If this field is present it provides the 
+        				background check Adjudication Status. 
+        				Possible values are (NA, R, P or C)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BkinvestType"
+        		type="PersonInvestigationCodeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				Type of background investigation
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BkinvestAdjudicatorPI" type="PersonIdType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>background check Adjudicator PI</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BkinvestAdjudicationDate" type="xs:date"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				background check Adjudication Date
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PrimarySmtpEmailAddress" minOccurs="0" maxOccurs="1" type="EmailAddressType">
+                <xs:annotation>
+                    <xs:documentation>
+                		Primary Email Address
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="UPN" minOccurs="0" maxOccurs="1" type="UPNType">
+                <xs:annotation>
+                    <xs:documentation>
+                		Active Directory UPN
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BadgeExpDate" type="xs:date"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				Badge expiration date
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="IssuingAuthority"
+        		type="IssuingAuthorityCodeType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				Issuing Authority. IMPORTANT: This field has been deprecated
+                        Any data saved with this field will be ignored by the system
+                        If you need to update the issuing authority then update the 
+                        OPDIV field. The correct issuing authority will be set
+                        based on the entered OPDIV field
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PropertyPassCodes"
+        		type="PropertyPassCodeType" minOccurs="0" maxOccurs="2">
+                <xs:annotation>
+                    <xs:documentation>
+        				Property pass codes - Appears in Zone 4 Front PIV (NIH will not use)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SecAccessCodes"
+        		type="SecurityAccessCodeType" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				Security access codes - Appears in Zone 5 From PIV (NIH will not use)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SOI" minOccurs="0" type="SOIType">
+                <xs:annotation>
+                    <xs:documentation>
+                		A 4 digit code assigned by OPM signifying a specific 
+        				source for an enrollment record and where background 
+        				check notifications should be sent.
+                        <br/>
+        				If set, this value will probably be overridden
+						by the enrollment package.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SON" minOccurs="0" type="SONType">
+                <xs:annotation>
+                    <xs:documentation>
+                		This field has different semantics depending on the value of 
+                		the PositionSensitivity field.
+                        <br/>
+                		If PositionSensitivity is 1 and this field is specified,
+                		it will supersede the value of the "SON" field in the 
+                		enrollment package.
+                        <br/>
+                		If PositionSensitivity is greater than 1, then this field must
+                		be set (becomes mandatory) and will supersede by value of the 
+                		"SON" field in the enrollment package.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EnrollmentType" type="EnrollmentTypeCodeType"
+        		minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				If this element is specified, it determines if a
+        				card will be issued for the person being
+        				inducted.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PivProcessFlowCode" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				If this element is specified, it determines which
+        				PIV card issuance process flow will be followed.
+        				If the element is omitted, the default PIV card
+        				issuance process flow will be used.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EarliestCardIssueDate" type="xs:date" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				If this element is specified, it determines the
+        				earliest date on which the PIV card may be
+        				issued.
+                        <br/>
+        				if this element is not specified, the system issues 
+        				the card on the earliest possible date.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AlternateUID" type="ApplicantAlternateUIDType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+        				Alternate user ID (UID) for the Applicant on an
+        				external system.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OPAC" minOccurs="0" type="OPACType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The OPAC (Online Payment and Collection Agency Locator Codes)
+        				code for this Applicant.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BkInvestigateOnly" minOccurs="0" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>
+                		This field indicates if the person being inducted is only
+                		going to have a background investigation and no card
+                		is going to be created for the user. IMPORTANT: If this field
+                		is checked then do not set any Card Type in the CardTypeCode field
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CardTypeCode" type="CardTypeCodeType"
+        		minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				Determines the card type associated to the user. If
+        				NON_PIV is selected, the Card Association field is required
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CardAssociation" type="CardAssociationType"
+        		minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				Determines the card type association for card types other than PIV.
+        				This field is required only if the card type is other than PIV.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AutoProduceCard" minOccurs="0" type="xs:boolean" default="true">
+                <xs:annotation>
+                    <xs:documentation>
+                		This field indicates if card will be auto produced after
+                		the applicant is adjudicated
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ObligatingDocumentNumber" minOccurs="0" maxOccurs="1" type="ObligatingDocumentNumberType">
+                <xs:annotation>
+                    <xs:documentation>Obligating Document Number</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CopsAgency" type="CopsAgencyType" minOccurs="0" 
+                    maxOccurs="1" nillable="true">
+                <xs:annotation>
+                    <xs:documentation>
+                        The COPS Agency identifer indicating where a Commision
+                        Corps Member is to be deployed.  The agency identifier
+                        may be set by the COPS system to allow for auditing and
+                        consistancy checking of COPS applicants within the SCMS.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ComponentCode"
+        		type="ComponentCodeType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				Component code (CMS OpDiv Only)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- GetHHSIDResultData -->
+    <xs:complexType name="GetHHSIdDataType">
+        <xs:annotation>
+            <xs:documentation>
+        		This Type defines the data items which will be used by the GetHHSID service call.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="FirstName" minOccurs="0" maxOccurs="1" type="FirstNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's first name
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LastName" minOccurs="0" maxOccurs="1" type="LastNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's last name
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="HHSID" minOccurs="0" maxOccurs="1" type="PersonIdType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's HHS ID
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmailAddress" minOccurs="0" maxOccurs="1" type="EmailAddressType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's Email Address
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OPDIV" minOccurs="0" maxOccurs="1" type="OpdivCodeType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The OPDIV sponsoring the person
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- MatchPersonSearchData Defined -->
+    <xs:complexType name="MatchPersonSearchData">
+        <xs:annotation>
+            <xs:documentation>
+        		This Type defines the data items which can be used to match
+        		a set of personal demographic information to a person or group 
+        		of people in the IDMS.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Prefix" type="NamePrefixType"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's name prefix
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FirstName" minOccurs="0" maxOccurs="1" type="FirstNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's first name
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MiddleName" maxOccurs="1" minOccurs="0" type="MiddleNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's middle initial
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LastName" minOccurs="0" maxOccurs="1" type="LastNameType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's last name
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="GenerationQualifier"
+        		type="NameGenerationQualifierType" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's generational qualifier
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="NameSuffix" minOccurs="0" type="NameSuffixType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's name suffix such as "Esq."
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EmployeeID" type="OpdivEmployeeIDType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's Employee ID as assigned by their
+        				OPDIV (this is not a person's PI)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SSN" type="SocialSecurityNumberType"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's social security number
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DOB" type="xs:date" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's date of birth
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CityOfBirth" minOccurs="0" type="CityOfBirthType">
+                <xs:annotation>
+                    <xs:documentation>
+                		The person's city of birth
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="StateOfBirth" type="StateCodeType"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's state of birth
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CountryOfBirth" type="CountryCodeType"
+        		minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's country of birth (should be
+        				NCIC-2000?)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CountryOfCitizenship"
+        		type="CountryCodeType" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's country of citizenship (should be
+        				NCIC 2000?)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PrimarySmtpEmailAddress" minOccurs="0" maxOccurs="1" type="EmailAddressType">
+                <xs:annotation>
+                    <xs:documentation>
+                		Primary Email Address
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- MatchPersonResultsData Defined -->
+    <xs:complexType name="MatchPersonResultsData">
+        <xs:annotation>
+            <xs:documentation>
+        		This Type defines the data items which can be returned about a person
+        		who is returned by a MatchPersonRequest service call.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="PersonID" type="PersonIdType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				If available, the PI of the person matched.
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MatchScore" maxOccurs="1" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                		The match score which indicates how confident
+                		the IDMS is about the match on a scale from 0
+                		-100 (with 100 being the most confident).
+                	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:int">
+                        <xs:minInclusive value="0"></xs:minInclusive>
+                        <xs:maxInclusive value="100"></xs:maxInclusive>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Prefix" type="NamePrefixType"
+        		minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's name prefix
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FirstName" minOccurs="0" maxOccurs="1" type="FirstNameType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's first name
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MiddleName" maxOccurs="1"
+        		minOccurs="0" type="MiddleNameType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's middle initial
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LastName" minOccurs="0" maxOccurs="1" type="LastNameType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's last name
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="GenerationQualifier"
+        		type="NameGenerationQualifierType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's generational qualifier
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="NameSuffix" minOccurs="0" type="NameSuffixType">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's name suffix such as "Esq."
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DOB" type="xs:date" minOccurs="0"
+        		maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's date of birth
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CountryOfCitizenship"
+        		type="CountryCodeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+        				The person's country of citizenship (should be
+        				NCIC 2000?)
+        			</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- InductPersonApplicantDataType Defined -->
+    <xs:complexType name="InductPersonApplicantDataType">
+        <xs:annotation>
+            <xs:documentation>
+        		This Type defines the data items for a single Applicant 
+        		in an InductPersonRequest call.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="BaseInductPersonData"
+				type="HHSInductPersonRequiredDataType"  minOccurs="1" >
+                <xs:annotation>
+                    <xs:documentation>
+						Contains demographic and other information
+						required for PIV badge issuance.
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ExtraInductPersonData"
+				type="HHSInductPersonOptionalDataType"  minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						Contains optional demographic and other information
+						which is not required for PIV badge issuance but
+						may be helpful for reporting or business process 
+						management.
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- InductPersonRequest Element Defined -->
+    <xs:element name="InductPersonRequest">
+        <xs:annotation>
+            <xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to load
+        		demographic and other information for 1 to 50 Applicants
+        		into the BearingPoint IDMS.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+					type="TransactionHeaderType"  minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="InductPersonData"
+					type="InductPersonApplicantDataType"  minOccurs="1" maxOccurs="5000" >
+                    <xs:annotation>
+                        <xs:documentation>
+							Each occurrence of this element Contains demographic and other 
+							information required for PIV badge issuance on a single Applicant.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- InductPersonRequest Element Defined -->
+    <xs:element name="InductPersonIncRequest">
+        <xs:annotation>
+            <xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to load
+        		demographic and other information for 1 to 50 Applicants
+        		into the BearingPoint IDMS.
+        		Unlike the InductPersonRequest operation, this operation has no minimum
+        		set of required Applicant data.  The only requirement is that at least one 
+        		Applicant data item be provided.
+        		If not all required Applicant data items are provided, additional call(s)
+        		to UpdateInductionDataRequest will be required before the Applicant can
+        		receive their PIV card.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ApplicantInductionData"
+					type="InductionDataType"  minOccurs="1" maxOccurs="50">
+                    <xs:annotation>
+                        <xs:documentation>
+							This element should be populated with the data
+							elements to be updated.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- InductPersonResultType Defined -->
+    <xs:complexType name="InductPersonResultType">
+        <xs:annotation>
+            <xs:documentation>
+        		This Type defines the data elements describing the results for 
+        		an attempt to induct an Applicant.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ResultCode" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                   		A short code describing the results of the
+                   		induction request.
+                   	</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Success" >
+                            <xs:annotation>
+                                <xs:documentation>
+								The induction request succeeded
+							</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="Reject-Duplicate">
+                            <xs:annotation>
+                                <xs:documentation>
+								The induction failed because the person has already been inducted into the system.
+							</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="Reject-InvalidData">
+                            <xs:annotation>
+                                <xs:documentation>
+								The induction failed because the request contained invalid data or was missing required data
+							</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="Failed">
+                            <xs:annotation>
+                                <xs:documentation>
+								The induction failed due to an internal error
+							</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="AssignedPI" type="PersonIdType"  minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>
+						If "ResultCode" is "Success", this element will contain 
+						the person identifier of the inducted person.
+						Note that if the InductPersonRequest contained a 
+						value for the "HHSID" element, then this field will just
+						be a copy of that value.  However, if the InductPersonRequest
+						didn't provide a value for "HHSID", this element will
+						contain the system assigned PI for the inducted person.
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ResultMessage" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+						A short message which explains or elaborates
+						on the ResultCode
+					</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="256"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+						If the ResultCode is "Failed", this field
+						may contain some extra information which may
+						be helpful in diagnosing the reason for the
+						rejection. Note that the information in this
+						field is not intended to be useful to the
+						average user but is intended to help
+						advanced users or help desk personal debug
+						the problem.
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- InductPersonResponse Element Defined -->
+    <xs:element name="InductPersonResponse">
+        <xs:annotation>
+            <xs:documentation>
+        		In response to a "InductPersonRequest" or "InductPersonIncRequest", 
+        		the IDMS will send this element to the requester so that the results
+        		of the induction request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="InductionResult" type="InductPersonResultType"  minOccurs="0" maxOccurs="50">
+                    <xs:annotation>
+                        <xs:documentation>
+							For every requested Applicant induction, one of these elements
+							will be present so that the results of each induction request can be
+							retrieved.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- ReadInductionDataRequest Element Defined -->
+    <xs:element name="ReadInductionDataRequest">
+        <xs:annotation>
+            <xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to retrieve
+        		a persons demographic and other information from the
+        		BearingPoint IDMS.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="SearchPI" type="PersonIdType"
+	        		minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+	        				This element must be loaded with the PI of
+	        				the person whose information is to be
+	        				retrieved
+	        			</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- ReadInductionDataResponse Element Defined -->
+    <xs:element name="ReadInductionDataResponse">
+        <xs:annotation>
+            <xs:documentation>
+        		In response to a "ReadInductionDataRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+							A short code describing the results of the
+							Read Induction Data request.
+						</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The operation was successfully
+										processed by the IDMS.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotFound">
+                                <xs:annotation>
+                                    <xs:documentation>
+										A person with the given
+										SearchPI was not found.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="InductionData"
+					type="InductionDataType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the "ResultCode" indicates success, this
+							element will be present and it will be
+							populated with the person's demographic and
+							other data as stored on the IDMS.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="FacialImageTimestamp"
+					type="xs:dateTime" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the "ResultCode" indicates success and a
+							facial image is on file for the SearchPI,
+							this element will be present and it will be
+							populated with a time stamp indicating when
+							the facial image was captured. If the
+							"ResultCode" indicates success and this
+							element is not present then no facial image
+							is on file for the SearchPI.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="LastUpdateTimestamp"
+					type="xs:dateTime" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the "ResultCode" indicates success, this
+							element will be present and it will be
+							populated with a time stamp indicating when
+							the induction data for the given SearchPI
+							was last modified.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string"
+					minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="RegistrationState" type="RegistrationStateCodeType"
+					maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If available, this element returns the registration state
+							for the Applicant.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="RegistrationDate" type="xs:date"
+					maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the person has registered, this element
+							will be included and indicates the data of
+							registration.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="RegistrarPI" type="PersonIdType"
+					maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the person has registered, this element
+							will be included and indicates the PersonID
+							of the registrar.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="IssuanceState" type="CardIssuanceStateCodeType"
+					maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If available, this element returns the card issuance state
+							for the Applicant.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="IssuanceDate" type="xs:date"
+					maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                    		If a card has been issued to this person,
+                    		this element will be included and indicates
+                    		the date on which the card was issued.
+                    	</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="IssuerPI" type="xs:string" maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If a card has been issued to this person,
+							this element will be included and indicates
+							the PersonID of the card issuer.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- InductPersonRequest Element Defined -->
+    <xs:element name="UpdateInductionDataRequest">
+        <xs:annotation>
+            <xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to update
+        		a persons previously loaded demographic and other 
+        		information into the BearingPoint IDMS. 
+        		IMPORTANT: If alternate UIDs are entered in this document
+        		then the current alternate UIDs located in the database 
+        		will be removed from the system and the newly entered
+        		alternate UIDs will be stored in the system. If you want to 
+        		keep the current alternate UIDs stored in the system then
+        		make sure those alternate UIDs are also entered in this document.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="UpdatePI" type="PersonIdType"
+	        		minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+	        				This element must be loaded with the PI of
+	        				the person whose information is to be
+	        				updated.
+	        			</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="InductionData"
+					type="InductionDataType"  minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+							This element should be populated with the data
+							elements to be updated.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- InductPersonResponse Element Defined -->
+    <xs:element name="UpdateInductionDataResponse">
+        <xs:annotation>
+            <xs:documentation>
+        		In response to a "UpdateInductionDataRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the update can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                    		A short code describing the results of the
+                    		Update Induction Data request.
+                    	</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The operation was successfully processed by the IDMS.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotFound">
+                                <xs:annotation>
+                                    <xs:documentation>
+										A person with the given UpdatePI was not found.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Reject-InvalidData">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The update request failed because one or more
+										fields of the InductionData element contained
+										invalid data.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Reject-NotDeactivated">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The update request failed because an applicant's
+                                        OPDIV or other activation locked data may not be 
+                                        changed unless an applicant is in the deactivated
+                                        state.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="ResultMessage" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							A short message which explains or elaborates
+							on the ResultCode
+						</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="256"></xs:maxLength>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							rejection. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- ReadFacialImageRequest Element Defined -->
+    <xs:element name="ReadFacialImageRequest">
+        <xs:annotation>
+            <xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to retrieve
+        		a persons facial image from the
+        		BearingPoint IDMS.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="SearchPI" type="PersonIdType"
+	        		minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+	        				This element must be loaded with the PI of
+	        				the person whose facial image is to be
+	        				retrieved
+	        			</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ImageType" minOccurs="0" default="Enrollment">
+                    <xs:annotation>
+                        <xs:documentation>
+                    		The IDMS keeps a copy of the original enrollment
+                    		image (JPEG encoded) produced by the enrollment 
+                    		workstation camera.
+                    		The IDMS is also capable of generating a JPEG2000 encoded
+                    		image suitable for storage on the PIV card.  The
+                    		caller may request either image.
+                    		By default, the enrollment image will be returned.
+                    	</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Enrollment">
+                                <xs:annotation>
+                                    <xs:documentation>
+										Return the enrollment image.  This is typically a 
+										640x480 JPEG encoded image.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="PivCard">
+                                <xs:annotation>
+                                    <xs:documentation>
+										Return the PIV card formatted facial image.
+										This is typically a 640x480 JPEG2000 encoded image.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- ReadFacialImageResponse Element Defined -->
+    <xs:element name="ReadFacialImageResponse">
+        <xs:annotation>
+            <xs:documentation>
+        		In response to a "ReadFacialImageRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                    		A short code describing the results of the
+                    		Read Facial Image request.
+                    	</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The facial image was found and is being returned.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NoFacialImage">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The person with the given PI was found but there is
+										no facial image on file for that person
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotFound">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The person with the given PI was not found
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="FacialImageData"
+					type="FacialImageDataType"  minOccurs="0" >
+                    <xs:annotation>
+                        <xs:documentation>
+							If the "ResultCode" indicates success, this
+							element will be present and it will be
+							populated with the person's facial image as 
+							stored on the IDMS.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="FacialImageTimestamp"
+					type="xs:dateTime"  minOccurs="0" >
+                    <xs:annotation>
+                        <xs:documentation>
+							If the "ResultCode" indicates success, this
+							element will be present and it will be
+							populated with a time stamp indicating when the
+							facial image was captured.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- ReservePersonIdentifierRequest Element Defined -->
+    <xs:element name="ReservePersonIdentifierRequest">
+        <xs:annotation>
+            <xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to have the
+        		IDMS generate and reserve a PI for a person who will not
+        		be receiving a PIV card.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Organization" minOccurs="0" type="OrganizationCodeType">
+                    <xs:annotation>
+                        <xs:documentation>
+	                		The organization requesting the Person Identifier
+	                	</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="OPDIV" type="OpdivCodeType" minOccurs="0" >
+                    <xs:annotation>
+                        <xs:documentation>
+	        				The OPDIV requesting the Person Identifier
+	        			</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="OpdivEmployeeID"
+						type="OpdivEmployeeIDType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+						The OPDIV employee ID of the person to be assigned a
+						Person Identifier.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- ReservePersonIdentifierResponse Element Defined -->
+    <xs:element name="ReservePersonIdentifierResponse">
+        <xs:annotation>
+            <xs:documentation>
+        		In response to a "ReservePersonIdentifierRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the induction request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                    		A short code describing the results of the
+                    		Reserve Person Identifier request.
+                    	</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The operation was successfully processed by the IDMS.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Reject-Duplicate">
+                                <xs:annotation>
+                                    <xs:documentation>
+										A PI has already been assigned for a person with
+										the given OpdivEmployeeID
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Reject-InvalidData">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The given OpdivEmployeeID is not valid.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="AssignedPI" type="PersonIdType"  minOccurs="0" >
+                    <xs:annotation>
+                        <xs:documentation>
+							If "ResultCode" is "Success", this element will contained 
+							the reserved person identifier.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ResultMessage" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							A short message which explains or elaborates
+							on the ResultCode
+						</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="256"></xs:maxLength>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							rejection. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- ReservePersonIdentifierRequest Element Defined -->
+    <xs:element name="MatchPersonRequest">
+        <xs:annotation>
+            <xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to have the
+        		IDMS search for the person (or possibly multiple people) 
+        		known to the IDMS that best match the given parameters.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="SearchParams"
+						type="MatchPersonSearchData"  minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation> 
+						All available information for the person to be matched
+						should be populated into the MatchPersonSearchData element
+						in order to insure accurate matching.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- MatchPersonResponse Element Defined -->
+    <xs:element name="MatchPersonResponse">
+        <xs:annotation>
+            <xs:documentation>
+        		In response to a "ReservePersonIdentifierRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the induction request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                    		A short code describing the results of the
+                    		Reserve Person Identifier request.
+                    	</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation>
+                                    <xs:documentation> 
+									Indicates that one or more people were found that matched the given
+									search parameters.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="None-Found">
+                                <xs:annotation>
+                                    <xs:documentation> 
+									Indicates that no person was found that matched the given
+									search parameters.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation> 
+									Indicates that an unexpected error occurred while trying to
+									perform the operation.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="MatchedPersons" type="MatchPersonResultsData"  minOccurs="0" maxOccurs="10">
+                    <xs:annotation>
+                        <xs:documentation>
+							If "ResultCode" is "Success", one or more of these elements will be 
+							returned to the requester.  There will be one element for each possible
+							match.  If the IDMS is very confident of a match, only one element 
+							will be returned even if multiple people may have partially matched
+							the given search parameters.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							rejection. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="MissingInductionDataInfoType">
+        <xs:annotation>
+            <xs:documentation>
+				This type is used by various status and process
+				management services to provide information about missing
+				induction data that must be provided before processing
+				can continue.
+			</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="FieldName" type="xs:string" maxOccurs="unbounded" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+						The field name of the missing induction data.
+						There can be one or more of these elements
+						depending on how many required fields have not
+						been specified. The field name corresponds with
+						one of the field names in the InductionDataType
+						type definition.
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- GetApplicantProcessingStateRequest Element Defined -->
+    <xs:element name="GetApplicantProcessingStateRequest">
+        <xs:annotation>
+            <xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to check
+        		processing state for an applicant.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ApplicantPI" type="PersonIdType"
+	        		minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+	        				This element must be loaded with the PI of
+	        				the person whose processing state is to be
+	        				checked.
+	        			</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- GetApplicantProcessingStateResponse Element Defined -->
+    <xs:element name="GetApplicantProcessingStateResponse">
+        <xs:annotation>
+            <xs:documentation>
+        		In response to a "GetApplicantProcessingStateRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the update can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+							A short code describing the results of the
+							Update Induction Data request.
+						</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The operation was successfully
+										processed by the IDMS.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotFound">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The operation failed because the
+										requested ApplicantPI was not
+										found.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="MissingInductionData"
+					type="MissingInductionDataInfoType" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+							If missing induction data is preventing
+							Applicant processing from moving forward,
+							this element will be sent to notify the
+							requester of the missing induction data
+							fields.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string"
+					minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							rejection. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="CurrentState"
+					type="ProcessingStateCodeType" maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							The current processing state for the
+							Applicant
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="NextState"
+					type="ProcessingStateCodeType" maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							The next processing state for the applicant
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ProcessingBlocked" type="xs:boolean"
+					maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							This element indicates if processing is
+							blocked due to some missing information or
+							other error condition.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="InductionDate" type="xs:date" maxOccurs="1" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+							The date this person was inducted
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="InductorPI" type="PersonIdType" maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							The PersonID of the inductor.  Note that this element may be absent if the
+							PI of the inductor is not known.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="SponsorDate" type="xs:date" maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the person has been sponsored, this element
+							will be included and indicates the data of
+							sponsorship.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="SponsorPI" type="PersonIdType" maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the person has sponsored, this element
+							will be included and indicates the PersonID
+							of the sponsor.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="RegistrationDate" type="xs:date" maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the person has registered, this element
+							will be included and indicates the data of
+							registration.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="RegistrarPI" type="PersonIdType" maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the person has registered, this element
+							will be included and indicates the PersonID
+							of the registrar.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="IssuanceDate" type="xs:date" maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If a card has been issued to this person,
+							this element will be included and indicates
+							the date on which the card was issued.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="IssuerPI" type="PersonIdType" maxOccurs="1" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If a card has been issued to this person,
+							this element will be included and indicates
+							the PersonID of the card issuer.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="IdentificationInformationType">
+        <xs:annotation>
+            <xs:documentation>
+        		This element contains information needed to identify the
+        		person being sponsored. At least one of the sub elements 
+        		must be specified or the induction request will be rejected.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="SSN" type="SocialSecurityNumberType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                		Social security number of the person being
+                		inducted.
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ARN" type="AlienRegistrationNumberType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+						Alien registration number of the person being
+						inducted
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="VisaNumber" type="VisaNumberType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+						Visa number of the person being inducted
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ForeignPOB"
+				type="ForeignPlaceOfBirthInfoType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                		Foreign place of birth information for the
+                		person being inducted
+                	</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ForeignId" type="ForeignNationalIdInfoType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+						Foreign ID information for the person being
+						inducted
+					</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- DeactivateApplicantRequest Element Defined -->
+    <xs:element name="DeactivateApplicantRequest">
+        <xs:annotation>
+            <xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to deactivate
+        		an existing applicant.
+                <br/>
+        		If an applicant has been issued a PIV card, that card will be 
+        		immediately terminated.
+                <br/>
+				If an applicant has been sponsored and is in the process of 
+				enrollment, background check, adjudication, or card production, 
+				said processing will be immediately terminated.
+                <br/>
+				The Applicant will be left in a state similar to an Applicant that has been 
+				inducted but not sponsored (but the Applicant will have a state of "deactivated").
+                <br/>
+				The Applicant will continue to be visible via the ReadInductionData() web service call. 
+				It will be possible to re-sponsor a deactivated Applicant using the 
+				UpdateInductionData() web service call.  Once a deactivated Applicant has 
+				been re-sponsored, they will be able to follow the same IDMS use cases 
+				for background checks and card production as any normal Applicant.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ApplicantPI" type="PersonIdType"
+	        		minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+	        				This element must be loaded with the PI of
+	        				the person whose IDMS processing is to be 
+	        				terminated.
+	        			</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- GetApplicantProcessingStateResponse Element Defined -->
+    <xs:element name="DeactivateApplicantResponse">
+        <xs:annotation>
+            <xs:documentation>
+        		In response to a "DeactivateApplicantRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the update can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+							A short code describing the results of the
+							Update Induction Data request.
+						</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The operation was successfully
+										processed by the IDMS.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotFound">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The operation failed because the
+										requested ApplicantPI was not
+										found.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="ResultMessage" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A short message which explains or elaborates
+                            on the ResultCode
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="256"></xs:maxLength>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string"
+					minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							rejection. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- GetHHSIDRequest Element Defined -->
+    <xs:element name="GetHHSIDRequest">
+        <xs:annotation>
+            <xs:documentation>
+        		A document containing this element should be sent to the
+        		Bulk Induction Web Service of the IDMS in order to retrieve
+        		a persons HHS ID from the
+        		BearingPoint IDMS.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader" type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+						The standard IDMS transaction header.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="EmailAddress" type="EmailAddressType" minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+							This element must be populated with the card holders email address.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- GetHHSIDResponse Element Defined -->
+    <xs:element name="GetHHSIDResponse">
+        <xs:annotation>
+            <xs:documentation>
+        		In response to a "GetHHSIDRequest", the IDMS will
+        		send this element to the requester so that the results
+        		of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                    		A short code describing the results of the
+                    		Get HHSID request.
+                    	</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation>
+                                    <xs:documentation>
+										The HHSID was found and is being returned.
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotFound">
+                                <xs:annotation>
+                                    <xs:documentation>
+										No HHSID found for specified criteria
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NonUnique">
+                                <xs:annotation>
+                                    <xs:documentation> 
+									Indicates that more than one record was found for search criteria.  
+									</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							rejection. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <!-- CardholderEmailAddress, HHSID, , , OpDiv -->
+                <xs:element name="Cardholder" type="GetHHSIdDataType" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+							This object will contain the resulting Person information returned from the GetHHSID call.
+						</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- RegisterCopsApplicantRequest Element Defined -->
+    <xs:element name="RegisterCopsApplicantRequest">
+        <xs:annotation>
+            <xs:documentation>
+                A document containing this element should be sent to the
+                Bulk Induction Web Service of the IDMS inform the SCMS that a 
+                specific applicant is a Commission Corps member.
+                <br/>
+                Upon successful completion of the Register Applicant web 
+                service method, the specified applicant will be tagged in the 
+                SCMS as a Commission Corps member and the COPS system will be 
+                notified when the applicant record is terminated.
+                <br/>
+                If the Register Applicant service is invoked on an applicant 
+                record that has already been registered as a Commission Corps 
+                member with the same CopsSerialNumber, the method will simply 
+                return Success and no changes will be made on the SCMS.  If 
+                the Register Applicant service is invoked on an applicant record 
+                that has already been registered as a Commission Corps member, 
+                but with a different CopsSerialNumber, the method will update the 
+                CopsSerialNumber in the SCMS and return success as long as the 
+                provided CopsSerialNumber is not assigned to another person in 
+                the SCMS.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+                        type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+                        The standard SCMS transaction header.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ApplicantPI" type="PersonIdType"
+                    minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            The HHS-ID (PI) of the applicant to be 
+                            registered as a commissioned corps member.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="CopsSerialNumber" type="CopsSerialNumberType"
+                    minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            The Commission Corps Serial Number is the 5 digit 
+                            employee ID assigned by COPS.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- RegisterCopsApplicantResponse Element Defined -->
+    <xs:element name="RegisterCopsApplicantResponse">
+        <xs:annotation>
+            <xs:documentation>
+                In response to a "RegisterCopsApplicantRequest", the SCMS will
+                send this element to the requester so that the results
+                of the request can be retrieved.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A short code describing the results of the
+                            request.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The person was successfully registered 
+                                        as a commissioned corps member 
+                                        in the SCMS
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotFound">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The operation failed because a person 
+                                        with the given ApplicantPI was not found.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="RejectDupCopsSerialNumber">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The operation failed because a person 
+                                        with the given ApplicantPI was found; but 
+                                        the specified CopsSerialNumber is already 
+                                        assigned to a different applicant in the SCMS.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An unexpected error occurred and the request 
+                                        cannot be processed. More information may be 
+                                        available in the FailureDetailMessage.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="ResultMessage" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A short message which explains or elaborates on 
+                            the ResultCode.  Note that the information in 
+                            this field is not intended to be useful to the 
+                            average user but is intended to help advanced 
+                            users or help desk personnel debug problems.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="256"></xs:maxLength>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string"
+                    minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            If the ResultCode is "Failed", this field
+                            may contain some extra information which may
+                            be helpful in diagnosing the reason for the
+                            rejection. Note that the information in this
+                            field is not intended to be useful to the
+                            average user but is intended to help
+                            advanced users or help desk personal debug
+                            the problem.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- UnregisterCopsApplicantRequest Element Defined -->
+    <xs:element name="UnregisterCopsApplicantRequest">
+        <xs:annotation>
+            <xs:documentation>
+                A document containing this element should be sent to the
+                Bulk Induction Web Service of the SCMS inform the SCMS that a 
+                specific applicant is no longer a Commission Corps member.
+                <br/>
+                Upon successful completion of the Unregister Applicant web 
+                service method, the specified applicant will NO LONGER be 
+                tagged in the SCMS as a Commission Corps member and the COPS 
+                system will NOT be notified when the applicant record is 
+                terminated.
+                <br/>
+                If the Unregister Applicant service is invoked on an applicant 
+                record that is not registered as a Commission Corps member, the 
+                method will simply return Success and no changes will be made 
+                on the SCMS.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+                        type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+                        The standard SCMS transaction header.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ApplicantPI" type="PersonIdType"
+                    minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            The HHS-ID (PI) of the applicant to be 
+                            un-registered as a commissioned corps member.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- UnregisterCopsApplicantResponse Element Defined -->
+    <xs:element name="UnregisterCopsApplicantResponse">
+        <xs:annotation>
+            <xs:documentation>
+                In response to a "UnregisterCopsApplicantRequest", the SCMS 
+                will send this element to the requester so that the results
+                of the request can be retrieved.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A short code describing the results of the
+                            request.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Success">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The person was successfully un-registered 
+                                        as a commissioned corps member in the SCMS.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotFound">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The operation failed because a person 
+                                        with the given ApplicantPI was not found..
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An unexpected error occurred and the request 
+                                        cannot be processed. More information may be 
+                                        available in the FailureDetailMessage.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="ResultMessage" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A short message which explains or elaborates on 
+                            the ResultCode.  Note that the information in 
+                            this field is not intended to be useful to the 
+                            average user but is intended to help advanced 
+                            users or help desk personnel debug problems.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="256"></xs:maxLength>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string"
+                    minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            If the ResultCode is "Failed", this field
+                            may contain some extra information which may
+                            be helpful in diagnosing the reason for the
+                            rejection. Note that the information in this
+                            field is not intended to be useful to the
+                            average user but is intended to help
+                            advanced users or help desk personal debug
+                            the problem.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- CheckCopsRegistrationStatusRequest Element Defined -->
+    <xs:element name="CheckCopsRegistrationStatusRequest">
+        <xs:annotation>
+            <xs:documentation>
+                A document containing this element should be sent to the
+                Bulk Induction Web Service of the SCMS to query the SCMS to 
+                determine if a specific applicant is tagged as a Commission 
+                Corps member.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TransactionHeader"
+                        type="TransactionHeaderType"  minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation> 
+                        The standard SCMS transaction header.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ApplicantPI" type="PersonIdType"
+                    minOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            The HHS-ID (PI) of the applicant whose COPS 
+                            registration status is to be checked.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- CheckCopsRegistrationStatusResponse Element Defined -->
+    <xs:element name="CheckCopsRegistrationStatusResponse">
+        <xs:annotation>
+            <xs:documentation>
+                In response to a "CheckCopsRegistrationStatusRequest", the SCMS 
+                will send this element to the requester so that the results
+                of the request can be retrieved.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A short code describing the results of the
+                            request.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Registered">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                         The applicant is registered in the SCMS as 
+                                         a commissioned corps member.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotRegistered">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                         The applicant is NOT registered in the SCMS 
+                                         as a commissioned corps member.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="NotFound">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        A person with the given ApplicantPI was not found.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="Failed">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An unexpected error occurred and the request 
+                                        cannot be processed. More information may be 
+                                        available in the FailureDetailMessage.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="CopsSerialNumber" type="CopsSerialNumberType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            If the ResultCode is "Registered", this field will contain 
+                            the CopsSerialNumber assigned to this applicant by the 
+                            RegisterCopsApplicantRequest web service method.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ResultMessage" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A short message which explains or elaborates on 
+                            the ResultCode.  Note that the information in 
+                            this field is not intended to be useful to the 
+                            average user but is intended to help advanced 
+                            users or help desk personnel debug problems.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="256"></xs:maxLength>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="FailureDetailMessage" type="xs:string"
+                    minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            If the ResultCode is "Failed", this field
+                            may contain some extra information which may
+                            be helpful in diagnosing the reason for the
+                            rejection. Note that the information in this
+                            field is not intended to be useful to the
+                            average user but is intended to help
+                            advanced users or help desk personal debug
+                            the problem.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
