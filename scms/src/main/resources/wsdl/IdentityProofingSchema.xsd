@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/scms/idProofing/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://hspd12.hhs.gov/scms/idProofing/v1"
+	xmlns:bpd="http://hspd12.deloitte.com/webservice/doc"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="IdentityProofingSchema" version="1.0.2010-12-11">
+
+    <xs:simpleType name="HHSIdType">
+        <xs:annotation>
+            <xs:documentation>
+                Define the data type and constraints for an HHS Person ID.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{10}"></xs:pattern>
+            <xs:length value="10"></xs:length>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="NameFirstType">
+        <xs:annotation>
+            <xs:documentation>
+                Define the data type and constraints for a first name.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="64"></xs:maxLength>
+            <xs:pattern value="[A-Za-z\-&apos;&quot;]+(\s?[A-Za-z\-&apos;&quot;]+)*"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="NameLastType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the data type and constraints for a last name.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="64"></xs:maxLength>
+            <xs:pattern value="[A-Za-z\-&apos;&quot;]+(\s?[A-Za-z\-&apos;&quot;]+)*"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="NameMiddleType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the data type and constraints for a middle name.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="64"></xs:maxLength>
+            <xs:pattern value="[A-Za-z\-&apos;&quot;]+(\s?[A-Za-z\-&apos;&quot;]+)*"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+
+    
+    <!-- Salutation / Name Prefix Codes Defined -->
+    <xs:simpleType name="NameSalutationType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the data type and constraints for a name salutation
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"></xs:maxLength>
+            <xs:enumeration value="Mr"></xs:enumeration>
+            <xs:enumeration value="Mrs"></xs:enumeration>
+            <xs:enumeration value="Ms"></xs:enumeration>
+            <xs:enumeration value="Dr"></xs:enumeration>
+            <xs:enumeration value="Prof"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="NameSuffixType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the data type and constraints for a name suffix
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"></xs:minLength>
+            <xs:maxLength value="20"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    
+    <xs:simpleType name="EmailAddressType">
+        <xs:annotation>
+            <xs:documentation>
+                The type defines the data type and constraints for 
+                an email address.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="UserNameType">
+        <xs:annotation>
+            <xs:documentation>
+                The type defines the data type and constraints for 
+                a user name (i.e. computer account name).
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="OrgNameType">
+        <xs:annotation>
+            <xs:documentation>
+                The type defines the data type and constraints for 
+                an organization name.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"></xs:maxLength>
+            <xs:minLength value="1"></xs:minLength>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="OrgPersonRoleType">
+        <xs:annotation>
+            <xs:documentation>
+                The type defines the data type and constraints for 
+                the role or title a person holds in an organization.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="90"></xs:maxLength>
+            <xs:minLength value="1"></xs:minLength>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="PostalAddrStreetAddrType">
+        <xs:annotation>
+            <xs:documentation>
+                The type defines the data type and constraints for 
+                a street address line of a postal address.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="60"></xs:maxLength>
+            <xs:minLength value="1"></xs:minLength>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="CityNameType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the data type and constraints for a city name.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"></xs:minLength>
+            <xs:maxLength value="50"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+
+    
+    <xs:simpleType name="StateCodeType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the data type and constraints for a state code abbreviations
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"></xs:maxLength>
+            <xs:minLength value="2"></xs:minLength>
+            <xs:pattern value="[A-Z]+"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    
+    <xs:simpleType name="CountryCodeType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the data type and constraints for a country code
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"></xs:maxLength>
+            <xs:minLength value="2"></xs:minLength>
+            <xs:pattern value="[A-Z]+"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+
+    
+    <xs:simpleType name="PostalCodeType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the data type and constraints for a postal code / zip
+                code..  The regex which validates this type allows for a single
+                string of digits or two strings of digits separated by an 
+                &quot;-&quot;.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"></xs:maxLength>
+            <xs:minLength value="3"></xs:minLength>
+            <xs:pattern value="[0-9]+(\-[0-9]+)?"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+
+    
+    <xs:simpleType name="PhoneNumberType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the data type and constraints for a phone number.  The
+                regex which validates this type allows for an E.164 formatted
+                phone number or an E.164 phone number followed by by an &quot;x&quot; 
+                and then a number representing the extension.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="20"></xs:maxLength>
+            <xs:minLength value="5"></xs:minLength>
+            <xs:pattern value="\+?[0-9]+(x[0-9]+)?"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="IdentityProofingLevelType">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the supported identity proofing levels
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:int">
+            <xs:enumeration value="1"><xs:annotation>
+                <xs:documentation>Proofed to identity proofing level 1</xs:documentation> </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="2"><xs:annotation>
+                <xs:documentation>Proofed to identity proofing level 2</xs:documentation> </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="3"><xs:annotation>
+                <xs:documentation>Proofed to identity proofing level 3</xs:documentation> </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="4"><xs:annotation>
+                <xs:documentation>Proofed to identity proofing level 4</xs:documentation> </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    
+    <xs:complexType name="PersonInformationType">
+        <xs:annotation>
+            <xs:documentation>
+                This type defines the data fields for information about a person.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Salutation" type="NameSalutationType" nillable="true"  
+                    minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Person Salutation
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="FirstName" type="NameFirstType"  minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Person First Name
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="MiddleName" type="NameMiddleType" nillable="true"  
+                    minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Person Middle Name
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="LastName" type="NameLastType"  minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Person Last Name
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="NameSuffix" type="NameSuffixType" nillable="true"  
+                    minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Person Name Suffix
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="EmailAddress" type="EmailAddressType"  minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Person Email Address
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="OrgName" type="OrgNameType"  minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Person Organization Name
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="OrgRole" type="OrgPersonRoleType"  minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Person Role in Organization
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="WorkAddress1" type="PostalAddrStreetAddrType"  
+                    minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:annotation><xs:documentation> 
+                    Address line 1 component for Person Work Address
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="WorkAddress2" type="PostalAddrStreetAddrType"  
+                    minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:annotation><xs:documentation> 
+                    Address line 2 component for Person Work Address
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="WorkAddress3" type="PostalAddrStreetAddrType"  
+                    minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:annotation><xs:documentation> 
+                    Address line 2 component for Person Work Address
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="WorkCity" type="CityNameType" nillable="true"
+                    minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    City component for Person Work Address
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="WorkState" type="StateCodeType" nillable="true"
+                    minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    State component for Person Work Address
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="WorkPostalCode" type="PostalCodeType" nillable="true"
+                    minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Postal Code component for Person Work Address
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="WorkCountry" type="CountryCodeType" nillable="true"
+                    minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Country Code component for Person Work Address
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="WorkPhone" type="PhoneNumberType" nillable="true"
+                    minOccurs="0" maxOccurs="1">
+                <xs:annotation><xs:documentation> 
+                    Work Phone Number for Person
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="AlternatePhone" type="PhoneNumberType"  
+                    minOccurs="0" maxOccurs="1" nillable="true">
+                <xs:annotation><xs:documentation> 
+                    Alternate Phone Number for Person
+                </xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="PrimaryPhoneField" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            This element defines which of the phone number 
+                            fields in this PersonInformationType element 
+                            represents this persons primary phone number..
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="WorkPhone">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The work phone number is the
+                                        primary phone number for this person.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="AlternatePhone">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The alternate phone number is the
+                                        primary phone number for this person.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- TransactionHeaderType Defined -->
+    <xs:complexType name="TransactionHeaderType">
+        <xs:sequence>
+            <xs:element name="CallerTXID" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Unique identifier specific to a transaction
+                        request/response pair Supports tracking and 
+                        auditing.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="64"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="ExtraAuditInfo" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        If a request results in updating any system state,
+                        this extra audit info will be retained to aid in 
+                        future security audits or error investigations.
+                        The content of this optional field is left to the
+                        discretion of the calling system. 
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="64"></xs:maxLength>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+
+	<!-- GetPacsPersonDataRequest Element Defined -->
+	<xs:element name="GetPersonDataRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to 
+        		read demographic and other information about a person
+        		managed by the ID proofing service.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+						type="TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+	        	<xs:element name="SearchPersonId" type="HHSIdType" minOccurs="1" >
+	        		<xs:annotation>
+	        			<xs:documentation>
+	        				This element must be loaded with the HHS-ID of the
+	        				person whose information is to be retrieved.
+	        			</xs:documentation>
+	        		</xs:annotation>
+	        	</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- GetPacsPersonDataResponse Element Defined -->
+	<xs:element name="GetPersonDataResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "GetPersonDataRequest", a document containing
+        		this element will be returned to the requester so that the 
+        		results of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code describing the results of the
+							GetPersonData request.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation>
+									<xs:documentation>
+										The operation was successfully
+										processed.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="NotFound">
+								<xs:annotation>
+									<xs:documentation>
+										A person with the given
+										HHS-ID was not found.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation>
+									<xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PersonInfo"
+					type="PersonInformationType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the "ResultCode" indicates success, this
+							element will be present and it will be
+							populated with the person's demographic and
+							other data as stored in the system.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EffectiveIdentityProofLevel"
+                    type="IdentityProofingLevelType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            If the "ResultCode" indicates success, this
+                            element will be present and it will be
+                            populated with the person's effective ID proofing 
+                            level as stored in the system.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="DesiredIdentityProofLevel"
+                    type="IdentityProofingLevelType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            If the "ResultCode" indicates success, this
+                            element will be present and it will be
+                            populated with the person's desired ID proofing 
+                            level as stored in the system.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="AssignedUserName" type="UserNameType"  minOccurs="0" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            If "ResultCode" is "Success", this element will contain 
+                            the user name (i.e. computer account name) assigned 
+                            to the person.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+				<xs:element name="LastUpdateTimestamp"
+					type="xs:dateTime" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the "ResultCode" indicates success, this
+							element will be present and it will be
+							populated with a time stamp indicating when
+							the persons record was last updated.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+
+	<!-- SetPacsPersonDataRequest Element Defined -->
+	<xs:element name="SetPersonDataRequest">
+        <xs:annotation>
+        	<xs:documentation>
+        		A document containing this element should be sent to 
+        		add or update a person record in the system.  Both the
+        		person demographic data and desired ID proofing level can
+        		be set. <br/><br/>
+                Special Rules For Phone Number handling When Adding A New Person:<br/>
+                1. At least 1 valid phone number (work or alternate) must be 
+                provided or an error will be returned<br/>
+                2. If only one phone number is provided, the system will assume
+                that the provided phone number is the primary phone number for 
+                the person being added.<br/>
+                3. If the PrimaryPhone element is included but the indicated 
+                primary phone number is not provided in the request, an error 
+                will be returned.<br/>
+                4. If the PrimaryPhone element is not included but multiple 
+                phone numbers were provided, the primary phone number will be
+                set to the first valid phone number found by checking the phone 
+                number fields in the following order: 
+                WorkPhone, AlternatePhone<br/>
+                <br/><br/>
+                Special Rule For Phone Number handling When Updating A Person:<br/>
+                1. If the PrimaryPhone element is included but the indicated
+                primary phone number is not provided in the request or previously 
+                set, an error will be returned.<br/>
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader" 
+				        type="TransactionHeaderType"  minOccurs="1">
+					<xs:annotation><xs:documentation> 
+						The standard transaction header.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+	        	<xs:element name="UpdatePersonId" type="HHSIdType" minOccurs="0" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            If specified, this element should be loaded with
+                            the HHS-ID of a person whose record is to be 
+                            updated.  Note that if this element is specified
+                            and a record with the specified HHS-ID does not
+                            exist, an error will be returned. 
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+				<xs:element name="PersonInfo" type="PersonInformationType"  
+				        minOccurs="0" maxOccurs="1">
+					<xs:annotation><xs:documentation>
+							This element should be populated with the person 
+							data elements to be added to a new person record
+							or updated in an existing person record.
+							Note that if the UpdatePersonId element is not 
+							specified, this element must be specified or an 
+							error will be returned.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+	        	<xs:element name="DesiredIdentityProofLevel" type="IdentityProofingLevelType"  
+	        		     minOccurs="0">
+	        		<xs:annotation>
+	        			<xs:documentation>
+	        				If included, this element specifies the desired
+	        				ID proofing level for the person being added or
+	        				updated by this request.
+	        				Note that if this element is not specified and 
+	        				this request creates a new record, the created 
+	        				record will default to a desired ID proofing 
+	        				level of 1.   
+	        			</xs:documentation>
+	        		</xs:annotation>
+	        	</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- SetPacsPersonDataResponse Element Defined -->
+	<xs:element name="SetPersonDataResponse">
+        <xs:annotation>
+        	<xs:documentation>
+        		In response to a "SetPersonDataRequest", a document containing
+                this element will be returned to the requester so that the 
+                results of the request can be retrieved.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+                    <xs:annotation><xs:documentation>
+                    		A short code describing the results of the
+                    		Update Induction Data request.
+                    	</xs:documentation></xs:annotation>
+                    <xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation><xs:documentation>
+										The operation was successfully processed by the PACS.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="NotFound">
+								<xs:annotation><xs:documentation>
+										A person with the given UpdatePersonId was not found.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Reject-InvalidData">
+								<xs:annotation><xs:documentation>
+										The request failed because one or more
+										specified data items contained invalid data.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+    						<xs:enumeration value="Reject-Duplicate">
+        						<xs:annotation><xs:documentation>
+            						The induction failed because the person has already been inducted into the system.
+                				</xs:documentation></xs:annotation>
+                    		</xs:enumeration>
+							<xs:enumeration value="Reject-MissingData">
+								<xs:annotation><xs:documentation>
+										The request failed because one or more required data fields
+										are missing from the request.
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation><xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation> </xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="EffectiveIdentityProofLevel"
+                    type="IdentityProofingLevelType" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            If the "ResultCode" indicates success, this
+                            element will be present and it will be
+                            populated with the person's effective ID proofing 
+                            level as of the completion of this request.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+			    <xs:element name="AssignedPI" type="HHSIdType"  minOccurs="0" >
+				    <xs:annotation>
+					    <xs:documentation>
+						    If "ResultCode" is "Success", this element will contain 
+						    the person identifier of the inducted person.
+						    Note that if the SetPersonDataRequest contained a 
+						    value for the "UpdatePersonId" element, then this field will just
+						    be a copy of that value.  However, if the SetPersonDataRequest
+						    didn't provide a value for "UpdatePersonId", this element will
+						    contain the system assigned PI for the person.
+					    </xs:documentation>
+				    </xs:annotation>
+			    </xs:element>                
+			    <xs:element name="AssignedUserName" type="UserNameType"  minOccurs="0" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            If "ResultCode" is "Success", this element will contain 
+                            the user name (i.e. computer account name) assigned 
+                            to the inducted or updated person.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+				<xs:element name="ResultMessage" minOccurs="0">
+					<xs:annotation><xs:documentation>
+							A short message which explains or elaborates
+							on the ResultCode
+						</xs:documentation></xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="256"></xs:maxLength>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string" minOccurs="0">
+					<xs:annotation><xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							rejection. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation></xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>	
+	
+</xs:schema>

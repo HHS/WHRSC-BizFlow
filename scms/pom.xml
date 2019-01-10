@@ -50,10 +50,19 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-test</artifactId> 
-			<scope>test</scope> </dependency> -->
-
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-support</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -64,33 +73,67 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!-- For generating java classes from wsdl using JAXB, using a binding file provided in resources folder -->
-			<!-- <plugin> <groupId>org.jvnet.jaxb2.maven2</groupId> <artifactId>maven-jaxb2-plugin</artifactId> 
-				<version>0.13.2</version> <executions> <execution> <id>generate-wsdl-schema</id> 
-				<goals> <goal>generate</goal> </goals> <configuration> <args> <arg>-XautoNameResolution</arg>Added 
-				to handle exception: A class/interface with the same name is already in use. 
-				Use a class customization to resolve this conflict. </args> <generatePackage>gov.hhs.induction.schemas</generatePackage> 
-				<clearOutputDir>false</clearOutputDir> <generateDirectory>${project.basedir}/src/main/java</generateDirectory> 
-				<schemaDirectory>${project.basedir}/src/main/resources/wsdl</schemaDirectory> 
-				<schemaIncludes> <include>*.wsdl</include> </schemaIncludes> Binding file 
-				added to raise theEnumMemberSizeCap limit <xjbSources> <xjbSource>${project.basedir}/src/main/resources/xjb/bindings.xjb</xjbSource> 
-				</xjbSources> <bindingDirectory>${project.basedir}/src/main/resources/xjb</bindingDirectory> 
-				<bindingIncludes> <include>bindings.xjb</include> </bindingIncludes> <bindings> 
-				<binding> <fileset> <directory>${project.basedir}/src/main/resources</directory> 
-				<includes> <include>bindings.xjb</include> </includes> </fileset> </binding> 
-				</bindings> <jaxbBindingFiles> TODO: Have binding files? Add them here <jaxbBindingFile>${project.basedir}/src/main/resources/xjb/bindings.xjb</jaxbBindingFile> 
-				</jaxbBindingFiles> </configuration> </execution> <execution> <id>generate-xsd-schema</id> 
-				<goals> <goal>generate</goal> </goals> <configuration> <args> <arg>-XautoNameResolution</arg>Added 
-				to handle exception: A class/interface with the same name is already in use. 
-				Use a class customization to resolve this conflict. </args> <generatePackage>gov.hhs.induction.schemas</generatePackage> 
-				<clearOutputDir>false</clearOutputDir> <generateDirectory>${project.basedir}/src/main/java</generateDirectory> 
-				<schemaDirectory>${project.basedir}/src/main/resources/wsdl</schemaDirectory> 
-				<schemaIncludes> <include>*.xsd</include> </schemaIncludes> Binding file 
-				added to raise theEnumMemberSizeCap limit <bindingDirectory>${project.basedir}/src/main/resources/xjb</bindingDirectory> 
-				<bindingIncludes> <include>bindings.xjb</include> </bindingIncludes> <bindings> 
-				<binding> <fileset> <directory>${project.basedir}/src/main/resources</directory> 
-				<includes> <include>bindings.xjb</include> </includes> </fileset> </binding> 
-				</bindings> </configuration> </execution> </executions> </plugin> -->
+			<!-- For generating java classes from wsdl using JAXB, using a binding 
+				file provided in resources folder -->
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.13.2</version>
+				<executions>
+					<execution>
+						<id>generate-wsdl-schema</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<args>
+								<arg>-XautoNameResolution</arg>
+								<!-- Added to handle exception: A class/interface
+								with the same name is already in use. Use a class customization to
+								resolve
+								this conflict.-->
+							</args>
+							<generatePackage>gov.hhs.induction.schema</generatePackage>
+							<clearOutputDir>false</clearOutputDir>
+							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
+							<schemaDirectory>${project.basedir}/src/main/resources/wsdl</schemaDirectory>
+							<schemaIncludes>
+								<include>*.wsdl</include>
+							</schemaIncludes>
+							<bindingDirectory>${project.basedir}/src/main/resources/xjb</bindingDirectory><!-- 
+								Binding file added to raise theEnumMemberSizeCap limit -->
+							<bindingIncludes>
+								<include>bindings.xjb</include>
+							</bindingIncludes>
+
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-xsd-schema</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<args>
+								<arg>-XautoNameResolution</arg>	<!--Added to handle exception: A class/interface with the same name is already 
+									in use. Use a class customization to resolve this conflict. -->
+							</args>
+							<generatePackage>gov.hhs.induction.schema</generatePackage>
+							<clearOutputDir>false</clearOutputDir>
+							<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
+							<schemaDirectory>${project.basedir}/src/main/resources/wsdl</schemaDirectory>
+							<schemaIncludes>
+								<include>*.xsd</include>
+							</schemaIncludes> <!--Binding file added to raise theEnumMemberSizeCap limit -->
+							<bindingDirectory>${project.basedir}/src/main/resources/xjb</bindingDirectory>
+							<bindingIncludes>
+								<include>bindings.xjb</include>
+							</bindingIncludes>
+
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 		</plugins>
 		<resources>

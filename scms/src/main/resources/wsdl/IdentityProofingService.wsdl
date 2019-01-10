@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions name="IdentityProofingService"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://hspd12.hhs.gov/scms/idProofing/v1"
+  xmlns:bp="http://hspd12.hhs.gov/scms/idProofing/v1"
+  xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+  targetNamespace="http://hspd12.hhs.gov/scms/idProofing/v1"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+  
+  <types>
+    <xs:schema xmlns="http://hspd12.hhs.gov/scms/idProofing/v1"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://hspd12.hhs.gov/scms/idProofing/v1"
+		xmlns:tns="http://hspd12.hhs.gov/scms/idProofing/v1"
+		elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+		<xs:include schemaLocation="IdentityProofingSchema.xsd"></xs:include>
+		<xs:annotation>
+			<xs:appinfo>
+				<bpd:schemaDocInclude bpd:file="IdentityProofingSchema.xsd"/>
+			</xs:appinfo>
+		</xs:annotation>
+			
+    </xs:schema>
+  </types>
+  
+  <message name="SetPersonDataSoapIn">
+    <part name="request" element="bp:SetPersonDataRequest"/>
+  </message>
+  <message name="SetPersonDataSoapOut">
+    <part name="response" element="bp:SetPersonDataResponse"/>
+  </message>
+
+  <message name="GetPersonDataSoapIn">
+    <part name="request" element="bp:GetPersonDataRequest"/>
+  </message>
+  <message name="GetPersonDataSoapOut">
+    <part name="response" element="bp:GetPersonDataResponse"/>
+  </message>
+
+  <portType name="IdentityProofingEndpoint">
+    <operation name="SetPersonData">
+      <input message="tns:SetPersonDataSoapIn"/>
+      <output message="tns:SetPersonDataSoapOut"/>
+    </operation>
+    <operation name="GetPersonData">
+      <input message="tns:GetPersonDataSoapIn"/>
+      <output message="tns:GetPersonDataSoapOut"/>
+    </operation>
+  </portType>
+
+  <binding name="IdentityProofingEndpointBinding" type="tns:IdentityProofingEndpoint">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="SetPersonData">
+      <soap:operation soapAction="http://idms.deloitte.com/SetPersonData" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="GetPersonData">
+      <soap:operation soapAction="http://idms.deloitte.com/GetPersonData" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+  </binding>
+  
+  <service name="IdentityProofingService">
+    <documentation>
+    	IDMS IdentityProofing Web Services
+	</documentation>
+    <port name="IdentityProofingEndpointPort" binding="tns:IdentityProofingEndpointBinding">
+      <soap:address location="http://REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>

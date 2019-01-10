@@ -8,12 +8,11 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.springframework.beans.factory.annotation.Value;
 
-import gov.hhs.induction.schemas.AffiliationCodeType;
-import gov.hhs.induction.schemas.CountryCodeType;
-import gov.hhs.induction.schemas.CredentialCategoryType;
-import gov.hhs.induction.schemas.OpdivCodeType;
-import gov.hhs.induction.schemas.OrganizationCodeType;
-import gov.hhs.induction.schemas.YesNoCodeType;
+import gov.hhs.induction.schema.CountryCodeType;
+import gov.hhs.induction.schema.CredentialCategoryType;
+import gov.hhs.induction.schema.OpdivCodeType;
+import gov.hhs.induction.schema.OrganizationCodeType;
+import gov.hhs.induction.schema.YesNoCodeType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InductionRequest")
@@ -145,9 +144,6 @@ public class InductionRequest {
 	public void setForeignIDIssuingCountry(String foreignIDIssuingCountry) {
 		this.foreignIDIssuingCountry = foreignIDIssuingCountry;
 	}
-	/*public XMLGregorianCalendar getDateOfBirth() {
-		return DateOfBirth;
-	}*/
 	public String getDateOfBirth() {
 		return DateOfBirth;
 	}
@@ -172,11 +168,11 @@ public class InductionRequest {
 	public void setOpdiv(OpdivCodeType opdiv) {
 		this.opdiv = opdiv.name();
 	}
-	public AffiliationCodeType getAffiliationCode() {
-		return AffiliationCodeType.fromValue(affiliationCode);
+	public String getAffiliationCode() {
+		return affiliationCode;
 	}
-	public void setAffiliationCode(AffiliationCodeType affiliationCode) {
-		this.affiliationCode = affiliationCode.name();
+	public void setAffiliationCode(String affiliationCode) {
+		this.affiliationCode = affiliationCode;
 	}
 	public CredentialCategoryType getCredentialCategory() {
 		return CredentialCategoryType.valueOf(credentialCategory);

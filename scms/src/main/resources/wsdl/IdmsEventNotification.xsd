@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="xsddoc.xsl"?>
+<xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:tns="http://hspd12.hhs.gov/federated/enrollment/v1"
+	xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	id="NedNotification" version="1.0.2007-10-01">
+
+	<xs:include schemaLocation="HHSCommonTypes.xsd"></xs:include>
+	<xs:annotation>
+		<xs:appinfo>
+			<bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd" />
+		</xs:appinfo>
+	</xs:annotation>
+
+
+	<xs:simpleType name="CardStateEnumType">
+		<xs:annotation>
+			<xs:documentation>
+				This type defines the enumeration of Card States which
+				the IDMS can report to the external system.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PersonalizationRequested"></xs:enumeration>
+			<xs:enumeration value="CardPersonalized"></xs:enumeration>
+			<xs:enumeration value="CardShipped"></xs:enumeration>
+			<xs:enumeration value="CardAwaitingIssuance"></xs:enumeration>
+			<xs:enumeration value="CardIssued"></xs:enumeration>
+			<xs:enumeration value="CardSuspended"></xs:enumeration>
+			<xs:enumeration value="CardReactivated"></xs:enumeration>
+			<xs:enumeration value="CardRevoked"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:complexType name="CardReadyNotifyType">
+		<xs:annotation>
+			<xs:documentation>
+				This type defines the parameters for the Card Ready
+				Notification event.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CardHolderPI" type="PersonIdType"
+				maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The PI of the person who needs to pickup the
+						card
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CardLocation" maxOccurs="1"
+				minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The location where the card can be picked up.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="CardStateChangeNotifyType">
+		<xs:annotation>
+			<xs:documentation>
+				This type defines the parameters for the Card State
+				Changed Notification event.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CardHolderPI" type="PersonIdType"
+				maxOccurs="1" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The PI of the person whose card state changed
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NewCardState" type="CardStateEnumType"
+				minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The new card state
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReasonForChange" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						A short description of the reason for the new
+						card state
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"></xs:maxLength>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<!-- CardEventNotify Element Defined -->
+	<xs:element name="CardEventNotifyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				A document containing this element will be sent to the
+				external system to notify it of PIV card related events.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+					type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CardReady" type="CardReadyNotifyType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							This element will be present for a Card
+							Ready notification
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CardStateChange"
+					type="CardStateChangeNotifyType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							This element will be present for a Card
+							State Change notification
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- CardEventNotifyResponse Element Defined -->
+	<xs:element name="CardEventNotifyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				In response to a "CardEventNotify", the external system
+				will send this element to the IDMS so that successful
+				handling of the notification can be verified.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code indicates how the event
+							notification was handled by the receiving
+							system.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation>
+									<xs:documentation>
+										The notification was processed
+										successfully by the external
+										system.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation>
+									<xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- ApplicantDataChangeNotify Element Defined -->
+	<xs:element name="ApplicantDataChangeNotifyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				A document containing this element will be sent to the
+				external system to notify it of changes to an
+				applicant's data which were initiated on the IDMS.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+					type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ApplicantPI" type="PersonIdType"
+					minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							This element is the PI of the person whose
+							data was changed.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- IDMSEventNotifyResponse Element Defined -->
+	<xs:element name="ApplicantDataChangeNotifyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				In response to a "ApplicantDataChangeNotify", the
+				external system will send this element to the IDMS so
+				that successful handling of the notification can be
+				verified.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code indicates how the event
+							notification was handled by the receiving
+							system.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation>
+									<xs:documentation>
+										The notification was processed
+										successfully by the external
+										system.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation>
+									<xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- EnrollmentCompletedNotify Element Defined -->
+	<xs:element name="EnrollmentCompletedNotifyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				A document containing this element will be sent to the
+				external system to notify when an enrollment has been
+				completed for a specific applicant.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+					type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ApplicantPI" type="PersonIdType"
+					minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							This element is the PI of the person whose
+							enrollment has been completed.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- EnrollmentCompletedNotifyResponse Element Defined -->
+	<xs:element name="EnrollmentCompletedNotifyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				In response to an "EnrollmentCompletedNotify" event, the
+				external system will send this element to the IDMS so
+				that successful handling of the notification can be
+				verified.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code indicates how the event
+							notification was handled by the receiving
+							system.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation>
+									<xs:documentation>
+										The notification was processed
+										successfully by the external
+										system.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation>
+									<xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	
+	<!-- ApplicantInfoSentToOpmNotify Element Defined -->
+	<xs:element name="ApplicantInfoSentToOpmNotifyRequest">
+		<xs:annotation>
+			<xs:documentation>
+				A document containing this element will be sent to the
+				external system to notify it that information about the 
+				specified Applicant has been sent to OPM for review.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransactionHeader"
+					type="TransactionHeaderType" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Contains tracking data which may be useful
+							for auditing purposes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ApplicantPI" type="PersonIdType"
+					minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							This element is the PI of the person whose
+							information has been sent to OPM.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- ApplicantInfoSentToOpmNotifyResponse Element Defined -->
+	<xs:element name="ApplicantInfoSentToOpmNotifyResponse">
+		<xs:annotation>
+			<xs:documentation>
+				In response to an "ApplicantInfoSentToOpmNotify" event, the
+				external system will send this element to the IDMS so
+				that successful handling of the notification can be
+				verified.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResultCode" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							A short code indicates how the event
+							notification was handled by the receiving
+							system.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Success">
+								<xs:annotation>
+									<xs:documentation>
+										The notification was processed
+										successfully by the external
+										system.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="Failed">
+								<xs:annotation>
+									<xs:documentation>
+										An unexpected error has occurred
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="FailureDetailMessage" type="xs:string"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							If the ResultCode is "Failed", this field
+							may contain some extra information which may
+							be helpful in diagnosing the reason for the
+							failure. Note that the information in this
+							field is not intended to be useful to the
+							average user but is intended to help
+							advanced users or help desk personal debug
+							the problem.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

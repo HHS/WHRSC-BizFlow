@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions name="SponsorshipDownloadService"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://ws.bearingpoint.com/idms/card/lifecycle/v1"
+  xmlns:bp="http://hspd12.hhs.gov/federated/enrollment/v1"
+  xmlns:bpd="http://hspd12.bearingpoint.com/webservice/doc"
+  targetNamespace="http://ws.bearingpoint.com/idms/card/lifecycle/v1"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+  
+  <documentation>
+  	<bpd:modDate>2007-11-25</bpd:modDate>
+  </documentation>
+  <types>
+    <xs:schema xmlns="http://hspd12.hhs.gov/federated/enrollment/v1"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://hspd12.hhs.gov/federated/enrollment/v1"
+		xmlns:tns="http://hspd12.hhs.gov/federated/enrollment/v1"
+		elementFormDefault="qualified" attributeFormDefault="unqualified"
+		xmlns:hhs="http://hspd12.hhs.gov/federated/enrollment/v1">
+
+		<xs:include schemaLocation="CardLifeCycle.xsd"></xs:include>
+		<xs:annotation>
+			<xs:appinfo>
+				<bpd:schemaDocInclude bpd:file="CardLifeCycle.xsd"/>
+				<bpd:schemaDocInclude bpd:file="HHSCommonTypes.xsd"/>
+			</xs:appinfo>
+		</xs:annotation>
+			
+    </xs:schema>
+  </types>
+  
+  <message name="CardReissueRequiredSoapIn">
+    <part name="request" element="bp:CardReissueRequiredRequest"/>
+  </message>
+  <message name="CardReissueRequiredSoapOut">
+    <part name="result" element="bp:CardReissueRequiredResponse"/>
+  </message>
+  <message name="CardRenewalRequiredSoapIn">
+    <part name="request" element="bp:CardRenewalRequiredRequest"/>
+  </message>
+  <message name="CardRenewalRequiredSoapOut">
+    <part name="result" element="bp:CardRenewalRequiredResponse"/>
+  </message>
+  <message name="CardTrackingUpdateSoapIn">
+    <part name="request" element="bp:CardTrackingUpdateRequest"/>
+  </message>
+  <message name="CardTrackingUpdateSoapOut">
+    <part name="result" element="bp:CardTrackingUpdateResponse"/>
+  </message>
+  <message name="CreateBadgeSoapIn">
+    <part name="request" element="bp:CreateBadgeRequest"/>
+  </message>
+  <message name="CreateBadgeSoapOut">
+    <part name="result" element="bp:CreateBadgeResponse"/>
+  </message>
+  <message name="GetCardTrackingHistorySoapIn">
+    <part name="request" element="bp:GetCardTrackingHistoryRequest"/>
+  </message>
+  <message name="GetCardTrackingHistorySoapOut">
+    <part name="result" element="bp:GetCardTrackingHistoryResponse"/>
+  </message>
+  <message name="PIVReactivationSoapIn">
+    <part name="request" element="bp:PIVReactivationRequest"/>
+  </message>
+  <message name="PIVReactivationSoapOut">
+    <part name="result" element="bp:PIVReactivationResponse"/>
+  </message>
+  <message name="PIVTerminationSoapIn">
+    <part name="request" element="bp:PIVTerminationRequest"/>
+  </message>
+  <message name="PIVTerminationSoapOut">
+    <part name="result" element="bp:PIVTerminationResponse"/>
+  </message>
+  <message name="GetIssuedCardInfoSoapIn">
+    <part name="request" element="bp:GetIssuedCardInfoRequest"/>
+  </message>
+  <message name="GetIssuedCardInfoSoapOut">
+    <part name="result" element="bp:GetIssuedCardInfoResponse"/>
+  </message>
+  <message name="ReissueExistentCardSoapIn">
+    <part name="request" element="bp:ReissueExistentCardRequest"/>
+  </message>
+  <message name="ReissueExistentCardSoapOut">
+    <part name="result" element="bp:ReissueExistentCardResponse"/>
+  </message>  
+
+  <portType name="CardLifeCycleEndpoint">
+    <operation name="CardReissueRequired">
+      <input message="tns:CardReissueRequiredSoapIn"/>
+      <output message="tns:CardReissueRequiredSoapOut"/>
+    </operation>
+    <operation name="CardRenewalRequired">
+      <input message="tns:CardRenewalRequiredSoapIn"/>
+      <output message="tns:CardRenewalRequiredSoapOut"/>
+    </operation>
+    <operation name="CardTrackingUpdate">
+      <input message="tns:CardTrackingUpdateSoapIn"/>
+      <output message="tns:CardTrackingUpdateSoapOut"/>
+    </operation>
+    <operation name="CreateBadge">
+      <input message="tns:CreateBadgeSoapIn"/>
+      <output message="tns:CreateBadgeSoapOut"/>
+    </operation>
+    <operation name="GetCardTrackingHistory">
+      <input message="tns:GetCardTrackingHistorySoapIn"/>
+      <output message="tns:GetCardTrackingHistorySoapOut"/>
+    </operation>
+    <operation name="PIVReactivation">
+      <input message="tns:PIVReactivationSoapIn"/>
+      <output message="tns:PIVReactivationSoapOut"/>
+    </operation>
+    <operation name="PIVTermination">
+      <input message="tns:PIVTerminationSoapIn"/>
+      <output message="tns:PIVTerminationSoapOut"/>
+    </operation>
+    <operation name="GetIssuedCardInfo">
+      <input message="tns:GetIssuedCardInfoSoapIn"/>
+      <output message="tns:GetIssuedCardInfoSoapOut"/>
+    </operation>
+    <operation name="ReissueExistentCard">
+      <input message="tns:ReissueExistentCardSoapIn"/>
+      <output message="tns:ReissueExistentCardSoapOut"/>
+    </operation>    
+  </portType>
+
+
+  <binding name="CardLifeCycleEndpointBinding" type="tns:CardLifeCycleEndpoint">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="CardReissueRequired">
+      <soap:operation soapAction="http://idms.bearingpoint.com/CardReissueRequired" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="CardRenewalRequired">
+      <soap:operation soapAction="http://idms.bearingpoint.com/CardRenewalRequired" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="CardTrackingUpdate">
+      <soap:operation soapAction="http://idms.bearingpoint.com/CardTrackingUpdate" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="CreateBadge">
+      <soap:operation soapAction="http://idms.bearingpoint.com/CreateBadge" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="GetCardTrackingHistory">
+      <soap:operation soapAction="http://idms.bearingpoint.com/GetCardTrackingHistory" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="PIVReactivation">
+      <soap:operation soapAction="http://idms.bearingpoint.com/PIVReactivation" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="PIVTermination">
+      <soap:operation soapAction="http://idms.bearingpoint.com/PIVTermination" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="GetIssuedCardInfo">
+      <soap:operation soapAction="http://idms.bearingpoint.com/PIVTermination" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="ReissueExistentCard">
+      <soap:operation soapAction="http://idms.bearingpoint.com/ReissueExistentCard" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+  </binding>
+  
+  <service name="CardLifeCycleService">
+    <documentation>
+    	IDMS Card Life Cycle Web Services
+	</documentation>
+    <port name="CardLifeCycleEndpointPort" binding="tns:CardLifeCycleEndpointBinding">
+      <soap:address location="https://REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>

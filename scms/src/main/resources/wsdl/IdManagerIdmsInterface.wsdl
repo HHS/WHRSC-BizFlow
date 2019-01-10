@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions name="IdmsEventNotificationService"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://ws.deloitte.com/idms/idm/interface/v1"
+  xmlns:bp="http://hspd12.hhs.gov/federated/idm/idmsInterface/v1"
+  xmlns:dtt="http://hspd12.deloitte.com/webservice/doc"
+  targetNamespace="http://ws.deloitte.com/idms/idm/interface/v1"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+  
+  <documentation>
+  	<dtt:modDate>2009-10-12</dtt:modDate>
+  </documentation>
+  <types>
+	<xs:schema xmlns="http://hspd12.hhs.gov/federated/idm/idmsInterface/v1"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://hspd12.hhs.gov/federated/idm/idmsInterface/v1"
+		xmlns:tns="http://hspd12.hhs.gov/federated/idm/idmsInterface/v1"
+		xmlns:dtt="http://hspd12.deloitte.com/webservice/doc"
+		elementFormDefault="qualified" attributeFormDefault="unqualified"
+		id="IdManagerIdmsInterface"
+		version="1.0.2008-03-10"
+		xmlns:hhs="http://hspd12.hhs.gov/federated/enrollment/v1">
+
+		<xs:include schemaLocation="IdManagerIdmsInterface.xsd"></xs:include>
+		<xs:annotation>
+			<xs:appinfo>
+				<dtt:schemaDocInclude dtt:file="IdManagerIdmsInterface.xsd"/>
+				<dtt:schemaDocInclude dtt:file="HHSCommonTypes.xsd"/>
+			</xs:appinfo>
+		</xs:annotation>
+
+    </xs:schema>
+  </types>
+  
+  <message name="CreateIdmIdentitySoapIn">
+    <part name="request" element="bp:CreateIdmIdentityRequest"/>
+  </message>
+  <message name="CreateIdmIdentitySoapOut">
+    <part name="result" element="bp:CreateIdmIdentityResponse"/>
+  </message>
+  <message name="SearchIdmIdentitySoapIn">
+    <part name="request" element="bp:SearchIdmIdentityRequest"/>
+  </message>
+  <message name="SearchIdmIdentitySoapOut">
+    <part name="result" element="bp:SearchIdmIdentityResponse"/>
+  </message>
+
+
+  <portType name="IdManagerIdmsInterfaceEndpoint">
+    <operation name="CreateIdmIdentity">
+      <input message="tns:CreateIdmIdentitySoapIn"/>
+      <output message="tns:CreateIdmIdentitySoapOut"/>
+    </operation>
+    <operation name="SearchIdmIdentity">
+      <input message="tns:SearchIdmIdentitySoapIn"/>
+      <output message="tns:SearchIdmIdentitySoapOut"/>
+    </operation>
+  </portType>
+
+
+  <binding name="IdManagerIdmsInterfaceEndpointBinding" type="tns:IdManagerIdmsInterfaceEndpoint">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="CreateIdmIdentity">
+      <soap:operation soapAction="http://idm.deloitte.com/CreateIdmIdentity" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+    <operation name="SearchIdmIdentity">
+      <soap:operation soapAction="http://idm.deloitte.com/SearchIdmIdentity" style="document"/>
+      <input> <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+  </binding>
+  
+  <service name="IdManagerIdmsInterfaceService">
+    <documentation>
+    	Identity Manager IDMS Interface
+	</documentation>
+    <port name="IdManagerIdmsInterfaceEndpointPort" binding="tns:IdManagerIdmsInterfaceEndpointBinding">
+      <soap:address location="http://REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>
