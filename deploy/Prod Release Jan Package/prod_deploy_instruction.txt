@@ -1,22 +1,42 @@
 [Production Deploy Instruction]  
 
-MUST CHANGE PORT :8080 BEFORE CREATING RUNTIME.ZIP
-1. Download "Prod Release Dec Package" folder from WHRSC-BizFlow\deploy
-2. Datebase Deployment and run the following sql script files
+1. Download "Prod Release Jan Package" folder from WHRSC-BizFlow\deploy
+2. Datebase Deployment and run the following sql script files from WHRSC-BizFlow\deploy\database (HHS PROD Documentation 5.1)
 	2.1. Using the HHS_HR user login, execute the following script:
-		HHS_HR_DB_UPD_01_table_ddl.sql
+		HHS_HR_DB_01_UPD_table_ddl.sql
 	2.2. Using the HHS_HR user login, execute the following script:
-		HHS_HR_DB_02_UPD_procedure_ddl.sql
-	2.3. Using the HHS_HR user login, execute the following script:
-		HHS_HR_DB_UPD_03_insert_seed_data_HHS_LIST_MANAGER_LOOKUP.sql
-	2.4. Using the Oracle system user login, execute the following script:
-		HHS_HR_DB_04_UPD_permission.sql
-	
-		
+		HHS_HR_DB_02__UPD_procedure_ddl.sql
+	2.3. Using the Oracle system user login, execute the following script:
+		HHS_HR_DB_03_UPD_permission.sql
+	2.4. Using the HHS_HR user login, execute the following script:
+		HHS_HR_DB_04_UPD_insert_seed_data_HHS_LIST_MANAGER_LOOKUP.sql
+	2.5. Using the HHS_WHRSC_HR user login, execute the following script:
+		WHRSC_HR_DB_03_UPD__create_model_objects.sql
+	2.6. Using the Oracle system user login, execute the following script:
+		WHRSC_HR_DB_04_UPD__grant_permission_model.sql
+	2.7. Using the HHS_WHRSC_HR user login, execute the following script:
+		WHRSC_HR_DB_06_UPD__create_core_program.sql
+	2.8. Using the HHS_WHRSC_HR user login, execute the following script:
+		WHRSC_HR_DB_08_02_UPD_seed_data_TYPE_VALUES.sql
+	2.9. Using the HHS_WHRSC_HR user login, execute the following script:
+		WHRSC_HR_DB_08_05_insert_seed_data_OPDIV_AFFILIATION.sql
+	2.10. Using the HHS_WHRSC_HR user login, execute the following script:
+		WHRSC_HR_DB_09_UPD_reminder_program.sql
+	2.11. Using the Oracle system user login, execute the following script:
+		WHRSC_HR_DB_10_UPD_reminder_program_permission.sql
+	2.12. Using the HHS_WHRSC_HR user login, execute the following script:
+		WHRSC_HR_DB_14_UPD_reminder_email_scheduler.sql
+	2.13. Using the HHS_WHRSC_HR user login, execute the following script:
+		WHRSC_HR_DB_20_CapHR_Missing_CAN_Fix.sql
+	2.14. Using the Oracle system user login, execute the following script:
+		BIZFLOW_DB_16_grant_permission_bizflowreport.sql
+
+
 3. BIX Deployment
-	1. Open BPS and run import option for whrsc.bix
-	2. Update value for Global Variable "usasPath"
+	1. Open BPS and run import option for whrsc.bix (WHRSC-BizFlow\deploy) (HHS PROD Documentation 5.2)
+	2. Update value for Global Variable "usasPath" (HHS PROD Documentation 5.2, step 18)
 		2.1. Go to Operational Environment->Component Library->Global Variable
 		2.2. Right click on "usasPath" and select "Modify". Then update value "/usasapi/reportXML".
-4. Web Application (UI Module) Deployment
-	Deploy runtime.zip on HHS Prod
+4. Web Application (UI Module) Deployment (WHRSC-BizFlow\deploy) (HHS PROD Documentation 5.4)
+	Deploy runtime.zip on HHS Prod 
+
