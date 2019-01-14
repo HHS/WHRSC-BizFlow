@@ -138,13 +138,13 @@ AS SELECT date_range_input.*,
                                                                                       END FINAL_OFFER_DUE_DATE*/
                                                                                       FROM
                                                                                                      (SELECT DISTINCT
-                                                                                                                                                "HHS_WHRSC_HR"."MAIN"."TRANSACTION_ID",
-                                                                                                                                                  "HHS_WHRSC_HR"."MAIN"."ACTION_TYPE",
+                                                                                                                                                main."TRANSACTION_ID",
+                                                                                                                                                  main."ACTION_TYPE",
                                                                                                                                                   req_combined."REQUEST_TYPE",
-                                                                                                                                                  "HHS_WHRSC_HR"."MAIN"."JOB_OPENING_ID",
-                                                                                                                                                  "HHS_WHRSC_HR"."MAIN"."HR_SPECIALIST",
+                                                                                                                                                  main."JOB_OPENING_ID",
+                                                                                                                                                  main."HR_SPECIALIST",
                                                                                                                                                   "BIZFLOW"."MEMBER"."EMAIL",
-                                                                                                                                                  "HHS_WHRSC_HR"."MAIN"."INSTITUTE" AS CUSTOMER,
+                                                                                                                                                  main."INSTITUTE" AS CUSTOMER,
                                                                                                                                                    vac_cert_combined."POSITION_TITLE",
                                                                                                                                                    vac_cert_combined."Series" AS SERIES,
                                                                                                                                                    vac_cert_combined."Grade" AS GRADE,
@@ -158,8 +158,8 @@ AS SELECT date_range_input.*,
                                                                                                                                                                              END ANNOUNCEMENT_TYPE,
                                                                                                                                                    NVL(vac_cert_combined."VACANCY_ANNOUNCEMENT_NUMBER", vac_cert_combined."VACANCY_IDENTIFICATION_NUMBER") AS "ANN_NUMBER_OR_VIN",
                                                                                                                                                    vac_cert_combined."Number of Certs" AS NUMBER_OF_CERTS,
-                                                                                                                                                   "HHS_WHRSC_HR"."MAIN"."DATE_RECEIVED",
-                                                                                                                                                   "HHS_WHRSC_HR"."MAIN"."MISSING_DOCS_RECEIPT_DATE",
+                                                                                                                                                   main."DATE_RECEIVED",
+                                                                                                                                                   main."MISSING_DOCS_RECEIPT_DATE",
                                                                                                                                                    "HHS_WHRSC_HR"."RECRUITMENT"."DATE_REC_PCKG_SENT_DEU",
                                                                                                                                                    "HHS_WHRSC_HR"."RECRUITMENT"."DATE_REC_PCKG_SENT_APPROVED",
                                                                                                                                                    "HHS_WHRSC_HR"."ANNOUNCEMENT"."DATE_SENT_TO_DEU",
@@ -182,13 +182,13 @@ AS SELECT date_range_input.*,
                                                                                                                                                    nh_combined."NH_PROJECTED_START_DATE",
                                                                                                                                                    vac_cert_combined."DATE_ANNOUNCEMENT_POSTED",
                                                                                                                                                    vac_cert_combined."TOTAL_REFERRED_APPLICANTS",
-                                                                                                                                                   "HHS_WHRSC_HR"."MAIN"."STATUS",
+                                                                                                                                                   main."STATUS",
                                                                                                                                                    CASE WHEN nh_combined."NH_NAME" IS NOT NULL THEN 'Onboarding'
                                                                                                                                                                              WHEN vac_cert_combined."First Cert Issue Date" IS NOT NULL THEN 'Certs Issued'
                                                                                                                                                                              WHEN vac_cert_combined."DATE_ANNOUNCEMENT_CLOSED" IS NOT NULL AND vac_cert_combined."DATE_ANNOUNCEMENT_CLOSED" < CURRENT_DATE THEN 'Reviewing Apps'
                                                                                                                                                                              WHEN vac_cert_combined."DATE_ANNOUNCEMENT_OPENED" IS NOT NULL AND vac_cert_combined."DATE_ANNOUNCEMENT_OPENED" <= CURRENT_DATE THEN 'Announcement Open'
                                                                                                                                                                             WHEN vac_cert_combined."DATE_ANNOUNCEMENT_POSTED" IS NOT NULL AND vac_cert_combined."DATE_ANNOUNCEMENT_POSTED" <= CURRENT_DATE THEN 'Announcement Released'
-                                                                                                                                                                             WHEN ras.ACTION_STATUS = 'Program' THEN "HHS_WHRSC_HR"."MAIN"."INSTITUTE" || ' Review'
+                                                                                                                                                                             WHEN ras.ACTION_STATUS = 'Program' THEN main."INSTITUTE" || ' Review'
                                                                                                                                                                              ELSE ras.ACTION_STATUS 
                                                                                                                                                                              END ACTION_STATUS,
                                                                                                                                                               CASE WHEN nh_combined."NH_NAME" IS NOT NULL THEN nh_combined."NH_CREATION_DATE"
@@ -198,9 +198,9 @@ AS SELECT date_range_input.*,
                                                                                                                                                                              WHEN vac_cert_combined."DATE_ANNOUNCEMENT_POSTED" IS NOT NULL AND vac_cert_combined."DATE_ANNOUNCEMENT_POSTED" <= CURRENT_DATE THEN vac_cert_combined."DATE_ANNOUNCEMENT_POSTED"
                                                                                                                                                                              ELSE ras.MOST_RECENT_ACTION_DATE 
                                                                                                                                                                              END MOST_RECENT_ACTION_DATE,
-                                                                                                                                                              CASE WHEN "HHS_WHRSC_HR"."MAIN"."ACTION_TYPE" NOT IN ('Recruitment') THEN '-'
+                                                                                                                                                              CASE WHEN main."ACTION_TYPE" NOT IN ('Recruitment') THEN '-'
                                                                                                                                                                              WHEN "HHS_WHRSC_HR"."RECRUITMENT"."OTHER_RECRUIT_CONSIDERATIONS" = 'Direct Hire' THEN 'DH Complex'
-                                                                                                                                                                             WHEN "HHS_WHRSC_HR"."RECRUITMENT"."APPLICANT_LIMIT" > 50 THEN 'Complex (Applicant Limit)'
+                                                                                                                                                                             WHEN vac_cert_combined."ANNOUNCEMENT_APP_COUNT" > 50 THEN 'Complex (Applicant Limit)'
                                                                                                                                                                              WHEN "HHS_WHRSC_HR"."RECRUITMENT"."IS_NEW_POSITION" = 'Yes' THEN 'Complex (New Position)'
                                                                                                                                                                              WHEN vac_cert_combined."Series" LIKE '%,%' THEN 'Complex (Interdisciplinary)'
                                                                                                                                                                              WHEN vac_cert_combined."Grade" LIKE '%,%' THEN 'Complex (Multi-Grade)'
@@ -209,13 +209,16 @@ AS SELECT date_range_input.*,
                                                                                                                                                                              ELSE 'Standard'
                                                                                                                                                                              END RECRUITMENT_TYPE,
                                                                                                                                                                "HHS_WHRSC_HR"."RECRUITMENT"."OTHER_RECRUIT_CONSIDERATIONS",
-                                                                                                                                                               "HHS_WHRSC_HR"."MAIN"."HR_SENIOR_ADVISOR" AS RECRUITMENT_PROGRAM_MANAGER,
+                                                                                                                                                               main."HR_SENIOR_ADVISOR" AS RECRUITMENT_PROGRAM_MANAGER,
                                                                                                                                                                "HHS_WHRSC_HR"."RECRUITMENT"."ANN_QUAL_REVIEWER",
                                                                                                                                                                "HHS_WHRSC_HR"."ANNOUNCEMENT"."QUALITY_REVIEWER",
-                                                                                                                                                               "HHS_WHRSC_HR"."MAIN"."DATE_JOB_OPENING_APPROVED" AS DATE_RECRUITMENT_AUTHORIZED,
+                                                                                                                                                               main."DATE_JOB_OPENING_APPROVED" AS DATE_RECRUITMENT_AUTHORIZED,
                                                                                                                                                                "HHS_WHRSC_HR"."APPLICANT_RATING"."DATE_QUAL_SENT_DEU",
                                                                                                                                                                "HHS_WHRSC_HR"."APPOINTMENT"."DATE_DPSAC_NOTIFICATION_RCVD" 
-                                                                                                                                  FROM "HHS_WHRSC_HR"."MAIN" 
+                                                                                                                                  FROM (SELECT *
+                                                                                                                   FROM "HHS_WHRSC_HR"."MAIN"
+                                                                                                                                  LEFT JOIN "HHS_WHRSC_HR"."DSS_NEW_HIRE_VACANCY_REQUEST" 
+                                                                                                                                  ON "HHS_WHRSC_HR"."MAIN"."JOB_OPENING_ID" = "HHS_WHRSC_HR"."DSS_NEW_HIRE_VACANCY_REQUEST"."NH_REQUEST_NUMBER" ) main 
                                                                                                                                                 left join
                                                                                                                                                                (SELECT *
                                                                                                                                                 FROM  "HHS_WHRSC_HR"."DSS_VACANCY" 
@@ -281,22 +284,22 @@ AS SELECT date_range_input.*,
                                                                                                                                                                              ) cert_combined
                                                                                                                                                                              on "HHS_WHRSC_HR"."DSS_VACANCY"."VACANCY_IDENTIFICATION_NUMBER" = cert_combined."VACANCY_IDENTIFICATION_NUMBER"                            
                                                                                                                                                                ) vac_cert_combined
-                                                                                                                                                               on  "HHS_WHRSC_HR"."MAIN"."JOB_OPENING_ID" = vac_cert_combined."REQUEST_NUMBER" 
+                                                                                                                                                               on  main."JOB_OPENING_ID" = vac_cert_combined."REQUEST_NUMBER" 
                                                                                                                                                 left join (SELECT *
                                                                                                                                                                FROM "HHS_WHRSC_HR"."DSS_NEW_HIRES"
                                                                                                                                                                left join "HHS_WHRSC_HR"."DSS_NEW_HIRE_TASKS" 
                                                                                                                                                                              on "HHS_WHRSC_HR"."DSS_NEW_HIRES"."NEW_HIRE_NUMBER" = "HHS_WHRSC_HR"."DSS_NEW_HIRE_TASKS"."NEW_HIRE_NUMBER"
                                                                                                                                                                left join 
-                                                                                                                                                                             (select distinct "HHS_WHRSC_HR"."DSS_NEW_HIRE_VACANCY_REQUEST"."NEW_HIRE_NUMBER", "HHS_WHRSC_HR"."DSS_NEW_HIRE_VACANCY_REQUEST"."NH_REQUEST_NUMBER"
+                                                                                                                                                                             (select distinct "HHS_WHRSC_HR"."DSS_NEW_HIRE_VACANCY_REQUEST"."NEW_HIRE_NUMBER", "HHS_WHRSC_HR"."DSS_NEW_HIRE_VACANCY_REQUEST"."NH_REQUEST_NUMBER" , "HHS_WHRSC_HR"."DSS_NEW_HIRE_VACANCY_REQUEST"."NH_VACANCY_NUMBER" 
                                                                                                                                                                                             from  "HHS_WHRSC_HR"."DSS_NEW_HIRE_VACANCY_REQUEST" 
                                                                                                                                                                              ) nhvr 
                                                                                                                                                                              on "HHS_WHRSC_HR"."DSS_NEW_HIRES"."NEW_HIRE_NUMBER" = nhvr."NEW_HIRE_NUMBER"                            
                                                                                                                                                                ) nh_combined
-                                                                                                                                                               on "HHS_WHRSC_HR"."MAIN"."JOB_OPENING_ID" = nh_combined."NH_REQUEST_NUMBER"
+                                                                                                                                                               on main."JOB_OPENING_ID" = nh_combined."NH_REQUEST_NUMBER" AND main.NH_VACANCY_NUMBER = nh_combined.NH_VACANCY_NUMBER
                                                                                                                                                 left join (SELECT *
                                                                                                                                                                FROM "HHS_WHRSC_HR"."DSS_REQUESTS"
                                                                                                                                                                ) req_combined
-                                                                                                                                                               on "HHS_WHRSC_HR"."MAIN"."JOB_OPENING_ID" = req_combined."REQUEST_NUMBER" 
+                                                                                                                                                               on main."JOB_OPENING_ID" = req_combined."REQUEST_NUMBER" 
                                                                                                                                                 left join (SELECT rah1.TRANSACTION_ID, 
                                                                                                                                                                CASE WHEN ACTION_STATUS = 'Active with Program' THEN 'Program' ELSE 'With HR' END ACTION_STATUS, 
                                                                                                                                                                MAXDATE as MOST_RECENT_ACTION_DATE
@@ -307,17 +310,17 @@ AS SELECT date_range_input.*,
                                                                                                                                                                              GROUP BY TRANSACTION_ID) rah2
                                                                                                                                                                              ON rah1.TRANSACTION_ID = rah2.TRANSACTION_ID 
                                                                                                                                                                                             AND rah1.DATE_CERTIFIED = rah2.MAXDATE) ras
-                                                                                                                                                               on "HHS_WHRSC_HR"."MAIN"."TRANSACTION_ID" = ras.TRANSACTION_ID
+                                                                                                                                                               on main."TRANSACTION_ID" = ras.TRANSACTION_ID
                                                                                                                                                 left join  "HHS_WHRSC_HR"."RECRUITMENT"
-                                                                                                                                                               on "HHS_WHRSC_HR"."MAIN"."TRANSACTION_ID" = "HHS_WHRSC_HR"."RECRUITMENT"."TRANSACTION_ID"
+                                                                                                                                                               on main."TRANSACTION_ID" = "HHS_WHRSC_HR"."RECRUITMENT"."TRANSACTION_ID"
                                                                                                                                                 left join  "HHS_WHRSC_HR"."ANNOUNCEMENT" 
-                                                                                                                                                               on "HHS_WHRSC_HR"."MAIN"."TRANSACTION_ID" = "HHS_WHRSC_HR"."ANNOUNCEMENT"."TRANSACTION_ID" 
+                                                                                                                                                               on main."TRANSACTION_ID" = "HHS_WHRSC_HR"."ANNOUNCEMENT"."TRANSACTION_ID" 
                                                                                                                                                 left join  "HHS_WHRSC_HR"."APPLICANT_RATING"
-                                                                                                                                                               on "HHS_WHRSC_HR"."MAIN"."TRANSACTION_ID" = "HHS_WHRSC_HR"."APPLICANT_RATING"."TRANSACTION_ID" 
+                                                                                                                                                               on main."TRANSACTION_ID" = "HHS_WHRSC_HR"."APPLICANT_RATING"."TRANSACTION_ID" 
                                                                                                                                                 left join  "HHS_WHRSC_HR"."APPOINTMENT" 
-                                                                                                                                                               on "HHS_WHRSC_HR"."MAIN"."TRANSACTION_ID" = "HHS_WHRSC_HR"."APPOINTMENT"."TRANSACTION_ID" 
+                                                                                                                                                               on main."TRANSACTION_ID" = "HHS_WHRSC_HR"."APPOINTMENT"."TRANSACTION_ID" 
                                                                                                                                                 left join  "BIZFLOW"."MEMBER"
-                                                                                                                                                               on  "HHS_WHRSC_HR"."MAIN"."HR_SPECIALIST_ID" = "BIZFLOW"."MEMBER"."MEMBERID" 
+                                                                                                                                                               on  main."HR_SPECIALIST_ID" = "BIZFLOW"."MEMBER"."MEMBERID" 
                                                                                                                                                 left join (SELECT aocagg.REQUEST_NUMBER,
                                                                                                                                                                              LISTAGG(aocagg.ANNOUNCEMENT_TYPE, ', ')
                                                                                                                                                                              WITHIN GROUP (ORDER BY aocagg.REQUEST_NUMBER) "ALL_AOCS"
@@ -329,8 +332,12 @@ AS SELECT date_range_input.*,
                                                                                                                                                                              GROUP BY aocagg.REQUEST_NUMBER
                                                                                                                                                                              ORDER BY aocagg.REQUEST_NUMBER
                                                                                                                                                                ) aocs
-                                                                                                                                                               on "HHS_WHRSC_HR"."MAIN"."JOB_OPENING_ID" = aocs.REQUEST_NUMBER
+                                                                                                                                                               on main."JOB_OPENING_ID" = aocs.REQUEST_NUMBER
                                                                                                                                                 /*where STATUS = 'ACTIVE'*/
+                        WHERE ((ACTION_TYPE = 'Appointment' AND
+                                (vac_cert_combined.VACANCY_IDENTIFICATION_NUMBER = main.NH_VACANCY_NUMBER
+                                OR main.NH_VACANCY_NUMBER IS NULL))
+                            OR ACTION_TYPE <> 'Appointment')
                                                                                                      ORDER BY JOB_OPENING_ID, ANN_NUMBER_OR_VIN, ACTION_TYPE DESC) o
                                                                                       LEFT JOIN  "HHS_WHRSC_HR"."MAIN"
                                                                                                      ON o.TRANSACTION_ID = "HHS_WHRSC_HR"."MAIN"."TRANSACTION_ID") p ) kpidata
@@ -345,4 +352,5 @@ AS SELECT date_range_input.*,
                                            ORDER BY TRANSACTION_ID) q
                              ) r
                              ON date_range_input.DATES BETWEEN TASK_START_DATE AND TASK_DUE_DATE;
+
 
