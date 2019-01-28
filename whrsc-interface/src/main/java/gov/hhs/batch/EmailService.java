@@ -61,10 +61,6 @@ public class EmailService {
 		this.mail.setText(emailMessage);
 		this.mail.setFrom(properties.getFrom());
 
-		log.info("Email Subject: " + emailSubject);
-		log.info("Email Message: ");
-		log.info(emailMessage);
-
 		for(String recipient : properties.getTo()){
 			this.mail.setTo(recipient);
 			try {
@@ -90,10 +86,6 @@ public class EmailService {
 		this.mail.setSubject(emailSubject);
 		this.mail.setText(emailMessage);
 		this.mail.setFrom(properties.getFrom());
-
-		log.info("Email Subject: " + emailSubject);
-		log.info("Email Message: ");
-		log.info(emailMessage);
 
 		for(String recipient : properties.getTo()){
 			this.mail.setTo(recipient);
@@ -121,10 +113,7 @@ public class EmailService {
 		this.emailSubject = properties.getEmailSubjectTemplate().replace("DATE_TODAY", dateFormat.format(today)).replace("INTERFACE_NAME", interfaceName).replace("JOB_NAME", jobName).replace("STATUS", exitStatus);
 
 		this.emailMessage = properties.getEmailUsasMessageTemplate().replace("[TABLE]", tableHTML);
-			
-		log.info("Email Subject: " + emailSubject);
-		log.info("Email Message: ");
-		log.info(emailMessage);
+
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 		
