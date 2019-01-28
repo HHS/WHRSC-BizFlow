@@ -32,8 +32,6 @@ public class EmailService {
 	private String emailSubject;
 
 	private String emailMessage;
-	
-	private String emailHTMLMessage;
 
 	@Autowired
 	private JavaMailSenderImpl javaMailSender;	
@@ -56,13 +54,16 @@ public class EmailService {
 		if(exitDescription != null && exitDescription.length()>0)
 			message = exitStatus + " with the following message: " + exitDescription;
 		
-		this.emailMessage = properties.getEmailMessageTemplate().replace("JOB_NAME", jobName).replace("STATUS", message);
+		this.emailMessage = properties.getEmailCaphrMessageTemplate().replace("JOB_NAME", jobName).replace("STATUS", message);
 
 		this.mail = new SimpleMailMessage();
 		this.mail.setSubject(emailSubject);
 		this.mail.setText(emailMessage);
 		this.mail.setFrom(properties.getFrom());
 
+		log.info("Email Subject: " + emailSubject);
+		log.info("Email Message: ");
+		log.info(emailMessage);
 
 		for(String recipient : properties.getTo()){
 			this.mail.setTo(recipient);
@@ -90,6 +91,9 @@ public class EmailService {
 		this.mail.setText(emailMessage);
 		this.mail.setFrom(properties.getFrom());
 
+		log.info("Email Subject: " + emailSubject);
+		log.info("Email Message: ");
+		log.info(emailMessage);
 
 		for(String recipient : properties.getTo()){
 			this.mail.setTo(recipient);
@@ -102,7 +106,46 @@ public class EmailService {
 
 	}
 	
-	public void sendEmail(String interfaceName, String jobName, String exitStatus,  Map<String,Object> parametersMap) {
+	public void sendUsasEmail(String interfaceName, String jobName, String exitStatus,  Map<String,Object> parametersMap) throws MessagingException {
+
+		//String interfaceName = BatchConfiguration.getInterfaceName();
+		
+		String tableHTML = "";
+		
+		Iterator<Map.Entry<String, Object>> entries = parametersMap.entrySet().iterator();
+		while (entries.hasNext()) {
+		    Map.Entry<String, Object> entry = entries.next();
+		    tableHTML= tableHTML + "<tr><td>" + entry.getKey() + "</td><td>" + entry.getValue() + "</td></tr>";
+		}
+
+		this.emailSubject = properties.getEmailSubjectTemplate().replace("DATE_TODAY", dateFormat.format(today)).replace("INTERFACE_NAME", interfaceName).replace("JOB_NAME", jobName).replace("STATUS", exitStatus);
+
+		this.emailMessage = properties.getEmailUsasMessageTemplate().replace("[TABLE]", tableHTML);
+			
+		log.info("Email Subject: " + emailSubject);
+		log.info("Email Message: ");
+		log.info(emailMessage);
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+		
+		helper.setFrom(properties.getFrom());
+		helper.setSubject(emailSubject);
+		helper.setSentDate(new Date());
+		helper.setText("", emailMessage);
+
+		for(String recipient : properties.getTo()){
+			helper.setTo(new InternetAddress(recipient));
+			try {
+				this.javaMailSender.send(mimeMessage);
+			} catch (MailException e) {
+				log.error(e.getMessage() + "::" + e.getCause());
+			}
+		}
+
+
+	}
+	
+	/*public void sendEmail(String interfaceName, String jobName, String exitStatus,  Map<String,Object> parametersMap) {
 
 		String parameters = parametersMap.toString();
 
@@ -125,9 +168,9 @@ public class EmailService {
 			}
 		}
 
-	}
+	}*/
 	
-	public void sendHTMLEmail(String interfaceName, String jobName, String exitStatus,  Map<String,Object> parametersMap, String emailHtmlStyle, String emailHtmlHeader, String emailHtmlColumnH1, String emailHtmlColumnH2) throws MessagingException {
+/*	public void sendHTMLEmail(String interfaceName, String jobName, String exitStatus,  Map<String,Object> parametersMap, String emailHtmlStyle, String emailHtmlHeader, String emailHtmlColumnH1, String emailHtmlColumnH2) throws MessagingException {
 		
 		String tableHTML = "";
 		
@@ -157,6 +200,9 @@ public class EmailService {
 				log.error(e.getMessage() + "::" + e.getCause());
 			}
 		}
-	}
+	}*/
+	
+	
+	
 }
 

@@ -2,7 +2,6 @@ package gov.hhs.batch.bits;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import gov.hhs.batch.BatchConfiguration;

@@ -4,8 +4,6 @@ package gov.hhs.batch.bits;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -17,8 +15,6 @@ import gov.hhs.batch.Properties;
 
 @Component
 public class TruncateTaskletStep implements Tasklet{
-	
-	private static final Logger log = LoggerFactory.getLogger(TruncateTaskletStep.class);
 
 	@Autowired
 	private DataSource targetDataSource;
