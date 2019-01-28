@@ -107,6 +107,8 @@
 			<fileset dir="${src.main.res.dir}">
 				<include name="application.properties" />
 				<include name="logback.xml" />
+				<include name="log4j.properties" />
+				<include name="whrsc-report.properties" />
 			</fileset>
 		</copy>
 		<!-- In separate directory deployment approach, logback.xml is placed in ../conf execution directory. -->
@@ -148,6 +150,8 @@
 			<fileset dir="${src.main.res.dir}">
 				<include name="application.properties" />
 				<include name="logback.xml" />
+				<include name="log4j.properties" />
+				<include name="whrsc-report.properties" />
 			</fileset>
 			<fileset dir="${src.main.res.dir}">
 				<include name="run-jar.sh" />

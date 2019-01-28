@@ -4,20 +4,22 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>gov.hhs.batch</groupId>
-	<artifactId>bits-caphr-whrsc</artifactId>
+	<artifactId>whrsc-interface</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>bits-caphr-whrsc</name>
+	<name>whrsc-interface</name>
 	<description>
 	1. Imports NEO Status for Employee's HHSID from BITS.
 	2. Imports CapHR data into WHRSC database tables
-
+	3. Data Self Service for WHRSC.
+	
 		For dependency resolution, run clean goal first.
 		For example,
 			mvn clean
 			mvn compile 
-			mvn package</description>
+			mvn package
+	</description>
 
 	<repositories>
 		<repository>
@@ -27,46 +29,60 @@
 		</repository>
 	</repositories>
 
-	<parent>
+<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.10.RELEASE</version>
-		<relativePath />
+ 		<version>1.5.10.RELEASE</version>
+		<relativePath/> 
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.7</java.version>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
 
 	<dependencies>
-		<!-- dependencies for spring boot -->
+	<!-- dependencies for spring boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-loader</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-batch</artifactId>
-		</dependency>
+		</dependency>		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
+		</dependency>	
+		
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<version>6.1.0.jre7</version>
 			<scope>runtime</scope>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>4.2.4.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.197</version>
+		</dependency>
+				
 		<!-- dependencies from local repository -->
 		<dependency>
 			<groupId>proj.lib.local</groupId>
@@ -74,6 +90,11 @@
 			<version>12.1.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -81,11 +102,8 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<executable>true</executable>
-				</configuration>
 			</plugin>
-
+			
 			<!-- Run install-file goal to include 3rd party jars to local project 
 				repository for build. This should be executed by calling clean goal. It is 
 				to avoid error by dependency checking done before running goals in plugin 
@@ -112,7 +130,8 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
 		</plugins>
 	</build>
+
 </project>
