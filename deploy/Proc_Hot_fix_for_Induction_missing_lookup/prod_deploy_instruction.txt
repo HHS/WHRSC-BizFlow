@@ -1,0 +1,9 @@
+[Production Deploy Instruction]  
+
+1. Download "Proc_Hot_fix_for_Induction_missing_lookup" folder from WHRSC-BizFlow\deploy
+2. Datebase Deployment and run the following sql script files from WHRSC-BizFlow\deploy\Proc_Hot_fix_for_Induction_missing_lookup
+	2.1. Using the HHS_WHRSC_HR user login, execute the following script:
+		WHRSC_HR_DB_08_UPD_seed_data.sql
+3. Web Application (UI Module) Deployment (WHRSC-BizFlow\deploy\Proc_Hot_fix_for_Induction_missing_lookup) 
+	3.1. Deploy runtime.zip on HHS Prod 
+
