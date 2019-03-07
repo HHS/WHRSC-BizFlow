@@ -1239,7 +1239,7 @@ END;
 --  DDL for Procedure SP_UPDATE_REQUESTS
 --------------------------------------------------------
 /**
- * Parses WHRSC Requests XML data and 
+ * Parses WHRSC Requests with Additional Date Fields XML data and 
  * stores it into DSS_REQUESTS table.
  *
  * @param I_ID - Record ID
@@ -1282,7 +1282,10 @@ BEGIN
 				,REQUESTER_NAME							
 				,SUPERVISORY_POSITION							
 				,TRAVEL_PREFERENCE							
-				,DESCRIPTION)							
+				,DESCRIPTION
+        ,REQ_APPROVAL_DATE
+        ,REQ_CANCELLATION_DATE
+        ,REQ_CREATION_DATE)							
 		SELECT					
 				X.REQUEST_NUMBER			
 				, X.CLEARANCE_LEVEL_REQUIRED							
@@ -1291,7 +1294,10 @@ BEGIN
 				, X.REQUESTER_NAME							
 				, X.SUPERVISORY_POSITION							
 				, X.TRAVEL_PREFERENCE							
-				, X.DESCRIPTION							
+				, X.DESCRIPTION	
+        , TO_DATE(SUBSTR(X.REQ_APPROVAL_DATE, 1, 19), 'YYYY-MM-DD"T"HH24:MI:SS') AS REQ_APPROVAL_DATE
+        , TO_DATE(SUBSTR(X.REQ_CANCELLATION_DATE, 1, 19), 'YYYY-MM-DD"T"HH24:MI:SS') AS REQ_CANCELLATION_DATE
+        , TO_DATE(SUBSTR(X.REQ_CREATION_DATE, 1, 19), 'YYYY-MM-DD"T"HH24:MI:SS') AS REQ_CREATION_DATE
 		FROM INTG_DATA_DTL IDX					
 			, XMLTABLE(XMLNAMESPACES(DEFAULT 'http://www.ibm.com/xmlns/prod/cognos/dataSet/201006'), '/dataSet/dataTable/row[../id/text() = "List1"]'				
 				PASSING IDX.FIELD_DATA			
@@ -1303,7 +1309,10 @@ BEGIN
 					,REQUESTER_NAME				VARCHAR2(206)	Path 'Requester__Name'					
 					,SUPERVISORY_POSITION		VARCHAR2(8)		Path 'Request__Supervisory__Position'					
 					,TRAVEL_PREFERENCE			VARCHAR2(1002)	Path 'Request__Travel__Preference'					
-					,DESCRIPTION				VARCHAR2(4000)	Path 'Request__Description'					
+					,DESCRIPTION				VARCHAR2(4000)	Path 'Request__Description'	
+          ,REQ_APPROVAL_DATE      VARCHAR2(50)      	PATH 'Request__Approval__Date'
+          ,REQ_CANCELLATION_DATE    VARCHAR2(50)      	PATH 'Request__Cancellation__Date'
+          ,REQ_CREATION_DATE      VARCHAR2(50)      	PATH 'Request__Creation__Date'
 					) X							
 		WHERE IDX.ID = I_ID;					
 							
