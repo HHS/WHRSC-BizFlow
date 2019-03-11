@@ -9,3 +9,18 @@
 3. Web Application (UI Module) Deployment (WHRSC-BizFlow\deploy\Proc_Hot_fix_for_Induction_missing_lookup) 
 	3.1. Deploy runtime.zip on HHS Prod 
 
+
+Execute USAS Database Scripts:
+	Using the HHS_WHRSC_HR user login, execute the following script:
+		WHRSC_HR_DB_UPD_01_USASAPI_views_ddl.sql
+		WHRSC_HR_DB_UPD_02_USASAPI_views_permission.sql
+		WHRSC_HR_DB_UPD_03_USAS_dss_table_ddl.sql
+		WHRSC_HR_DB_UPD_04_USAS_dss_table_permission.sql
+		WHRSC_HR_DB_UPD_05_USAS_integ_program_ddl.sql
+		WHRSC_HR_DB_UPD_06_USAS_integ_program_permission.sql
+		
+Execute CapHR Database Scripts:
+	Using the HHS_WHRSC_HR user login, execute the following script:
+		WHRSC_HR_DB_CapHR_01_create_pkg_spec_caphr_data.sql
+		WHRSC_HR_DB_CapHR_02_create_pkg_body_caphr_data.sql
+		WHRSC_HR_DB_CapHR_03_pkg_permission.sql
