@@ -13,7 +13,6 @@
 	4.1. Deploy runtime.zip on HHS Prod 
 
 
-
 Execute USAS Database Scripts:
 	Using the HHS_WHRSC_HR user login, execute the following script:
 		WHRSC_HR_DB_UPD_01_USASAPI_views_ddl.sql
