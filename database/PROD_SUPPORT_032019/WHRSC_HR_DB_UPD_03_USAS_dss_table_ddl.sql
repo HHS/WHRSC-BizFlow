@@ -2,7 +2,7 @@
 --DDL for table DSS_REQUESTS
 -----------------------------------------
 ALTER TABLE
-   DSS_REQUESTS
+   HHS_WHRSC_HR.DSS_REQUESTS
 ADD
    (
    REQ_APPROVAL_DATE DATE,  
