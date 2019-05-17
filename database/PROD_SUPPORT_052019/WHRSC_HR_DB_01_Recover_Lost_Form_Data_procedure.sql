@@ -69,8 +69,8 @@ BEGIN
 
             dbms_output.put_line('DEBUG ' || SYSTIMESTAMP || ' -- PROCID: ' || V_PROCID || ' -- EMAIL RECIPIENT: ' || V_RECIPIENTNAME || ' [' || V_TORECIPIENT || ']');
                 
-                V_SENDER := 'donotreply@hhs.gov' ;
-                V_CCRECIPIENT := 'Prabhjyot.Virdi@hhs.gov';
+                V_SENDER := 'DoNotReply@hhs.gov' ;
+                V_CCRECIPIENT := '';
                 
                 IF V_TORECIPIENT IS NOT NULL THEN
                 
@@ -84,10 +84,13 @@ BEGIN
                                     <title>Form Data Recovery Email</title>
                                 </head>
                                 <body>   
-                                    ' || V_RECIPIENTNAME || ', <br>
+                                    ' || V_RECIPIENTNAME || ', <br><br>
                                     <font face=" Calibri" size="3">
                                     
-                                    The ' || V_FORM_TYPE || ' form data has been recovered for Transaction ID: ' || V_TRANSACTIONID || ' and set to last successful saved data in the EWITS2.0 system.<br><br>
+                                    This email is being sent to you to inform that ' || V_FORM_TYPE || ' form data for Transaction ID: ' || V_TRANSACTIONID || ' has been recovered and set to the last successful saved data in the EWITS2.0 system.<br><br>
+                                                                        
+                                    Thank you.
+                                    <br><br>*** Please do not reply to this email. 
                                 </body>
                             </html>';
         
