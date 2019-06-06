@@ -1,0 +1,5 @@
+[Production Deploy Instruction]
+
+1. Web Application (UI Module) Deployment
+	1.1. Download runtime.zip from ui folder
+	1.2. Deploy runtime files on HHS Prod
