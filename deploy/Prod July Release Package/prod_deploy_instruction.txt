@@ -1,0 +1,7 @@
+[Production Deploy Instruction]
+1. Download "Prod July Release Package" folder from WHRSC-BizFlow\deploy
+2. BIX Deployment
+	Open BPS and run import option for whrsc.bix
+3. Web Application (UI Module) Deployment
+	Download main.js and Copy and paste it on /hrts/prod/tomcat8/apache-tomcat-8.0.37/webapps/bizflowwebmaker/whrsc_appointment/custom/js/
+ 
